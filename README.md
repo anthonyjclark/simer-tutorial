@@ -12,11 +12,15 @@ TODO:
 - simulation parameter scaling (look at ODE notes)
 - add full dart example for ugv with suspension
 - advice on gnu parallel (experiment sweep and parameter sweep)
-- advice on abstractions (eg, sphereical wheels)
+- advice on abstractions (eg, spherical wheels)
 - relationship to EPS
 - multi-evaluation (eg, for initial conditions)
 - for demo2, add feedback in form of distance sensor? (can no longer use analytical solution) or just air resistance?
 - add time scrubber to closed-form demo
+- do you need to simulate a motor's electromechanical properties?
+- implicit vs explicit integration and integrators
+- Euler integration is bad when acceleration is non-zero (and you care about position)
+- semi-implicit Euler (update velocity first)
 
 https://lobste.rs/s/5rmn4y/fixing_iterative_damping_interpolation
 https://app.scribbler.live/#./examples/Numerical-Analysis-Recipes.jsnb

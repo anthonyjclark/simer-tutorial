@@ -118,3 +118,10 @@ Here are things to consider when selecting your simulation tool:
 - [Phobos](https://github.com/dfki-ric/phobos)
 - [Onshape-to-robot](https://onshape-to-robot.readthedocs.io/en/latest/)
 - [SolidWorks to URDF Exporter](http://wiki.ros.org/sw_urdf_exporter)
+
+## Physics Engine Development
+
+- [Integration Basics](https://gafferongames.com/post/integration_basics/)
+- [Fix Your Timestep!](https://gafferongames.com/post/fix_your_timestep/)
+- [Ten Minute Physics](https://matthias-research.github.io/pages/tenMinutePhysics/)
+- [Box2D-Lite](https://github.com/erincatto/box2d-lite)

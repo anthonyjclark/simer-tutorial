@@ -1,6 +1,3 @@
-// TODO:
-// -
-
 export class WMR2D {
 
 	canvas: HTMLCanvasElement;
@@ -41,6 +38,8 @@ export class WMR2D {
 
 		this.simWidth = this.canvas.width / this.drawScale;
 		this.simHeight = this.canvas.height / this.drawScale;
+
+		// TODO: add a wall to demonstrate need for numerical integration
 
 	}
 
@@ -138,6 +137,7 @@ export class WMR2D {
 
 		while ( this.timeAccumulator >= this.timeStep ) {
 
+			// Explicit Euler integration (works because the angular velocity is constant)
 			// v = ω r
 			// p = v t = ω r t
 			this.position += this.angularVelocity * this.wheelRadius * this.timeStep;
@@ -149,8 +149,17 @@ export class WMR2D {
 
 		}
 
+		// TODO: implement interpolation for smoother rendering when timeAccumulator > 0
+		// https://gafferongames.com/post/fix_your_timestep/
+
 	}
 
 	updatePositionPhysicsEngine( frameTime: number ) { }
+
+	getTime() {
+
+		return this.time;
+
+	}
 
 }
