@@ -1,0 +1,325 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This is the second occurrence of SimER. The first was as a workshop held at GECCO 2017. Here are the contributions from the workshop:\n\n20 years of reality gap: a few thoughts about simulators in evolutionary robotics by Jean-Baptiste Mouret and Konstantinos Chatzilygeroudis\nSimulating the evolution of soft and rigid-body robots by Sam Kriegman, Collin Cappelle, Francesco Corucci, Anton Bernatskiy, Nick Cheney, and Josh C. Bongard\nA baseline-realistic objective open-ended kinematics simulator for evolutionary robotics by Riley Konsella, Frank Chiarulli, John Peterson, and John Rieffel\n\nAnthony J. Clark received is Ph.D from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA and a Research Scientist at Caltech in Pasadena, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.\nJared M. Moore received is Ph.D from Michigan State University. He is currently an Associate Professor in the School of Computing and Information Systems at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization."
+  },
+  {
+    "objectID": "resources/related.html",
+    "href": "resources/related.html",
+    "title": "Related Events",
+    "section": "",
+    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section",
+    "href": "resources/related.html#section",
+    "title": "Related Events",
+    "section": "",
+    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-1",
+    "href": "resources/related.html#section-1",
+    "title": "Related Events",
+    "section": "2023",
+    "text": "2023\n\nOpenMOLE (model exploration and validation)\nPhylogenies (how and why to track them)\nEvolving Robot Bodies and Brains in Unity\nCellular Automata\nSelf-Organizing Systems with Machine Learning",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-2",
+    "href": "resources/related.html#section-2",
+    "title": "Related Events",
+    "section": "2022",
+    "text": "2022\n\nIntroduction to Using Symbulation\nSimulating pandemics with agent-based models",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-3",
+    "href": "resources/related.html#section-3",
+    "title": "Related Events",
+    "section": "2021",
+    "text": "2021\n\nBehavioral and Cognitive Robotics, an adaptive perspective",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-4",
+    "href": "resources/related.html#section-4",
+    "title": "Related Events",
+    "section": "2020",
+    "text": "2020\n\nThe Bibites: Getting the online community involved into Alife through game development (Bibites)\nIntroduction to MABE, A tool for studying evolving systems and digital brains (MABE)\nLarge Scale Agent Based Modelling with FLAME GPU 2 (FLAME GPU 2)\nMolecular programming of swarms for ALife (MolProg)\nProgramming soft alife with SPLAT and ulam (HackSPLAT)\nVisualization Principles and Techniques for Research in ALife (ALifeVis2020)",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-5",
+    "href": "resources/related.html#section-5",
+    "title": "Related Events",
+    "section": "2019",
+    "text": "2019\n\nIntelligent Systems for Smart Cities\nIntroduction to Avida-ED",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-6",
+    "href": "resources/related.html#section-6",
+    "title": "Related Events",
+    "section": "2018",
+    "text": "2018\n\nAvida-ED\nCreate predictions with neural networks",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/advice.html",
+    "href": "resources/advice.html",
+    "title": "Advice",
+    "section": "",
+    "text": "statistics (replicates)\nnoise\ndeterminism\nlevels-of-abstraction\nGNU Parallel Tutorial Pueue is a command-line task management tool",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Advice"
+    ]
+  },
+  {
+    "objectID": "resources/advice.html#mixed-environments",
+    "href": "resources/advice.html#mixed-environments",
+    "title": "Advice",
+    "section": "Mixed Environments",
+    "text": "Mixed Environments\nmixing 2d and 3d - e.g., ODE and top-down map ray tracing",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Advice"
+    ]
+  },
+  {
+    "objectID": "presentation.html#outline",
+    "href": "presentation.html#outline",
+    "title": "SimER Tutorial",
+    "section": "Outline",
+    "text": "Outline\n\nEvolutionary Robotics Algorithm\nRunning Example\nPractical Considerations",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#evolutionary-robotics-algorithm",
+    "href": "presentation.html#evolutionary-robotics-algorithm",
+    "title": "SimER Tutorial",
+    "section": "Evolutionary Robotics Algorithm",
+    "text": "Evolutionary Robotics Algorithm\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nInitialize population randomly\nLOOP\n  Evaluate population\n  IF STOP(population) THEN BREAK\n  Select individuals from population\n  Modify selected individuals\n  Combine modified individuals with population\nRETURN population",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#running-example",
+    "href": "presentation.html#running-example",
+    "title": "SimER Tutorial",
+    "section": "Running Example",
+    "text": "Running Example\nGoal: …",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#practical-considerations",
+    "href": "presentation.html#practical-considerations",
+    "title": "SimER Tutorial",
+    "section": "Practical Considerations",
+    "text": "Practical Considerations\n\nSimulation Environment",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#parallelism",
+    "href": "presentation.html#parallelism",
+    "title": "SimER Tutorial",
+    "section": "Parallelism",
+    "text": "Parallelism\n\nParallelize replicate experiments (different random seeds)\nParallelize across generations (if mixing populations)\nParallelize across populations (multiple population per replicate)\nParallelize across individuals (multiple individuals per population)\nParallelize across trials (multiple trials per individual)\n\nAdvice:\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html",
+    "href": "resources/tools.html",
+    "title": "Tools",
+    "section": "",
+    "text": "Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we’ve listed a few related ideas below as well.\nCreating a simulation is called “modeling.” In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).\nBroadly, we can list the following forms of simulation as it relates to evolutionary robotics (ER)\nOften, an increase in accuracy comes at the cost of an increase in complexity and compute time. Analytical simulations are often only useful for toy problems (i.e., they are not even expressive enough to simulate a double pendulum system). Numerical systems are much broader—in some sense, they encapsulate rigid-body and soft-body dynamics—but they are often slower and less powerful compared to rigid-body and soft-body simulators. For example, a nonholonomic system cannot be described by a closed-form solution. In this case, a numerical or physical simulation is required.\nHere are things to consider when selecting your simulation tool:",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#robot-simulators",
+    "href": "resources/tools.html#robot-simulators",
+    "title": "Tools",
+    "section": "Robot Simulators",
+    "text": "Robot Simulators\n\nGazebo\nCoppeliaSim (V-REP replacement)\nWebots\nIsaac Sim\nVortex Studio\nDrake\nRoboDK\nMARS\nSimscape Multibody\nRaiSim",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#game-engines",
+    "href": "resources/tools.html#game-engines",
+    "title": "Tools",
+    "section": "Game Engines",
+    "text": "Game Engines\n\nUnreal Engine\nUnity\nGodot Engine\nBevy",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#physics-engines",
+    "href": "resources/tools.html#physics-engines",
+    "title": "Tools",
+    "section": "Physics Engines",
+    "text": "Physics Engines\n\nGame focused\n\nPhysX\nBullet\nODE\nJolt Physics\nHavok\nNewton Dynamics\nReactPhysics3D\n\nResearch/Robotics focused\n\nMuJoCo\nPROJECTCHRONO\nDART\nTPE (Trivial Physics Engine)\nRBDL\nRigidBodyDynamics.jl\nRapier",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#numerical-engines",
+    "href": "resources/tools.html#numerical-engines",
+    "title": "Tools",
+    "section": "Numerical Engines",
+    "text": "Numerical Engines\n\nGNU Octave\nSageMath\nScilab\nSimPy\nMATLAB\nWolfram Mathematica\nMaple\nDynamicalSystems.jl",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#soft-body-engines",
+    "href": "resources/tools.html#soft-body-engines",
+    "title": "Tools",
+    "section": "Soft-Body Engines",
+    "text": "Soft-Body Engines\n\nSoft Robotics Toolkit\nVoxCad\nevosoro: soft robot simulator\nDiffAqua",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#rendering-engines",
+    "href": "resources/tools.html#rendering-engines",
+    "title": "Tools",
+    "section": "Rendering Engines",
+    "text": "Rendering Engines\n\nOGRE\nIrrlicht Engine\nbgfx\nFilament\nMagnum Engine\nThree.js",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#configuration-language",
+    "href": "resources/tools.html#configuration-language",
+    "title": "Tools",
+    "section": "Configuration Language",
+    "text": "Configuration Language\n\nURDF (and Xacro)\nSDFormat\nSKEL\nCOLLADA\nSMURF\nSRDF",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#authoring-tools",
+    "href": "resources/tools.html#authoring-tools",
+    "title": "Tools",
+    "section": "Authoring Tools",
+    "text": "Authoring Tools\n\nPhobos\nOnshape-to-robot\nSolidWorks to URDF Exporter",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SimER Tutorial",
+    "section": "",
+    "text": "ALIFE has a long history with virtual creatures, and the Virtual Creatures Competition (VCC) has been a mainstay at the conference for a decade now. Enabling research in this area are many unique, and often single-purpose, simulation environments. The variety of simulation options is useful for creating finely tuned experiments but makes it difficult for newcomers to the field to determine which simulation environment is appropriate for their particular problem.\nALIFE has also hosted several tutorials relating to this work, for example,\nThis tutorial, will provide a broader look at the paradigms and tools used in the field of evolutionary robotics (and in ALIFE more generally). Specifically, we will discuss the use of several different simulation methods and tools, including:\nWe will also discuss visualization techniques.\nOf course, covering this wide range of topics necessarily means that we will not be able to go into great depth on all of them. Instead we will pay special attention to the use of physical simulation engines as they provide the widest range of possibilities with respect to creating and evolving virtual creatures. Staying with the theme of ALIFE 2024 we will share our experiences with “weird and wacky” results (and how to avoid them if they are not what you are looking for)."
+  },
+  {
+    "objectID": "index.html#tutorial-agenda",
+    "href": "index.html#tutorial-agenda",
+    "title": "SimER Tutorial",
+    "section": "Tutorial Agenda",
+    "text": "Tutorial Agenda\n\nPresentation\nTutorial Demos\nExploration"
+  },
+  {
+    "objectID": "index.html#logistics",
+    "href": "index.html#logistics",
+    "title": "SimER Tutorial",
+    "section": "Logistics",
+    "text": "Logistics\n\nFriday, 26 July\nParallel session 10: 15:00 - 16:40\nRoom: TBD\nQuestion and Answers: TBD (Google Sheet)"
+  },
+  {
+    "objectID": "index.html#audience",
+    "href": "index.html#audience",
+    "title": "SimER Tutorial",
+    "section": "Audience",
+    "text": "Audience\nOur primary target audience members are researchers new to the field of ALIFE and evolutionary robotics. We are also happy to have more experienced researchers looking for information to share with their students."
+  }
+]
