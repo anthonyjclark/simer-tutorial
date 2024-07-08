@@ -1,0 +1,41 @@
+---
+title: "SimER Tutorial"
+---
+
+[ALIFE](https://2024.alife.org/index.html) has a long history with virtual creatures, and the [Virtual Creatures Competition (VCC)](https://sites.google.com/view/vcc-2024) has been a mainstay at the conference for a decade now. Enabling research in this area are many unique, and often single-purpose, simulation environments. The variety of simulation options is useful for creating finely tuned experiments but makes it difficult for newcomers to the field to determine which simulation environment is appropriate for their particular problem.
+
+ALIFE has also hosted several tutorials relating to this work, for example,
+
+- Avida-ED,
+- neural networks and control,
+- modular agent evolution, and
+- Unity-based evolutionary robotics.
+
+This tutorial, will provide a **broader look at the paradigms and tools used in the field of evolutionary robotics** (and in ALIFE more generally). Specifically, we will discuss the use of several different simulation methods and tools, including:
+
+- numerical simulation (e.g., Octave/Matlab, Python Sympy, Julia DynamicalSystems, etc.),
+- physical simulation engines (e.g., ODE, DART, Bullet, etc.),
+- soft body simulation (e.g., FEM, Voxelyze, etc.),
+- comprehensive robot simulators (e.g., Gazebo, Webots, Isaac, etc.), and
+- game engines (e.g., Unity, Unreal, Godot, etc.).
+
+We will also discuss visualization techniques.
+
+Of course, covering this wide range of topics necessarily means that we will not be able to go into great depth on all of them. Instead **we will pay special attention to the use of physical simulation engines** as they provide the widest range of possibilities with respect to creating and evolving virtual creatures. Staying with the theme of ALIFE 2024 we will share our experiences with "weird and wacky" results (and how to avoid them if they are not what you are looking for).
+
+## Tutorial Agenda
+
+- Presentation
+- Tutorial Demos
+- Exploration
+
+## Logistics
+
+- Friday, 26 July
+- Parallel session 10: 15:00 - 16:40
+- Room: TBD
+- Question and Answers: TBD (Google Sheet)
+
+## Audience
+
+Our primary target audience members **are researchers new to the field of ALIFE and evolutionary robotics**. We are also happy to have more experienced researchers looking for information to share with their students.

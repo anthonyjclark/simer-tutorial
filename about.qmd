@@ -1,0 +1,21 @@
+---
+title: "About"
+image: images/ugv.png
+about:
+    template: broadside
+    links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/anthonyjclark/simer-tutorial
+---
+
+This is the second occurrence of SimER. The first was as a [workshop held at GECCO 2017](https://dl.acm.org/doi/proceedings/10.1145/3067695#heading19). Here are the contributions from the workshop:
+
+- [20 years of reality gap: a few thoughts about simulators in evolutionary robotics](https://dl.acm.org/doi/10.1145/3067695.3082052) by Jean-Baptiste Mouret and Konstantinos Chatzilygeroudis
+- [Simulating the evolution of soft and rigid-body robots](https://dl.acm.org/doi/10.1145/3067695.3082051) by Sam Kriegman, Collin Cappelle, Francesco Corucci, Anton Bernatskiy, Nick Cheney, and Josh C. Bongard
+- [A baseline-realistic objective open-ended kinematics simulator for evolutionary robotics](https://dl.acm.org/doi/10.1145/3067695.3082164) by Riley Konsella, Frank Chiarulli, John Peterson, and John Rieffel
+
+
+[Anthony J. Clark](https://anthonyjclark.com) received is Ph.D from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA and a Research Scientist at Caltech in Pasadena, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.
+
+[Jared M. Moore](http://jaredmmoore.com/) received is Ph.D from Michigan State University. He is currently an Associate Professor in the School of Computing and Information Systems at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization.

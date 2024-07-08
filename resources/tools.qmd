@@ -1,0 +1,120 @@
+---
+title: "Tools"
+format: html
+---
+
+Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we've listed a few related ideas below as well.
+
+Creating a simulation is called "modeling." In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).
+
+Broadly, we can list the following forms of simulation as it relates to evolutionary robotics (ER)
+
+- analytical (closed-form) dynamics,
+- rigid-body dynamics (aka physical simulation or physics engine),
+- soft-body dynamics,
+- finite-element analysis, and
+- digital evolution (e.g., Avida).
+
+Often, an increase in accuracy comes at the cost of an increase in complexity and compute time. Analytical simulations are often only useful for toy problems (i.e., they are not even expressive enough to simulate a double pendulum system). Numerical systems are much broader---in some sense, they encapsulate rigid-body and soft-body dynamics---but they are often slower and less powerful compared to rigid-body and soft-body simulators. For example, a nonholonomic system cannot be described by a closed-form solution. In this case, a numerical or physical simulation is required.
+
+<!--
+
+https://robotics.stackexchange.com/a/9644
+
+For a nonholonomic system, you can at best determine a differential relationship between state and inputs. You cannot determine a closed-form geometric relationship. This means that the history of states is needed in order to determine the current state. Vehicles are a good example because you can intuitively see that turning the right wheel 100 rotations and turning the left wheel 100 rotations does not provide enough information to describe the change in position. If the wheels are turned synchronously, the vehicle will follow a straight line. If they are coordinated in another sequence, the robot will turn, and follow some other path. This is nonholonomic: knowing the total change in state variables is insufficient to describe the motion, because you cannot write a geometric relationship between input and output. It is differential at best.
+
+-->
+
+Here are things to consider when selecting your simulation tool:
+
+- computation efficiency: how long does it take to run a simulation?
+- cost: do you need to purchase a license? or is it open-source?
+- features: does it support the features you need? (e.g., 3d, sensors, actuators, controllers, etc.)
+- simplicity: how easy is it to use?
+- robustness: how well does it handle edge cases?
+- accuracy: how close is the simulation to reality?
+- determinism: does it produce the same results given the same inputs?
+- support: is there a community or documentation to help you?
+- interactive: can you interact with the simulation in real-time?
+- headless: can you run the simulation without a GUI?
+
+## Robot Simulators
+
+- [Gazebo](https://gazebosim.org/home)
+- [CoppeliaSim](https://coppeliarobotics.com/) (V-REP replacement)
+- [Webots](https://cyberbotics.com/)
+- [Isaac Sim](https://developer.nvidia.com/isaac-sim)
+- [Vortex Studio](https://www.cm-labs.com/en/vortex-studio/)
+- [Drake](https://drake.mit.edu/)
+- [RoboDK](https://robodk.com/)
+- [MARS](https://rock-simulation.github.io/mars/)
+- [Simscape Multibody](https://www.mathworks.com/products/simscape-multibody.html)
+- [RaiSim](https://raisim.com/)
+
+## Game Engines
+
+- [Unreal Engine](https://www.unrealengine.com/en-US)
+- [Unity](https://unity.com/)
+- [Godot Engine](https://godotengine.org/)
+- [Bevy](https://bevyengine.org/)
+
+## Physics Engines
+
+- Game focused
+    - [PhysX](https://developer.nvidia.com/physx-sdk)
+    - [Bullet](https://pybullet.org/wordpress/)
+    - [ODE](https://bitbucket.org/odedevs/ode/src/master/)
+    - [Jolt Physics](https://github.com/jrouwe/JoltPhysics)
+    - [Havok](https://www.havok.com/)
+    - [Newton Dynamics](http://newtondynamics.com/forum/newton.php)
+    - [ReactPhysics3D](https://www.reactphysics3d.com/)
+- Research/Robotics focused
+    - [MuJoCo](https://mujoco.readthedocs.io/en/latest/overview.html)
+    - [PROJECTCHRONO](https://projectchrono.org/)
+    - [DART](https://dartsim.github.io/)
+    - [TPE (Trivial Physics Engine)](https://community.gazebosim.org/t/announcing-new-physics-engine-tpe-trivial-physics-engine/629)
+    - [RBDL](https://rbdl.github.io/)
+    - [RigidBodyDynamics.jl](https://github.com/JuliaRobotics/RigidBodyDynamics.jl)
+    - [Rapier](https://rapier.rs/)
+
+## Numerical Engines
+
+- [GNU Octave](https://octave.org/)
+- [SageMath](https://www.sagemath.org/)
+- [Scilab](https://www.scilab.org/download)
+- [SimPy](https://simpy.readthedocs.io/en/latest/)
+- [MATLAB](https://www.mathworks.com/products/matlab.html)
+- [Wolfram Mathematica](https://www.wolfram.com/mathematica/)
+- [Maple](https://www.maplesoft.com/products/Maple/)
+- [DynamicalSystems.jl](https://juliadynamics.github.io/DynamicalSystems.jl/dev/)
+
+## Soft-Body Engines
+
+- [Soft Robotics Toolkit](https://softroboticstoolkit.com/home)
+- [VoxCad](https://www.creativemachineslab.com/voxcad.html)
+- [evosoro: soft robot simulator](https://github.com/skriegman/evosoro)
+- [DiffAqua](https://github.com/mit-gfx/DiffAqua)
+
+## Rendering Engines
+
+- [OGRE](https://www.ogre3d.org/)
+- [Irrlicht Engine](https://irrlicht.sourceforge.io/)
+- [bgfx](https://bkaradzic.github.io/bgfx/index.html)
+- [Filament](https://google.github.io/filament/)
+- [Magnum Engine](https://magnum.graphics/)
+- [Three.js](https://threejs.org/)
+
+## Configuration Language
+
+- [URDF](http://wiki.ros.org/urdf) (and [Xacro](http://wiki.ros.org/xacro))
+- [SDFormat](http://sdformat.org/)
+- [SKEL](https://dartsim.github.io/skel_file_format.html)
+- [COLLADA](https://www.khronos.org/collada/)
+- [SMURF](https://github.com/rock-simulation/smurf_parser)
+- [SRDF](http://wiki.ros.org/srdf)
+
+## Authoring Tools
+
+- [Phobos](https://github.com/dfki-ric/phobos)
+- [Onshape-to-robot](https://onshape-to-robot.readthedocs.io/en/latest/)
+- [SolidWorks to URDF Exporter](http://wiki.ros.org/sw_urdf_exporter)

@@ -1,0 +1,63 @@
+---
+title: "SimER Tutorial"
+format: revealjs
+---
+
+
+## Outline
+
+1. Evolutionary Robotics Algorithm
+2. Running Example
+3. Practical Considerations
+
+
+## Evolutionary Robotics Algorithm
+
+<!-- %%{ init : { "theme" : "default", "flowchart" : { "curve" : "linear" }}}%% -->
+
+```{mermaid}
+flowchart LR
+    Init[Initialize] --> Eval[Evaluate]
+    Eval --> Stop{Stop?}
+    Stop --Yes--> Retn[Return]
+    Stop --No--> Sele[Select]
+    Sele --> Modi[Modify]
+    Modi --> Comb[Combine]
+    Comb --> Eval
+```
+
+```{text}
+Initialize population randomly
+LOOP
+  Evaluate population
+  IF STOP(population) THEN BREAK
+  Select individuals from population
+  Modify selected individuals
+  Combine modified individuals with population
+RETURN population
+```
+
+## Running Example
+
+Goal: ...
+
+## Practical Considerations
+
+1. Simulation Environment
+
+## Parallelism
+
+1. Parallelize replicate experiments (different random seeds)
+2. Parallelize across generations (if mixing populations)
+3. Parallelize across populations (multiple population per replicate)
+4. Parallelize across individuals (multiple individuals per population)
+5. Parallelize across trials (multiple trials per individual)
+
+## Advice for Parallelism
+
+- Plan to use $N - 2$ cores, where $N$ is the number of cores available
+- Use a tool like [GNU Parallel](https://www.gnu.org/software/parallel/) at the replicate level
+- Use a library like [Python multiprocessing](https://docs.python.org/3/library/multiprocessing.html) at lower levels
+- Consider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism
+  - Do you care more about the variance across replicates? Parallelize at the replicate level
+  - Do you care more about the performance of a single replicate? Parallelize at the individual level

@@ -1,0 +1,33 @@
+project:
+  type: website
+
+website:
+  title: SimER
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+  sidebar:
+    style: docked
+    contents:
+      - section: "Presentation"
+        contents:
+          - presentation.qmd
+      - section: "Demos"
+        contents:
+          - demos/1-analytical.qmd
+          - demos/2-numerical.qmd
+          - demos/3-adding-collisions.qmd
+          - demos/4-rigid-body.qmd
+      - section: "Resources"
+        contents:
+          - resources/advice.qmd
+          - resources/related.qmd
+          - resources/tools.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

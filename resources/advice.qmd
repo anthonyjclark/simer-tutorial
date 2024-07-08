@@ -1,0 +1,18 @@
+---
+title: "Advice"
+format: html
+---
+
+- statistics (replicates)
+- noise
+- determinism
+- levels-of-abstraction
+
+
+[GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
+[Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
+
+## Mixed Environments
+
+mixing 2d and 3d
+- e.g., ODE and top-down map ray tracing

@@ -1,0 +1,7 @@
+---
+title: "Demo 4: Rigid Body Models"
+format: html
+---
+
+<!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
+<!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
