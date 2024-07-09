@@ -21,6 +21,13 @@ TODO:
 - implicit vs explicit integration and integrators
 - Euler integration is bad when acceleration is non-zero (and you care about position)
 - semi-implicit Euler (update velocity first)
+- keep moving objects in range 0.1 to 10 meters (1 meters is sweet spot)
+- wmr on incline (easier with numerical if you care about power)
+
+steps (maybe show comparison chart for several physics engines)
+1. install software
+2. create "world" (and collision space)
+3. create "robot" (bodies and geometries/shapes; constraints/joints)
 
 https://lobste.rs/s/5rmn4y/fixing_iterative_damping_interpolation
 https://app.scribbler.live/#./examples/Numerical-Analysis-Recipes.jsnb
