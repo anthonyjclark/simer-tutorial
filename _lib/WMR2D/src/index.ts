@@ -26,12 +26,14 @@ function loop( now: number ) {
 
 		wmrClosedForm.updatePositionClosedForm( dt / 1000.0 );
 		wmrNumerical.updatePositionNumerical( dt / 1000.0 );
+		wmrPhysicsEngine.updatePositionPhysicsEngine( dt / 1000.0 );
 
 	}
 
 	// Draw
-	wmrClosedForm.render( true );
-	wmrNumerical.render( false );
+	// wmrClosedForm.render( true );
+	// wmrNumerical.render( true );
+	wmrPhysicsEngine.render( true );
 
 	requestAnimationFrame( loop );
 
@@ -42,4 +44,5 @@ let status = SimulationStatus.Running;
 let prevTime = 0.0;
 let wmrClosedForm = new WMR2D();
 let wmrNumerical = new WMR2D();
+let wmrPhysicsEngine = new WMR2D();
 requestAnimationFrame( loop );
