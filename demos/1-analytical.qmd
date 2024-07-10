@@ -3,18 +3,12 @@ title: "Demo 1: Analytical Models"
 format:
     html:
         css: ../_lib/WMR2D/css/main.css
+        syntax-definitions:
+          - ../test_lang.xml
+        highlight-style: dracula
 ---
 
-<!--
-Projectile and wmr
-
-demos
-1. analytical projectile
-2. numerical particle projectile
-3. numerical particle projectile with bounce
-4. rigid-body projectile
-5. walker?
--->
+What if I put some text here first?
 
 ```{=html}
 <div>

@@ -130,8 +130,8 @@
     "objectID": "presentation.html#outline",
     "href": "presentation.html#outline",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "Evolutionary Robotics Algorithm\nRunning Example\nPractical Considerations",
+    "section": "Outline",
+    "text": "Outline\n\nEvolutionary Robotics\nPractical Considerations\nRunning Example\nOnline Demos\nFull Example",
     "crumbs": [
       "Home",
       "Presentation",
@@ -142,8 +142,8 @@
     "objectID": "presentation.html#evolutionary-robotics-algorithm",
     "href": "presentation.html#evolutionary-robotics-algorithm",
     "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics Algorithm",
-    "text": "Evolutionary Robotics Algorithm\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nInitialize population randomly\nLOOP\n  Evaluate population\n  IF STOP(population) THEN BREAK\n  Select individuals from population\n  Modify selected individuals\n  Combine modified individuals with population\nRETURN population",
+    "section": "Evolutionary Robotics: Algorithm",
+    "text": "Evolutionary Robotics: Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
     "crumbs": [
       "Home",
       "Presentation",
@@ -167,7 +167,7 @@
     "href": "presentation.html#practical-considerations",
     "title": "SimER Tutorial",
     "section": "Practical Considerations",
-    "text": "Practical Considerations\n\nSimulation Environment",
+    "text": "Practical Considerations\n\nSimulation Environment\n\nMajor challenge: reality gap",
     "crumbs": [
       "Home",
       "Presentation",
@@ -327,7 +327,7 @@
     "href": "demos/1-analytical.html",
     "title": "Demo 1: Analytical Models",
     "section": "",
-    "text": "import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\n{\n    function loop(now) {\n\n        if ( ! prevTime) prevTime = now;\n        let dt = now - prevTime;\n        prevTime = now;\n\n        wmr.updatePositionClosedForm(dt / 1000.0);\n        wmr.render(true);\n\n        requestAnimationFrame(loop);\n\n    }\n\n    let prevTime = 0.0;\n    let wmr = new WMR2D( 'wmr-canvas' );\n\n    requestAnimationFrame(loop);\n\n    return html`&lt;div&gt;&lt;/div&gt;`;\n}",
+    "text": "What if I put some text here first?\n\n    \n\n\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\n{\n    function loop(now) {\n\n        if ( ! prevTime) prevTime = now;\n        let dt = now - prevTime;\n        prevTime = now;\n\n        wmr.updatePositionClosedForm(dt / 1000.0);\n        wmr.render(true);\n\n        requestAnimationFrame(loop);\n\n    }\n\n    let prevTime = 0.0;\n    let wmr = new WMR2D( 'wmr-canvas' );\n\n    requestAnimationFrame(loop);\n\n    return html`&lt;div&gt;&lt;/div&gt;`;\n}",
     "crumbs": [
       "Home",
       "Demos",
@@ -364,6 +364,66 @@
     "title": "SimER Tutorial",
     "section": "Advice for Parallelism",
     "text": "Advice for Parallelism\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#evolutionary-robotics",
+    "href": "presentation.html#evolutionary-robotics",
+    "title": "SimER Tutorial",
+    "section": "Evolutionary Robotics",
+    "text": "Evolutionary Robotics\nThe use of evolutionary algorithms to explore the design space of robots and their control software.",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#evolutionary-robotics-experiments",
+    "href": "presentation.html#evolutionary-robotics-experiments",
+    "title": "SimER Tutorial",
+    "section": "Evolutionary Robotics: Experiments",
+    "text": "Evolutionary Robotics: Experiments",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#online-demos",
+    "href": "presentation.html#online-demos",
+    "title": "SimER Tutorial",
+    "section": "Online Demos",
+    "text": "Online Demos",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#full-examples",
+    "href": "presentation.html#full-examples",
+    "title": "SimER Tutorial",
+    "section": "Full Examples",
+    "text": "Full Examples",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#evolutionary-robotics-research",
+    "href": "presentation.html#evolutionary-robotics-research",
+    "title": "SimER Tutorial",
+    "section": "Evolutionary Robotics: Research",
+    "text": "Evolutionary Robotics: Research\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nApplications of evolutionary robotics\nAlgorithm development",
     "crumbs": [
       "Home",
       "Presentation",

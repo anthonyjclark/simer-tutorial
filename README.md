@@ -33,7 +33,7 @@ Tutorial:
    2. add wall
    3. add feedback control?? (too hard)
 3. numerical
-   1. add incline (friction)
+   1. add incline (friction; hard for Explicit Euler)
    2. add suspension?? additional walls?? different inclines?? obstacles?? (too hard)
 4. rigid-body
 
