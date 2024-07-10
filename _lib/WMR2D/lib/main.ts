@@ -10,18 +10,17 @@ export class WMR2D {
 	simHeight: number;
 
 	// Units in pixels
-	groundLevelPixels = 200;
+	groundLevelPixels: number;
 
 	// Units in meters, kilograms, seconds, and radians
 	wheelRadius = 1.0;
 	wheelInwardOffset = 0.1;
 	chassisLength = 3.0;
 	chassisHeight = 1.0;
-	angularVelocity = 1.0;
+	angularVelocity = 3.0;
 
 	// Body poses
-	// initialPosition = new Vec2( 3.0, this.wheelRadius + 0.001 );
-	initialPosition = new Vec2( 3.0, this.wheelRadius * 2 );
+	initialPosition = new Vec2( 3.0, this.wheelRadius + 0.01 );
 	chassisPosition = this.initialPosition.clone();
 	chassisAngle = 0.0;
 
@@ -31,6 +30,9 @@ export class WMR2D {
 
 	wheelAngleFront = 0.0;
 	wheelAngleRear = 0.0;
+
+	// Wall pose
+	wallPosition: Vec2;
 
 	time = 0.0;
 	timeStep = 0.01;
@@ -44,19 +46,24 @@ export class WMR2D {
 	wheelMotorFront: WheelJoint;
 	wheelMotorRear: WheelJoint;
 
-	constructor( simMinWidth: number = 20.0 ) {
+	constructor( id: string, simMinWidth: number = 10.0 ) {
 
-		// TODO: pass in canvas element or string id
-		this.canvas = document.getElementById( 'wmr-canvas' ) as HTMLCanvasElement;
+		this.canvas = document.getElementById( id ) as HTMLCanvasElement;
 		this.context = this.canvas.getContext( '2d' ) as CanvasRenderingContext2D;
 
-		// TODO: figure out proper padding/sizing
-		this.canvas.width = window.innerWidth - 20;
-		this.canvas.height = window.innerHeight - 100;
+		let parent = this.canvas.parentElement as HTMLElement;
 
-		// NOTE: scale is used to convert between simulation units and pixels
+		let padding = 20;
+
+		this.canvas.width = parent.clientWidth - padding * 2;
+		this.canvas.height = Math.min( 0.75 * window.innerHeight, this.canvas.width / 2.0 );
+
+		this.groundLevelPixels = this.canvas.height - padding;
+
+		// Scale is used to convert between simulation units and pixels
 		this.drawScale = Math.min( this.canvas.width, this.canvas.height ) / simMinWidth;
 
+		// Useful for knowing the simulation bounds
 		this.simWidth = this.canvas.width / this.drawScale;
 		this.simHeight = this.canvas.height / this.drawScale;
 
@@ -64,64 +71,76 @@ export class WMR2D {
 		this.wheelPositionFront = this.#wheelFromChassis( true );
 		this.wheelPositionRear = this.#wheelFromChassis( false );
 
-		// TODO: only if using physics engine
+		// Physics engine setup
 
 		this.world = new World( { gravity: new Vec2( 0.0, - 9.8 ) } );
 
-		this.ground = this.world.createBody( {
-			type: 'static',
-			position: new Vec2( 0.0, 0.0 ),
-			// TODO: incline?
-			// angle: Math.PI * 0.1,
-		} );
+		let groundFriction = 0.7;
 
-		// TODO: ground friction
-		this.ground.createFixture( { shape: new Edge( new Vec2( - 100, 0 ), new Vec2( 100, 0 ) ) } );
+		// TODO: incline?
+		// angle: Math.PI * 0.1,
+		this.ground = this.world.createBody( { type: 'static', position: new Vec2( 0.0, 0.0 ) } );
+		this.ground.createFixture( { shape: new Edge( new Vec2( - 100, 0 ), new Vec2( 100, 0 ) ), friction: groundFriction } );
+
+		let materialDensity = 0.7;
+		let materialFriction = 0.3;
+
+		// Chassis
 
 		this.chassis = this.world.createBody( { type: 'dynamic', position: this.initialPosition } );
+		this.chassis.createFixture( { shape: new Box( this.chassisLength / 2, this.chassisHeight / 2 ), density: materialDensity, friction: materialFriction } );
 
-		// TODO: chassis friction and density
-		this.chassis.createFixture( { shape: new Box( this.chassisLength / 2, this.chassisHeight / 2 ), density: 1.0, friction: 0.3 } );
+		// Front wheel
 
 		this.wheelFront = this.world.createBody( { type: 'dynamic', position: this.wheelPositionFront } );
+		this.wheelFront.createFixture( { shape: new Circle( this.wheelRadius ), density: materialDensity, friction: materialFriction } );
 
-		// TODO: wheel friction and density
-		this.wheelFront.createFixture( { shape: new Circle( this.wheelRadius ), density: 1.0, friction: 0.3 } );
+		let motorMaxTorque = 20.0;
+		let suspensionHz = 4.0;
+		let suspensionDampingRatio = 0.7;
 
 		this.wheelMotorFront = this.world.createJoint( new WheelJoint( {
 			motorSpeed: 0.0,
-			maxMotorTorque: 20.0,
 			enableMotor: true,
-			frequencyHz: 4.0,
-			dampingRatio: 0.7,
+			maxMotorTorque: motorMaxTorque,
+			frequencyHz: suspensionHz,
+			dampingRatio: suspensionDampingRatio,
 		}, this.chassis, this.wheelFront, this.wheelFront.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;
+
+		// Rear wheel
 
 		this.wheelRear = this.world.createBody( { type: 'dynamic', position: this.wheelPositionRear } );
 
-		this.wheelRear.createFixture( { shape: new Circle( this.wheelRadius ), density: 1.0, friction: 0.3 } );
+		this.wheelRear.createFixture( { shape: new Circle( this.wheelRadius ), density: materialDensity, friction: materialFriction } );
 
 		this.wheelMotorRear = this.world.createJoint( new WheelJoint( {
 			motorSpeed: 0.0,
-			maxMotorTorque: 20.0,
 			enableMotor: true,
-			frequencyHz: 4.0,
-			dampingRatio: 0.7,
+			maxMotorTorque: motorMaxTorque,
+			frequencyHz: suspensionHz,
+			dampingRatio: suspensionDampingRatio,
 		}, this.chassis, this.wheelRear, this.wheelRear.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;
 
-		this.wheelMotorFront.setMotorSpeed( - 50 );
+		this.wheelMotorFront.setMotorSpeed( - this.angularVelocity );
+		this.wheelMotorRear.setMotorSpeed( - this.angularVelocity );
 
-		// TODO: add a wall to demonstrate need for numerical integration
+		// Wall
+
+		this.wallPosition = new Vec2( this.simWidth * 0.6, 0.0 );
+		let wall = this.world.createBody( { type: 'static', position: this.wallPosition } );
+		wall.createFixture( { shape: new Box( 0.1, 2.0 ) } );
 
 	}
 
 	reset() {
 
 		this.chassisPosition = this.initialPosition.clone();
+		this.chassisAngle = 0.0;
 
 		this.wheelPositionFront = new Vec2( - this.chassisLength / 2 + this.wheelInwardOffset, this.chassisPosition.y );
-		this.wheelPositionRear = new Vec2( this.chassisLength / 2 - this.wheelInwardOffset, this.chassisPosition.y );
-
 		this.wheelAngleFront = 0.0;
+
+		this.wheelPositionRear = new Vec2( this.chassisLength / 2 - this.wheelInwardOffset, this.chassisPosition.y );
 		this.wheelAngleRear = 0.0;
 
 		this.time = 0.0;
@@ -143,7 +162,7 @@ export class WMR2D {
 
 	#wheelFromChassis( isFront: boolean ): Vec2 {
 
-		// TODO: handle incline
+		// TODO: incline?
 
 		let sign = isFront ? 1 : - 1;
 		let xOffset = sign * ( this.chassisLength / 2 - this.wheelInwardOffset );
@@ -182,9 +201,14 @@ export class WMR2D {
 		x = this.#xToPixel( this.chassisPosition.x );
 		y = this.#yToPixel( this.chassisPosition.y );
 		this.#drawChassis();
-		// this.context.beginPath();
-		// this.context.arc( x, y, 5, 0, 2 * Math.PI );
-		// this.context.stroke();
+
+		// Draw the wall
+
+		let wallThickness = 20;
+
+		x = this.#xToPixel( this.wallPosition.x );
+		y = this.#yToPixel( this.wallPosition.y );
+		this.#drawBox( x + wallThickness / 2, y, wallThickness, 400, 0.0, 'darkred' );
 
 	}
 
@@ -226,12 +250,18 @@ export class WMR2D {
 		let y = this.#yToPixel( this.chassisPosition.y );
 		let angle = this.chassisAngle;
 
+		this.#drawBox( x, y, width, height, angle, 'darkslateblue' );
+
+	}
+
+	#drawBox( x: number, y: number, w: number, h: number, a: number, c: string ) {
+
 		this.context.save();
 		this.context.beginPath();
 		this.context.translate( x, y );
-		this.context.rotate( angle );
-		this.context.rect( - width / 2, - height / 2, width, height );
-		this.context.fillStyle = 'darkslateblue';
+		this.context.rotate( a );
+		this.context.rect( - w / 2, - h / 2, w, h );
+		this.context.fillStyle = c;
 		this.context.fill();
 		this.context.restore();
 
@@ -239,17 +269,25 @@ export class WMR2D {
 
 	updatePositionClosedForm( frameTime: number ) {
 
-		// TODO: take into account incline angle
+		// TODO: incline?
 
 		this.time += frameTime;
 
-		// Set body pose
+		// Check for collision with wall
 
-		// v = ω r
-		// p = v t = ω r t
-		this.chassisPosition.x = this.initialPosition.x + this.angularVelocity * this.wheelRadius * this.time;
-		// this.chassisPosition.y = ...
-		// this.chassisAngle = ...
+		let possibleFrontWheelPosition = this.#wheelFromChassis( true );
+
+		if ( ( possibleFrontWheelPosition.x + this.wheelRadius ) < this.wallPosition.x ) {
+
+			// Set body pose
+
+			// v = ω r
+			// p = v t = ω r t
+			this.chassisPosition.x = this.initialPosition.x + this.angularVelocity * this.wheelRadius * this.time;
+			// this.chassisPosition.y = ...
+			// this.chassisAngle = ...
+
+		}
 
 		// Set front wheel pose
 
@@ -265,18 +303,26 @@ export class WMR2D {
 
 	updatePositionNumerical( frameTime: number ) {
 
-		// TODO: take into account incline angle
+		// TODO: incline?
 
 		this.timeAccumulator += frameTime;
 
 		while ( this.timeAccumulator >= this.timeStep ) {
 
-			// Explicit Euler integration (works because the angular velocity is constant)
-			// v = ω r
-			// p = v t = ω r t
-			this.chassisPosition.x += this.angularVelocity * this.wheelRadius * this.timeStep;
-			// this.chassisPosition.y = ...
-			// this.chassisAngle = ...
+			let possibleFrontWheelPosition = this.#wheelFromChassis( true );
+
+			if ( ( possibleFrontWheelPosition.x + this.wheelRadius ) < this.wallPosition.x ) {
+
+				// Set body pose
+
+				// Explicit Euler integration (works because the angular velocity is constant)
+				// v = ω r
+				// p = v t = ω r t
+				this.chassisPosition.x += this.angularVelocity * this.wheelRadius * this.timeStep;
+				// this.chassisPosition.y = ...
+				// this.chassisAngle = ...
+
+			}
 
 			this.wheelAngleFront += this.angularVelocity * this.timeStep;
 			this.wheelAngleRear += this.angularVelocity * this.timeStep;
@@ -311,21 +357,16 @@ export class WMR2D {
 
 		}
 
-		// TODO:
-		// set body pose
-		// set front wheel pose
-		// set rear wheel pose
-
 		// NOTE: we only need to update poses once per frame
 
 		this.chassisPosition = this.chassis.getPosition();
 		this.chassisAngle = this.chassis.getAngle();
 
 		this.wheelPositionFront = this.wheelFront.getPosition();
-		this.wheelAngleFront = this.wheelFront.getAngle();
+		this.wheelAngleFront = - this.wheelFront.getAngle();
 
 		this.wheelPositionRear = this.wheelRear.getPosition();
-		this.wheelAngleRear = this.wheelRear.getAngle();
+		this.wheelAngleRear = - this.wheelRear.getAngle();
 
 	}
 

@@ -15,11 +15,7 @@ function loop( now: number ) {
 	let dt = now - prevTime;
 	prevTime = now;
 
-	if ( wmrClosedForm.getTime() > 15.0 ) {
-
-		status = SimulationStatus.Stopped;
-
-	}
+	// console.log( wmrClosedForm.getTime() );
 
 	// Simulate
 	if ( status === SimulationStatus.Running ) {
@@ -31,9 +27,9 @@ function loop( now: number ) {
 	}
 
 	// Draw
-	// wmrClosedForm.render( true );
-	// wmrNumerical.render( true );
-	wmrPhysicsEngine.render( true );
+	wmrClosedForm.render( true );
+	wmrNumerical.render( false );
+	wmrPhysicsEngine.render( false );
 
 	requestAnimationFrame( loop );
 
@@ -42,7 +38,7 @@ function loop( now: number ) {
 let status = SimulationStatus.Running;
 
 let prevTime = 0.0;
-let wmrClosedForm = new WMR2D();
-let wmrNumerical = new WMR2D();
-let wmrPhysicsEngine = new WMR2D();
+let wmrClosedForm = new WMR2D( 'wmr-canvas' );
+let wmrNumerical = new WMR2D( 'wmr-canvas' );
+let wmrPhysicsEngine = new WMR2D( 'wmr-canvas' );
 requestAnimationFrame( loop );

@@ -1,6 +1,8 @@
 ---
 title: "Demo 1: Analytical Models"
-format: html
+format:
+    html:
+        css: ../_lib/WMR2D/css/main.css
 ---
 
 <!--
@@ -13,3 +15,38 @@ demos
 4. rigid-body projectile
 5. walker?
 -->
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas"></canvas>
+</div>
+```
+
+
+```{ojs}
+//| echo: false
+
+import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';
+
+{
+    function loop(now) {
+
+        if ( ! prevTime) prevTime = now;
+        let dt = now - prevTime;
+        prevTime = now;
+
+        wmr.updatePositionClosedForm(dt / 1000.0);
+        wmr.render(true);
+
+        requestAnimationFrame(loop);
+
+    }
+
+    let prevTime = 0.0;
+    let wmr = new WMR2D( 'wmr-canvas' );
+
+    requestAnimationFrame(loop);
+
+    return html`<div></div>`;
+}
+```
