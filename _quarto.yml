@@ -20,11 +20,12 @@ website:
           - demos/2-numerical.qmd
           - demos/3-adding-collisions.qmd
           - demos/4-rigid-body.qmd
+          - demos/5-full-example.qmd
       - section: "Resources"
         contents:
           - resources/advice.qmd
-          - resources/related.qmd
           - resources/tools.qmd
+          - resources/related.qmd
 
 format:
   html:

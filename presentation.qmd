@@ -9,22 +9,35 @@ format:
     toc: true
     syntax-definitions:
       - pseudocode.xml
-      - test_lang.xml
     highlight-style: pygments
 ---
+
+# Introduction
+
+
+## Format
+
+This tutorial will follow a format in which:
+
+- We'll get on the same page with respect to terminolody
+- Loop
+  - I'll present for a bit
+  - I'll ask you all to read through an exercise
+  - We'll have time for discussion
+- We'll cover a more complete example in full
 
 ## Evolutionary Robotics
 
 The use of evolutionary algorithms to explore the design space of robots and their control software.
 
-## Evolutionary Robotics: Research
+## Research Questions
 
 There is a wide variety of research in evolutionary robotics, but I'll focus on:
 
 1. Applications of evolutionary robotics
 2. Algorithm development
 
-## Evolutionary Robotics: Algorithm
+## General Algorithm
 
 ```{mermaid}
 %%| fig-align: center
@@ -52,11 +65,17 @@ LOOP
 RETURN population
 ```
 
+# Practical Considerations
+
 ## Practical Considerations
 
-1. Simulation Environment
+1. Simulation
+2. Computational resources (parallelism)
+3. Analysis (visualizing, plotting, etc.)
+4. Research management (tracking, reproducibility, collaboration, etc.)
+5. Validation on hardware
 
-Major challenge: reality gap
+Major challenge: "reality gap"
 
 ## Parallelism
 
@@ -66,7 +85,7 @@ Major challenge: reality gap
 4. Parallelize across individuals (multiple individuals per population)
 5. Parallelize across trials (multiple trials per individual)
 
-## Advice for Parallelism
+## Parallelism Advice
 
 - Plan to use $N - 2$ cores, where $N$ is the number of cores available
 - Use a tool like [GNU Parallel](https://www.gnu.org/software/parallel/) at the replicate level
@@ -76,10 +95,16 @@ Major challenge: reality gap
   - Do you care more about the performance of a single replicate? Parallelize at the individual level
 
 
-## Running Example
+# Running Example
 
-Goal: ...
+## Problem Statement
+
+Objective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.
 
 ## Online Demos
 
+Starting with [Analytical Models](demos/1-analytical.qmd)
+
 ## Full Examples
+
+Full description at [Full Example](demos/5-full-example.qmd).

@@ -37,6 +37,7 @@ Tutorial:
    2. add suspension?? additional walls?? different inclines?? obstacles?? (too hard)
 4. rigid-body
 
+wandb?
 
 
 steps (maybe show comparison chart for several physics engines)
