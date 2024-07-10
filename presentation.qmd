@@ -1,21 +1,34 @@
 ---
 title: "SimER Tutorial"
-format: revealjs
+author: Anthony J. Clark
+format:
+  revealjs:
+    progress: true
+    controls: true
+    controls-layout: bottom-right
+    toc: true
+    syntax-definitions:
+      - pseudocode.xml
+      - test_lang.xml
+    highlight-style: pygments
 ---
 
+## Evolutionary Robotics
 
-## Outline
+The use of evolutionary algorithms to explore the design space of robots and their control software.
 
-1. Evolutionary Robotics Algorithm
-2. Running Example
-3. Practical Considerations
+## Evolutionary Robotics: Research
 
+There is a wide variety of research in evolutionary robotics, but I'll focus on:
 
-## Evolutionary Robotics Algorithm
+1. Applications of evolutionary robotics
+2. Algorithm development
 
-<!-- %%{ init : { "theme" : "default", "flowchart" : { "curve" : "linear" }}}%% -->
+## Evolutionary Robotics: Algorithm
 
 ```{mermaid}
+%%| fig-align: center
+
 flowchart LR
     Init[Initialize] --> Eval[Evaluate]
     Eval --> Stop{Stop?}
@@ -26,24 +39,24 @@ flowchart LR
     Comb --> Eval
 ```
 
-```{text}
-Initialize population randomly
+```{.pseudocode}
+population = Initialize()
+
 LOOP
-  Evaluate population
-  IF STOP(population) THEN BREAK
-  Select individuals from population
-  Modify selected individuals
-  Combine modified individuals with population
+  Evaluate(population)
+  IF Stop(population) THEN BREAK
+  selected = Select(population)
+  children = Modify(selected)
+  population = Combine(population, children)
+
 RETURN population
 ```
-
-## Running Example
-
-Goal: ...
 
 ## Practical Considerations
 
 1. Simulation Environment
+
+Major challenge: reality gap
 
 ## Parallelism
 
@@ -61,3 +74,12 @@ Goal: ...
 - Consider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism
   - Do you care more about the variance across replicates? Parallelize at the replicate level
   - Do you care more about the performance of a single replicate? Parallelize at the individual level
+
+
+## Running Example
+
+Goal: ...
+
+## Online Demos
+
+## Full Examples
