@@ -23,6 +23,21 @@ TODO:
 - semi-implicit Euler (update velocity first)
 - keep moving objects in range 0.1 to 10 meters (1 meters is sweet spot)
 - wmr on incline (easier with numerical if you care about power)
+- closed-form (no suspension, no friction, etc.)
+
+Tutorial:
+
+1. plan: length, radius, suspension
+2. closed-form
+   1. easy
+   2. add wall
+   3. add feedback control?? (too hard)
+3. numerical
+   1. add incline (friction)
+   2. add suspension?? additional walls?? different inclines?? obstacles?? (too hard)
+4. rigid-body
+
+
 
 steps (maybe show comparison chart for several physics engines)
 1. install software
