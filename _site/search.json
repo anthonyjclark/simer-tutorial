@@ -130,8 +130,8 @@
     "objectID": "presentation.html#outline",
     "href": "presentation.html#outline",
     "title": "SimER Tutorial",
-    "section": "Outline",
-    "text": "Outline\n\nEvolutionary Robotics Algorithm\nRunning Example\nPractical Considerations",
+    "section": "",
+    "text": "Evolutionary Robotics Algorithm\nRunning Example\nPractical Considerations",
     "crumbs": [
       "Home",
       "Presentation",
@@ -179,7 +179,7 @@
     "href": "presentation.html#parallelism",
     "title": "SimER Tutorial",
     "section": "Parallelism",
-    "text": "Parallelism\n\nParallelize replicate experiments (different random seeds)\nParallelize across generations (if mixing populations)\nParallelize across populations (multiple population per replicate)\nParallelize across individuals (multiple individuals per population)\nParallelize across trials (multiple trials per individual)\n\nAdvice:\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "text": "Parallelism\n\nParallelize replicate experiments (different random seeds)\nParallelize across generations (if mixing populations)\nParallelize across populations (multiple population per replicate)\nParallelize across individuals (multiple individuals per population)\nParallelize across trials (multiple trials per individual)",
     "crumbs": [
       "Home",
       "Presentation",
@@ -321,5 +321,53 @@
     "title": "SimER Tutorial",
     "section": "Audience",
     "text": "Audience\nOur primary target audience members are researchers new to the field of ALIFE and evolutionary robotics. We are also happy to have more experienced researchers looking for information to share with their students."
+  },
+  {
+    "objectID": "demos/1-analytical.html",
+    "href": "demos/1-analytical.html",
+    "title": "Demo 1: Analytical Models",
+    "section": "",
+    "text": "import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\n{\n    function loop(now) {\n\n        if ( ! prevTime) prevTime = now;\n        let dt = now - prevTime;\n        prevTime = now;\n\n        wmr.updatePositionClosedForm(dt / 1000.0);\n        wmr.render(true);\n\n        requestAnimationFrame(loop);\n\n    }\n\n    let prevTime = 0.0;\n    let wmr = new WMR2D( 'wmr-canvas' );\n\n    requestAnimationFrame(loop);\n\n    return html`&lt;div&gt;&lt;/div&gt;`;\n}",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
+  },
+  {
+    "objectID": "resources/tools.html#physics-engine-development",
+    "href": "resources/tools.html#physics-engine-development",
+    "title": "Tools",
+    "section": "Physics Engine Development",
+    "text": "Physics Engine Development\n\nIntegration Basics\nFix Your Timestep!\nTen Minute Physics\nBox2D-Lite",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Tools"
+    ]
+  },
+  {
+    "objectID": "presentation.html",
+    "href": "presentation.html",
+    "title": "SimER Tutorial",
+    "section": "",
+    "text": "Evolutionary Robotics Algorithm\nRunning Example\nPractical Considerations",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#advice-for-parallelism",
+    "href": "presentation.html#advice-for-parallelism",
+    "title": "SimER Tutorial",
+    "section": "Advice for Parallelism",
+    "text": "Advice for Parallelism\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
   }
 ]
