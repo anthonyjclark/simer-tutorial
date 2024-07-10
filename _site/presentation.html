@@ -407,32 +407,61 @@ Anthony J. Clark
 <nav role="doc-toc"> 
 <h2 id="toc-title">Table of contents</h2>
 <ul>
+<li><a href="#/introduction" id="/toc-introduction">Introduction</a>
+<ul>
+<li><a href="#/format" id="/toc-format">Format</a></li>
 <li><a href="#/evolutionary-robotics" id="/toc-evolutionary-robotics">Evolutionary Robotics</a></li>
-<li><a href="#/evolutionary-robotics-research" id="/toc-evolutionary-robotics-research">Evolutionary Robotics: Research</a></li>
-<li><a href="#/evolutionary-robotics-algorithm" id="/toc-evolutionary-robotics-algorithm">Evolutionary Robotics: Algorithm</a></li>
-<li><a href="#/practical-considerations" id="/toc-practical-considerations">Practical Considerations</a></li>
+<li><a href="#/research-questions" id="/toc-research-questions">Research Questions</a></li>
+<li><a href="#/general-algorithm" id="/toc-general-algorithm">General Algorithm</a></li>
+</ul></li>
+<li><a href="#/practical-considerations" id="/toc-practical-considerations">Practical Considerations</a>
+<ul>
+<li><a href="#/practical-considerations-1" id="/toc-practical-considerations-1">Practical Considerations</a></li>
 <li><a href="#/parallelism" id="/toc-parallelism">Parallelism</a></li>
-<li><a href="#/advice-for-parallelism" id="/toc-advice-for-parallelism">Advice for Parallelism</a></li>
-<li><a href="#/running-example" id="/toc-running-example">Running Example</a></li>
+<li><a href="#/parallelism-advice" id="/toc-parallelism-advice">Parallelism Advice</a></li>
+</ul></li>
+<li><a href="#/running-example" id="/toc-running-example">Running Example</a>
+<ul>
+<li><a href="#/problem-statement" id="/toc-problem-statement">Problem Statement</a></li>
 <li><a href="#/online-demos" id="/toc-online-demos">Online Demos</a></li>
 <li><a href="#/full-examples" id="/toc-full-examples">Full Examples</a></li>
+</ul></li>
 </ul>
 </nav>
+</section>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
+<section id="format" class="slide level2">
+<h2>Format</h2>
+<p>This tutorial will follow a format in which:</p>
+<ul>
+<li>We’ll get on the same page with respect to terminolody</li>
+<li>Loop
+<ul>
+<li>I’ll present for a bit</li>
+<li>I’ll ask you all to read through an exercise</li>
+<li>We’ll have time for discussion</li>
+</ul></li>
+<li>We’ll cover a more complete example in full</li>
+</ul>
 </section>
 <section id="evolutionary-robotics" class="slide level2">
 <h2>Evolutionary Robotics</h2>
 <p>The use of evolutionary algorithms to explore the design space of robots and their control software.</p>
 </section>
-<section id="evolutionary-robotics-research" class="slide level2">
-<h2>Evolutionary Robotics: Research</h2>
+<section id="research-questions" class="slide level2">
+<h2>Research Questions</h2>
 <p>There is a wide variety of research in evolutionary robotics, but I’ll focus on:</p>
 <ol type="1">
 <li>Applications of evolutionary robotics</li>
 <li>Algorithm development</li>
 </ol>
 </section>
-<section id="evolutionary-robotics-algorithm" class="slide level2">
-<h2>Evolutionary Robotics: Algorithm</h2>
+<section id="general-algorithm" class="slide level2">
+<h2>General Algorithm</h2>
 <div class="cell" data-reveal="true" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -462,13 +491,22 @@ Anthony J. Clark
 <span id="cb1-8"><a></a>  population = Combine(population, children)</span>
 <span id="cb1-9"><a></a></span>
 <span id="cb1-10"><a></a><span class="cf">RETURN</span> population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="practical-considerations" class="title-slide slide level1 center">
+<h1>Practical Considerations</h1>
+
 </section>
-<section id="practical-considerations" class="slide level2">
+<section id="practical-considerations-1" class="slide level2">
 <h2>Practical Considerations</h2>
 <ol type="1">
-<li>Simulation Environment</li>
+<li>Simulation</li>
+<li>Computational resources (parallelism)</li>
+<li>Analysis (visualizing, plotting, etc.)</li>
+<li>Research management (tracking, reproducibility, collaboration, etc.)</li>
+<li>Validation on hardware</li>
 </ol>
-<p>Major challenge: reality gap</p>
+<p>Major challenge: “reality gap”</p>
 </section>
 <section id="parallelism" class="slide level2">
 <h2>Parallelism</h2>
@@ -480,8 +518,8 @@ Anthony J. Clark
 <li>Parallelize across trials (multiple trials per individual)</li>
 </ol>
 </section>
-<section id="advice-for-parallelism" class="slide level2">
-<h2>Advice for Parallelism</h2>
+<section id="parallelism-advice" class="slide level2">
+<h2>Parallelism Advice</h2>
 <ul>
 <li>Plan to use <span class="math inline">\(N - 2\)</span> cores, where <span class="math inline">\(N\)</span> is the number of cores available</li>
 <li>Use a tool like <a href="https://www.gnu.org/software/parallel/">GNU Parallel</a> at the replicate level</li>
@@ -492,23 +530,30 @@ Anthony J. Clark
 <li>Do you care more about the performance of a single replicate? Parallelize at the individual level</li>
 </ul></li>
 </ul>
+</section></section>
+<section>
+<section id="running-example" class="title-slide slide level1 center">
+<h1>Running Example</h1>
+
 </section>
-<section id="running-example" class="slide level2">
-<h2>Running Example</h2>
-<p>Goal: …</p>
+<section id="problem-statement" class="slide level2">
+<h2>Problem Statement</h2>
+<p>Objective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.</p>
 </section>
 <section id="online-demos" class="slide level2">
 <h2>Online Demos</h2>
+<p>Starting with <a href="./demos/1-analytical.html">Analytical Models</a></p>
 </section>
 <section id="full-examples" class="slide level2">
 <h2>Full Examples</h2>
+<p>Full description at <a href="./demos/5-full-example.html">Full Example</a>.</p>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
