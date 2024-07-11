@@ -4,3 +4,9 @@ format: html
 ---
 
 Test
+
+steps (maybe show comparison chart for several physics engines)
+
+1. install software
+2. create "world" (and collision space)
+3. create "robot" (bodies and geometries/shapes; constraints/joints)

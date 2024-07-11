@@ -34,8 +34,8 @@ The use of evolutionary algorithms to explore the design space of robots and the
 
 There is a wide variety of research in evolutionary robotics, but I'll focus on:
 
-1. Applications of evolutionary robotics
-2. Algorithm development
+1. Optimization and novelty (application-based)
+2. Algorithm design (theory-based)
 
 ## General Algorithm
 
@@ -69,15 +69,23 @@ RETURN population
 
 ## Practical Considerations
 
-1. Simulation
-2. Computational resources (parallelism)
-3. Analysis (visualizing, plotting, etc.)
+1. Simulation, feasibility, and reality gap
+2. Computational resources (headless, parallelism, etc.)
+3. Management (analysis, visualizing, plotting, etc.)
 4. Research management (tracking, reproducibility, collaboration, etc.)
 5. Validation on hardware
 
 Major challenge: "reality gap"
 
+## Simulation
+
+- Follow a gradient of feasibility to provide a better "gradient"
+- Scale your parameters for numerical stability
+- ...
+
 ## Parallelism
+
+You'll want to run your experiments on a compute cluster if possible.
 
 1. Parallelize replicate experiments (different random seeds)
 2. Parallelize across generations (if mixing populations)
@@ -94,8 +102,11 @@ Major challenge: "reality gap"
   - Do you care more about the variance across replicates? Parallelize at the replicate level
   - Do you care more about the performance of a single replicate? Parallelize at the individual level
 
+## Experiment Management
 
-# Running Example
+- wandb, for example
+
+# Exemplar
 
 ## Problem Statement
 

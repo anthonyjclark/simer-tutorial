@@ -1,190 +1,55 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "demos/1-analytical.html",
+    "href": "demos/1-analytical.html",
+    "title": "Demo 1: Analytical Models",
     "section": "",
-    "text": "This is the second occurrence of SimER. The first was as a workshop held at GECCO 2017. Here are the contributions from the workshop:\n\n20 years of reality gap: a few thoughts about simulators in evolutionary robotics by Jean-Baptiste Mouret and Konstantinos Chatzilygeroudis\nSimulating the evolution of soft and rigid-body robots by Sam Kriegman, Collin Cappelle, Francesco Corucci, Anton Bernatskiy, Nick Cheney, and Josh C. Bongard\nA baseline-realistic objective open-ended kinematics simulator for evolutionary robotics by Riley Konsella, Frank Chiarulli, John Peterson, and John Rieffel\n\nAnthony J. Clark received is Ph.D from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA and a Research Scientist at Caltech in Pasadena, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.\nJared M. Moore received is Ph.D from Michigan State University. He is currently an Associate Professor in the School of Computing and Information Systems at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization."
+    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\n\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\ntimeEnd = 2.0;\ntimeStep = 0.1;\n\nwmr = new WMR2D( 'wmr-canvas' );\n\nfunction updateWMR( time ) {\n\n  wmr.updatePositionClosedForm( time );\n  wmr.render( true );\n\n}\n\nviewof player = Player( timeEnd, timeStep, updateWMR )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    \n\n\nfunction Player( timeEnd, timeStep, update = time =&gt;  time ) {\n\n  const numSteps = timeEnd / timeStep + 1;\n\n  const form = html`\n    &lt;form&gt;\n\n      &lt;button name=\"b\" type=\"button\" style=\"margin: 0.4em; width: 5em;\"&gt;&lt;/button&gt;\n\n      &lt;label style=\"display: flex; align-items: center;\"&gt;\n\n        &lt;input\n          name=\"i\"\n          type=\"range\"\n          min=\"0\"\n          max=\"${numSteps - 1}\"\n          value=\"0\"\n          step=\"1\"\n          style=\"width: 180px;\"\n          disabled\n        /&gt;\n\n        &lt;output name=\"o\" style=\"margin-left: 0.4em;\"&gt;&lt;/output&gt;\n\n      &lt;/label&gt;\n\n    &lt;/form&gt;`;\n\n  // TODO: remove frame? no longer canceling\n  let frame = null;\n\n\n  let prevTime = null;\n  let accumulator = 0.0;\n  let running = true;\n\n  function nextValue() {\n    return (form.i.valueAsNumber + 1 + numSteps) % numSteps;\n  }\n\n  function start() {\n    prevTime = null;\n    accumulator = 0.0;\n    running = true;\n\n    form.b.textContent = \"Pause\";\n    frame = requestAnimationFrame(tick);\n  }\n\n  function stop() {\n    form.b.textContent = \"Play\";\n    running = false;\n    accumulator = 0.0;\n    //if (frame !== null) cancelAnimationFrame(frame), (frame = null);\n  }\n\n  function tick(now) {\n    if ( ! prevTime) prevTime = now;\n    let dt = now - prevTime;\n    prevTime = now;\n\n    if ( form.i.valueAsNumber === (numSteps - 1) ) stop();\n\n    if ( running ) {\n\n      accumulator += dt;\n\n      if ( accumulator &gt;= timeStep * 1000.0 ) {\n        form.i.valueAsNumber = nextValue();\n        form.i.dispatchEvent(new CustomEvent(\"input\", { bubbles: true }));\n        accumulator -= timeStep * 1000.0;\n      }\n\n    }\n\n    update(form.i.valueAsNumber * timeStep + accumulator/1000.0);\n\n    frame = requestAnimationFrame(tick);\n  }\n\n  form.i.oninput = (event) =&gt; {\n    form.o.value = (form.i.valueAsNumber * timeStep).toFixed(2);\n  };\n\n  form.b.onclick = () =&gt; {\n    if ( running ) return stop();\n\n    form.i.valueAsNumber = nextValue();\n    form.i.dispatchEvent(new CustomEvent(\"input\", { bubbles: true }));\n    start();\n  };\n\n  form.i.oninput();\n\n  stop();\n\n  Inputs.disposal(form).then(stop);\n\n  return form;\n}",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
   },
   {
-    "objectID": "resources/related.html",
-    "href": "resources/related.html",
-    "title": "Related Events",
+    "objectID": "demos/5-full-example.html",
+    "href": "demos/5-full-example.html",
+    "title": "Demo 5: Full Example",
     "section": "",
-    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
+    "text": "Test\nsteps (maybe show comparison chart for several physics engines)\n\ninstall software\ncreate “world” (and collision space)\ncreate “robot” (bodies and geometries/shapes; constraints/joints)",
     "crumbs": [
       "Home",
-      "Resources",
-      "Related Events"
+      "Demos",
+      "Demo 5: Full Example"
     ]
   },
   {
-    "objectID": "resources/related.html#section",
-    "href": "resources/related.html#section",
-    "title": "Related Events",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SimER Tutorial",
     "section": "",
-    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
+    "text": "ALIFE has a long history with virtual creatures, and the Virtual Creatures Competition (VCC) has been a mainstay at the conference for a decade now. Enabling research in this area are many unique, and often single-purpose, simulation environments. The variety of simulation options is useful for creating finely tuned experiments but makes it difficult for newcomers to the field to determine which simulation environment is appropriate for their particular problem.\nALIFE has also hosted several tutorials relating to this work, for example,\nThis tutorial, will provide a broader look at the paradigms and tools used in the field of evolutionary robotics (and in ALIFE more generally). Specifically, we will discuss the use of several different simulation methods and tools, including:\nWe will also discuss visualization techniques.\nOf course, covering this wide range of topics necessarily means that we will not be able to go into great depth on all of them. Instead we will pay special attention to the use of physical simulation engines as they provide the widest range of possibilities with respect to creating and evolving virtual creatures. Staying with the theme of ALIFE 2024 we will share our experiences with “weird and wacky” results (and how to avoid them if they are not what you are looking for)."
   },
   {
-    "objectID": "resources/related.html#section-1",
-    "href": "resources/related.html#section-1",
-    "title": "Related Events",
-    "section": "2023",
-    "text": "2023\n\nOpenMOLE (model exploration and validation)\nPhylogenies (how and why to track them)\nEvolving Robot Bodies and Brains in Unity\nCellular Automata\nSelf-Organizing Systems with Machine Learning",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/related.html#section-2",
-    "href": "resources/related.html#section-2",
-    "title": "Related Events",
-    "section": "2022",
-    "text": "2022\n\nIntroduction to Using Symbulation\nSimulating pandemics with agent-based models",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/related.html#section-3",
-    "href": "resources/related.html#section-3",
-    "title": "Related Events",
-    "section": "2021",
-    "text": "2021\n\nBehavioral and Cognitive Robotics, an adaptive perspective",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/related.html#section-4",
-    "href": "resources/related.html#section-4",
-    "title": "Related Events",
-    "section": "2020",
-    "text": "2020\n\nThe Bibites: Getting the online community involved into Alife through game development (Bibites)\nIntroduction to MABE, A tool for studying evolving systems and digital brains (MABE)\nLarge Scale Agent Based Modelling with FLAME GPU 2 (FLAME GPU 2)\nMolecular programming of swarms for ALife (MolProg)\nProgramming soft alife with SPLAT and ulam (HackSPLAT)\nVisualization Principles and Techniques for Research in ALife (ALifeVis2020)",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/related.html#section-5",
-    "href": "resources/related.html#section-5",
-    "title": "Related Events",
-    "section": "2019",
-    "text": "2019\n\nIntelligent Systems for Smart Cities\nIntroduction to Avida-ED",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/related.html#section-6",
-    "href": "resources/related.html#section-6",
-    "title": "Related Events",
-    "section": "2018",
-    "text": "2018\n\nAvida-ED\nCreate predictions with neural networks",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Related Events"
-    ]
-  },
-  {
-    "objectID": "resources/advice.html",
-    "href": "resources/advice.html",
-    "title": "Advice",
-    "section": "",
-    "text": "statistics (replicates)\nnoise\ndeterminism\nlevels-of-abstraction\nGNU Parallel Tutorial Pueue is a command-line task management tool",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Advice"
-    ]
-  },
-  {
-    "objectID": "resources/advice.html#mixed-environments",
-    "href": "resources/advice.html#mixed-environments",
-    "title": "Advice",
-    "section": "Mixed Environments",
-    "text": "Mixed Environments\nmixing 2d and 3d - e.g., ODE and top-down map ray tracing",
-    "crumbs": [
-      "Home",
-      "Resources",
-      "Advice"
-    ]
-  },
-  {
-    "objectID": "presentation.html#outline",
-    "href": "presentation.html#outline",
+    "objectID": "index.html#tutorial-agenda",
+    "href": "index.html#tutorial-agenda",
     "title": "SimER Tutorial",
-    "section": "Outline",
-    "text": "Outline\n\nEvolutionary Robotics\nPractical Considerations\nRunning Example\nOnline Demos\nFull Example",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
+    "section": "Tutorial Agenda",
+    "text": "Tutorial Agenda\n\nPresentation\nTutorial Demos\nExploration"
   },
   {
-    "objectID": "presentation.html#evolutionary-robotics-algorithm",
-    "href": "presentation.html#evolutionary-robotics-algorithm",
+    "objectID": "index.html#logistics",
+    "href": "index.html#logistics",
     "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics: Algorithm",
-    "text": "Evolutionary Robotics: Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
+    "section": "Logistics",
+    "text": "Logistics\n\nFriday, 26 July\nParallel session 10: 15:00 - 16:40\nRoom: TBD\nQuestion and Answers: TBD (Google Sheet)"
   },
   {
-    "objectID": "presentation.html#running-example",
-    "href": "presentation.html#running-example",
+    "objectID": "index.html#audience",
+    "href": "index.html#audience",
     "title": "SimER Tutorial",
-    "section": "Running Example",
-    "text": "Running Example\nObjective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#practical-considerations",
-    "href": "presentation.html#practical-considerations",
-    "title": "SimER Tutorial",
-    "section": "Practical Considerations",
-    "text": "Practical Considerations\n\nSimulation\nComputational resources (parallelism)\nAnalysis (visualizing, plotting, etc.)\nResearch management (tracking, reproducibility, collaboration, etc.)\nValidation on hardware\n\nMajor challenge: “reality gap”",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#parallelism",
-    "href": "presentation.html#parallelism",
-    "title": "SimER Tutorial",
-    "section": "Parallelism",
-    "text": "Parallelism\n\nParallelize replicate experiments (different random seeds)\nParallelize across generations (if mixing populations)\nParallelize across populations (multiple population per replicate)\nParallelize across individuals (multiple individuals per population)\nParallelize across trials (multiple trials per individual)",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
+    "section": "Audience",
+    "text": "Audience\nOur primary target audience members are researchers new to the field of ALIFE and evolutionary robotics. We are also happy to have more experienced researchers looking for information to share with their students."
   },
   {
     "objectID": "resources/tools.html",
@@ -295,46 +160,6 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "SimER Tutorial",
-    "section": "",
-    "text": "ALIFE has a long history with virtual creatures, and the Virtual Creatures Competition (VCC) has been a mainstay at the conference for a decade now. Enabling research in this area are many unique, and often single-purpose, simulation environments. The variety of simulation options is useful for creating finely tuned experiments but makes it difficult for newcomers to the field to determine which simulation environment is appropriate for their particular problem.\nALIFE has also hosted several tutorials relating to this work, for example,\nThis tutorial, will provide a broader look at the paradigms and tools used in the field of evolutionary robotics (and in ALIFE more generally). Specifically, we will discuss the use of several different simulation methods and tools, including:\nWe will also discuss visualization techniques.\nOf course, covering this wide range of topics necessarily means that we will not be able to go into great depth on all of them. Instead we will pay special attention to the use of physical simulation engines as they provide the widest range of possibilities with respect to creating and evolving virtual creatures. Staying with the theme of ALIFE 2024 we will share our experiences with “weird and wacky” results (and how to avoid them if they are not what you are looking for)."
-  },
-  {
-    "objectID": "index.html#tutorial-agenda",
-    "href": "index.html#tutorial-agenda",
-    "title": "SimER Tutorial",
-    "section": "Tutorial Agenda",
-    "text": "Tutorial Agenda\n\nPresentation\nTutorial Demos\nExploration"
-  },
-  {
-    "objectID": "index.html#logistics",
-    "href": "index.html#logistics",
-    "title": "SimER Tutorial",
-    "section": "Logistics",
-    "text": "Logistics\n\nFriday, 26 July\nParallel session 10: 15:00 - 16:40\nRoom: TBD\nQuestion and Answers: TBD (Google Sheet)"
-  },
-  {
-    "objectID": "index.html#audience",
-    "href": "index.html#audience",
-    "title": "SimER Tutorial",
-    "section": "Audience",
-    "text": "Audience\nOur primary target audience members are researchers new to the field of ALIFE and evolutionary robotics. We are also happy to have more experienced researchers looking for information to share with their students."
-  },
-  {
-    "objectID": "demos/1-analytical.html",
-    "href": "demos/1-analytical.html",
-    "title": "Demo 1: Analytical Models",
-    "section": "",
-    "text": "What if I put some text here first?\n\n    \n\n\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\n{\n    function loop(now) {\n\n        if ( ! prevTime) prevTime = now;\n        let dt = now - prevTime;\n        prevTime = now;\n\n        wmr.updatePositionClosedForm(dt / 1000.0);\n        wmr.render(true);\n\n        requestAnimationFrame(loop);\n\n    }\n\n    let prevTime = 0.0;\n    let wmr = new WMR2D( 'wmr-canvas' );\n\n    requestAnimationFrame(loop);\n\n    return html`&lt;div&gt;&lt;/div&gt;`;\n}",
-    "crumbs": [
-      "Home",
-      "Demos",
-      "Demo 1: Analytical Models"
-    ]
-  },
-  {
     "objectID": "resources/tools.html#physics-engine-development",
     "href": "resources/tools.html#physics-engine-development",
     "title": "Tools",
@@ -347,23 +172,11 @@
     ]
   },
   {
-    "objectID": "presentation.html",
-    "href": "presentation.html",
+    "objectID": "presentation.html#format",
+    "href": "presentation.html#format",
     "title": "SimER Tutorial",
     "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nApplications of evolutionary robotics\nAlgorithm development\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#advice-for-parallelism",
-    "href": "presentation.html#advice-for-parallelism",
-    "title": "SimER Tutorial",
-    "section": "Advice for Parallelism",
-    "text": "Advice for Parallelism\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
     "crumbs": [
       "Home",
       "Presentation",
@@ -374,8 +187,8 @@
     "objectID": "presentation.html#evolutionary-robotics",
     "href": "presentation.html#evolutionary-robotics",
     "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics",
-    "text": "Evolutionary Robotics\nThe use of evolutionary algorithms to explore the design space of robots and their control software.",
+    "section": "",
+    "text": "The use of evolutionary algorithms to explore the design space of robots and their control software.",
     "crumbs": [
       "Home",
       "Presentation",
@@ -383,11 +196,71 @@
     ]
   },
   {
-    "objectID": "presentation.html#evolutionary-robotics-experiments",
-    "href": "presentation.html#evolutionary-robotics-experiments",
+    "objectID": "presentation.html#research-questions",
+    "href": "presentation.html#research-questions",
     "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics: Experiments",
-    "text": "Evolutionary Robotics: Experiments",
+    "section": "",
+    "text": "There is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#general-algorithm",
+    "href": "presentation.html#general-algorithm",
+    "title": "SimER Tutorial",
+    "section": "",
+    "text": "flowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#practical-considerations-1",
+    "href": "presentation.html#practical-considerations-1",
+    "title": "SimER Tutorial",
+    "section": "Practical Considerations",
+    "text": "Practical Considerations\n\nSimulation, feasibility, and reality gap\nComputational resources (headless, parallelism, etc.)\nManagement (analysis, visualizing, plotting, etc.)\nResearch management (tracking, reproducibility, collaboration, etc.)\nValidation on hardware\n\nMajor challenge: “reality gap”",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#parallelism",
+    "href": "presentation.html#parallelism",
+    "title": "SimER Tutorial",
+    "section": "Parallelism",
+    "text": "Parallelism\nYou’ll want to run your experiments on a compute cluster if possible.\n\nParallelize replicate experiments (different random seeds)\nParallelize across generations (if mixing populations)\nParallelize across populations (multiple population per replicate)\nParallelize across individuals (multiple individuals per population)\nParallelize across trials (multiple trials per individual)",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#parallelism-advice",
+    "href": "presentation.html#parallelism-advice",
+    "title": "SimER Tutorial",
+    "section": "Parallelism Advice",
+    "text": "Parallelism Advice\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#problem-statement",
+    "href": "presentation.html#problem-statement",
+    "title": "SimER Tutorial",
+    "section": "Problem Statement",
+    "text": "Problem Statement\nObjective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.",
     "crumbs": [
       "Home",
       "Presentation",
@@ -419,135 +292,166 @@
     ]
   },
   {
-    "objectID": "presentation.html#evolutionary-robotics-research",
-    "href": "presentation.html#evolutionary-robotics-research",
-    "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics: Research",
-    "text": "Evolutionary Robotics: Research\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nApplications of evolutionary robotics\nAlgorithm development",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#introduction",
-    "href": "presentation.html#introduction",
-    "title": "SimER Tutorial",
-    "section": "Introduction",
-    "text": "Introduction\nThis tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#parallelism-advice",
-    "href": "presentation.html#parallelism-advice",
-    "title": "SimER Tutorial",
-    "section": "Parallelism Advice",
-    "text": "Parallelism Advice\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#research",
-    "href": "presentation.html#research",
-    "title": "SimER Tutorial",
-    "section": "Research",
-    "text": "Research\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nApplications of evolutionary robotics\nAlgorithm development",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#algorithm",
-    "href": "presentation.html#algorithm",
-    "title": "SimER Tutorial",
-    "section": "Algorithm",
-    "text": "Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#format",
-    "href": "presentation.html#format",
-    "title": "SimER Tutorial",
-    "section": "Format",
-    "text": "Format\nThis tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#research-questions",
-    "href": "presentation.html#research-questions",
-    "title": "SimER Tutorial",
-    "section": "Research Questions",
-    "text": "Research Questions\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nApplications of evolutionary robotics\nAlgorithm development",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#general-algorithm",
-    "href": "presentation.html#general-algorithm",
-    "title": "SimER Tutorial",
-    "section": "General Algorithm",
-    "text": "General Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#practical-considerations-1",
-    "href": "presentation.html#practical-considerations-1",
-    "title": "SimER Tutorial",
-    "section": "Practical Considerations",
-    "text": "Practical Considerations\n\nSimulation\nComputational resources (parallelism)\nAnalysis (visualizing, plotting, etc.)\nResearch management (tracking, reproducibility, collaboration, etc.)\nValidation on hardware\n\nMajor challenge: “reality gap”",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#problem-statement",
-    "href": "presentation.html#problem-statement",
-    "title": "SimER Tutorial",
-    "section": "Problem Statement",
-    "text": "Problem Statement\nObjective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "demos/5-full-example.html",
-    "href": "demos/5-full-example.html",
-    "title": "Demo 5: Full Example",
+    "objectID": "resources/advice.html",
+    "href": "resources/advice.html",
+    "title": "Advice",
     "section": "",
-    "text": "Test",
+    "text": "statistics (replicates)\nnoise\ndeterminism\nlevels-of-abstraction\nGNU Parallel Tutorial Pueue is a command-line task management tool",
     "crumbs": [
       "Home",
-      "Demos",
-      "Demo 5: Full Example"
+      "Resources",
+      "Advice"
+    ]
+  },
+  {
+    "objectID": "resources/advice.html#mixed-environments",
+    "href": "resources/advice.html#mixed-environments",
+    "title": "Advice",
+    "section": "Mixed Environments",
+    "text": "Mixed Environments\nmixing 2d and 3d - e.g., ODE and top-down map ray tracing",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Advice"
+    ]
+  },
+  {
+    "objectID": "resources/related.html",
+    "href": "resources/related.html",
+    "title": "Related Events",
+    "section": "",
+    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section",
+    "href": "resources/related.html#section",
+    "title": "Related Events",
+    "section": "",
+    "text": "Virtual Creatures Competition (VCC)!\nEngineering the open-ended evolution of synthetic biology\nAutomatic Design of Robot Bodies and Brains with Evolutionary Algorithms\nJAX for Scaling Up Artificial Life\nNeuroevolution\nSwissGL/GPU: tiny libraries for tiny and beautiful programs on the web",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-1",
+    "href": "resources/related.html#section-1",
+    "title": "Related Events",
+    "section": "2023",
+    "text": "2023\n\nOpenMOLE (model exploration and validation)\nPhylogenies (how and why to track them)\nEvolving Robot Bodies and Brains in Unity\nCellular Automata\nSelf-Organizing Systems with Machine Learning",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-2",
+    "href": "resources/related.html#section-2",
+    "title": "Related Events",
+    "section": "2022",
+    "text": "2022\n\nIntroduction to Using Symbulation\nSimulating pandemics with agent-based models",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-3",
+    "href": "resources/related.html#section-3",
+    "title": "Related Events",
+    "section": "2021",
+    "text": "2021\n\nBehavioral and Cognitive Robotics, an adaptive perspective",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-4",
+    "href": "resources/related.html#section-4",
+    "title": "Related Events",
+    "section": "2020",
+    "text": "2020\n\nThe Bibites: Getting the online community involved into Alife through game development (Bibites)\nIntroduction to MABE, A tool for studying evolving systems and digital brains (MABE)\nLarge Scale Agent Based Modelling with FLAME GPU 2 (FLAME GPU 2)\nMolecular programming of swarms for ALife (MolProg)\nProgramming soft alife with SPLAT and ulam (HackSPLAT)\nVisualization Principles and Techniques for Research in ALife (ALifeVis2020)",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-5",
+    "href": "resources/related.html#section-5",
+    "title": "Related Events",
+    "section": "2019",
+    "text": "2019\n\nIntelligent Systems for Smart Cities\nIntroduction to Avida-ED",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "resources/related.html#section-6",
+    "href": "resources/related.html#section-6",
+    "title": "Related Events",
+    "section": "2018",
+    "text": "2018\n\nAvida-ED\nCreate predictions with neural networks",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Related Events"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This is the second occurrence of SimER. The first was as a workshop held at GECCO 2017. Here are the contributions from the workshop:\n\n20 years of reality gap: a few thoughts about simulators in evolutionary robotics by Jean-Baptiste Mouret and Konstantinos Chatzilygeroudis\nSimulating the evolution of soft and rigid-body robots by Sam Kriegman, Collin Cappelle, Francesco Corucci, Anton Bernatskiy, Nick Cheney, and Josh C. Bongard\nA baseline-realistic objective open-ended kinematics simulator for evolutionary robotics by Riley Konsella, Frank Chiarulli, John Peterson, and John Rieffel\n\nAnthony J. Clark received is Ph.D from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA and a Research Scientist at Caltech in Pasadena, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.\nJared M. Moore received is Ph.D from Michigan State University. He is currently an Associate Professor in the School of Computing and Information Systems at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization."
+  },
+  {
+    "objectID": "presentation.html",
+    "href": "presentation.html",
+    "title": "SimER Tutorial",
+    "section": "",
+    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#simulation",
+    "href": "presentation.html#simulation",
+    "title": "SimER Tutorial",
+    "section": "Simulation",
+    "text": "Simulation\n\nFollow a gradient of feasibility to provide a better “gradient”\nScale your parameters for numerical stability\n…",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#experiment-management",
+    "href": "presentation.html#experiment-management",
+    "title": "SimER Tutorial",
+    "section": "Experiment Management",
+    "text": "Experiment Management\n\nwandb, for example",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
     ]
   }
 ]

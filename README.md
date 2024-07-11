@@ -4,10 +4,7 @@ Files for the **Simulation in Evolutionary Robotics** Tutorial.
 
 
 TODO:
-- give overview of ER process
-- we'll focus on the simulation side
 - discuss feasibility and "gradients"
-- research projects: theory vs application
 - simulating stiff springs (tough)
 - simulation parameter scaling (look at ODE notes)
 - add full dart example for ugv with suspension
@@ -24,6 +21,12 @@ TODO:
 - keep moving objects in range 0.1 to 10 meters (1 meters is sweet spot)
 - wmr on incline (easier with numerical if you care about power)
 - closed-form (no suspension, no friction, etc.)
+- faster than real time
+- FIX: evaluate in diagram
+- single step obstacle and then wall
+- early stopping simulation/evaluation: stuck, flipped, etc.
+  - want a good gradient
+- early stopping evolution: no progress, etc.
 
 Tutorial:
 
@@ -31,19 +34,14 @@ Tutorial:
 2. closed-form
    1. easy
    2. add wall
-   3. add feedback control?? (too hard)
+   3. stop in front of without collision? (braitenberg vehicle)
+   4. add feedback control?? (too hard)
 3. numerical
    1. add incline (friction; hard for Explicit Euler)
    2. add suspension?? additional walls?? different inclines?? obstacles?? (too hard)
 4. rigid-body
 
-wandb?
 
-
-steps (maybe show comparison chart for several physics engines)
-1. install software
-2. create "world" (and collision space)
-3. create "robot" (bodies and geometries/shapes; constraints/joints)
 
 https://lobste.rs/s/5rmn4y/fixing_iterative_damping_interpolation
 https://app.scribbler.live/#./examples/Numerical-Analysis-Recipes.jsnb

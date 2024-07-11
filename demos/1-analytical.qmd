@@ -1,12 +1,35 @@
 ---
 title: "Demo 1: Analytical Models"
+execute:
+    echo: false
 format:
     html:
         css: ../_lib/WMR2D/css/main.css
-        highlight-style: dracula
+        highlight-style: pygments
 ---
 
-What if I put some text here first?
+Let's start with the following problem statement:
+
+> We want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.
+
+
+```{ojs}
+import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';
+
+timeEnd = 2.0;
+timeStep = 0.1;
+
+wmr = new WMR2D( 'wmr-canvas' );
+
+function updateWMR( time ) {
+
+  wmr.updatePositionClosedForm( time );
+  wmr.render( true );
+
+}
+
+viewof player = Player( timeEnd, timeStep, updateWMR )
+```
 
 ```{=html}
 <div>
@@ -14,31 +37,107 @@ What if I put some text here first?
 </div>
 ```
 
-
 ```{ojs}
-//| echo: false
 
-import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';
+function Player( timeEnd, timeStep, update = time =>  time ) {
 
-{
-    function loop(now) {
+  const numSteps = timeEnd / timeStep + 1;
 
-        if ( ! prevTime) prevTime = now;
-        let dt = now - prevTime;
-        prevTime = now;
+  const form = html`
+    <form>
 
-        wmr.updatePositionClosedForm(dt / 1000.0);
-        wmr.render(true);
+      <button name="b" type="button" style="margin: 0.4em; width: 5em;"></button>
 
-        requestAnimationFrame(loop);
+      <label style="display: flex; align-items: center;">
+
+        <input
+          name="i"
+          type="range"
+          min="0"
+          max="${numSteps - 1}"
+          value="0"
+          step="1"
+          style="width: 180px;"
+          disabled
+        />
+
+        <output name="o" style="margin-left: 0.4em;"></output>
+
+      </label>
+
+    </form>`;
+
+  // TODO: remove frame? no longer canceling
+  let frame = null;
+
+
+  let prevTime = null;
+  let accumulator = 0.0;
+  let running = true;
+
+  function nextValue() {
+    return (form.i.valueAsNumber + 1 + numSteps) % numSteps;
+  }
+
+  function start() {
+    prevTime = null;
+    accumulator = 0.0;
+    running = true;
+
+    form.b.textContent = "Pause";
+    frame = requestAnimationFrame(tick);
+  }
+
+  function stop() {
+    form.b.textContent = "Play";
+    running = false;
+    accumulator = 0.0;
+    //if (frame !== null) cancelAnimationFrame(frame), (frame = null);
+  }
+
+  function tick(now) {
+    if ( ! prevTime) prevTime = now;
+    let dt = now - prevTime;
+    prevTime = now;
+
+    if ( form.i.valueAsNumber === (numSteps - 1) ) stop();
+
+    if ( running ) {
+
+      accumulator += dt;
+
+      if ( accumulator >= timeStep * 1000.0 ) {
+        form.i.valueAsNumber = nextValue();
+        form.i.dispatchEvent(new CustomEvent("input", { bubbles: true }));
+        accumulator -= timeStep * 1000.0;
+      }
 
     }
 
-    let prevTime = 0.0;
-    let wmr = new WMR2D( 'wmr-canvas' );
+    update(form.i.valueAsNumber * timeStep + accumulator/1000.0);
 
-    requestAnimationFrame(loop);
+    frame = requestAnimationFrame(tick);
+  }
 
-    return html`<div></div>`;
+  form.i.oninput = (event) => {
+    form.o.value = (form.i.valueAsNumber * timeStep).toFixed(2);
+  };
+
+  form.b.onclick = () => {
+    if ( running ) return stop();
+
+    form.i.valueAsNumber = nextValue();
+    form.i.dispatchEvent(new CustomEvent("input", { bubbles: true }));
+    start();
+  };
+
+  form.i.oninput();
+
+  stop();
+
+  Inputs.disposal(form).then(stop);
+
+  return form;
 }
+
 ```
