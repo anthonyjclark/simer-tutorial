@@ -26,11 +26,16 @@ TODO:
 - single step obstacle and then wall
 - early stopping simulation/evaluation: stuck, flipped, etc.
   - want a good gradient
-- early stopping evolution: no progress, etc.
+- early stopping evolution: no progress, etc.\
+- turn wall into child or old lady
+- full example
+  - box2d?
+  - visualize in review
+  - plots (fitness, parallel coordinates, etc.)
 
 Tutorial:
 
-1. plan: length, radius, suspension
+1. plan: length, radius, suspension; minimize size; maximize position and time
 2. closed-form
    1. easy
    2. add wall

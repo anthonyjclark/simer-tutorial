@@ -32,7 +32,21 @@ export class WMR2D {
 	wheelAngleRear = 0.0;
 
 	// Wall pose
-	wallPosition: Vec2;
+	wallPosition: number | undefined;
+	wallThickness = 0.2;
+	wallHeight = 6;
+
+	// Sensor ray
+	sensorStart: Vec2;
+	sensorEnd: Vec2;
+	sensorIsColliding = false;
+	sensorYOffset = 0.75;
+	sensorLimit = 10.0;
+
+	// Step pose
+	stepPosition: number | undefined;
+	stepWidth = 2.0;
+	stepHeight = 1.2;
 
 	time = 0.0;
 	timeStep = 0.01;
@@ -46,14 +60,14 @@ export class WMR2D {
 	wheelMotorFront: WheelJoint;
 	wheelMotorRear: WheelJoint;
 
-	constructor( id: string, simMinWidth: number = 10.0 ) {
+	constructor( id: string, { simMinWidth = 10.0, addWall = false, addStep = false } = {} ) {
 
 		this.canvas = document.getElementById( id ) as HTMLCanvasElement;
 		this.context = this.canvas.getContext( '2d' ) as CanvasRenderingContext2D;
 
-		let parent = this.canvas.parentElement as HTMLElement;
+		const parent = this.canvas.parentElement as HTMLElement;
 
-		let padding = 20;
+		const padding = 20;
 
 		this.canvas.width = parent.clientWidth - padding * 2;
 		this.canvas.height = Math.min( 0.75 * window.innerHeight, this.canvas.width / 2.0 );
@@ -75,15 +89,15 @@ export class WMR2D {
 
 		this.world = new World( { gravity: new Vec2( 0.0, - 9.8 ) } );
 
-		let groundFriction = 0.7;
+		const groundFriction = 0.7;
 
 		// TODO: incline?
 		// angle: Math.PI * 0.1,
 		this.ground = this.world.createBody( { type: 'static', position: new Vec2( 0.0, 0.0 ) } );
 		this.ground.createFixture( { shape: new Edge( new Vec2( - 100, 0 ), new Vec2( 100, 0 ) ), friction: groundFriction } );
 
-		let materialDensity = 0.7;
-		let materialFriction = 0.3;
+		const materialDensity = 0.7;
+		const materialFriction = 0.3;
 
 		// Chassis
 
@@ -95,9 +109,9 @@ export class WMR2D {
 		this.wheelFront = this.world.createBody( { type: 'dynamic', position: this.wheelPositionFront } );
 		this.wheelFront.createFixture( { shape: new Circle( this.wheelRadius ), density: materialDensity, friction: materialFriction } );
 
-		let motorMaxTorque = 20.0;
-		let suspensionHz = 4.0;
-		let suspensionDampingRatio = 0.7;
+		const motorMaxTorque = 20.0;
+		const suspensionHz = 4.0;
+		const suspensionDampingRatio = 0.7;
 
 		this.wheelMotorFront = this.world.createJoint( new WheelJoint( {
 			motorSpeed: 0.0,
@@ -124,11 +138,46 @@ export class WMR2D {
 		this.wheelMotorFront.setMotorSpeed( - this.angularVelocity );
 		this.wheelMotorRear.setMotorSpeed( - this.angularVelocity );
 
+		// Simulation boundary
+
+		this.world.createBody( { type: 'static', position: new Vec2( this.simWidth, 0.0 ) } )
+			.createFixture( { shape: new Edge( new Vec2( 0.0, 0.0 ), new Vec2( 0.0, this.simHeight ) ) } );
+
 		// Wall
 
-		this.wallPosition = new Vec2( this.simWidth * 0.6, 0.0 );
-		let wall = this.world.createBody( { type: 'static', position: this.wallPosition } );
-		wall.createFixture( { shape: new Box( 0.1, 2.0 ) } );
+		if ( addWall ) {
+
+			const wallPositionVec = new Vec2( this.simWidth * 0.9, 0.0 );
+
+			this.wallPosition = wallPositionVec.x - this.wallThickness / 2;
+
+			const wall = this.world.createBody( { type: 'static', position: wallPositionVec } );
+			wall.createFixture( { shape: new Box( this.wallThickness / 2.0, 2.0 ) } );
+
+		}
+
+		this.sensorStart = new Vec2(
+			this.chassisPosition.x + this.sensorYOffset * Math.sin( this.chassisAngle ),
+			this.chassisPosition.y + this.sensorYOffset * Math.cos( this.chassisAngle ),
+		);
+
+		this.sensorEnd = new Vec2(
+			this.sensorStart.x + this.sensorLimit * Math.cos( this.chassisAngle ),
+			this.sensorStart.y - this.sensorLimit * Math.sin( this.chassisAngle ),
+		);
+
+		// Step
+
+		if ( addStep ) {
+
+			const stepPositionVec = new Vec2( this.simWidth * 0.5, 0 );
+
+			this.stepPosition = stepPositionVec.x;
+
+			const step = this.world.createBody( { type: 'static', position: stepPositionVec } );
+			step.createFixture( { shape: new Box( this.stepWidth / 2, this.stepHeight / 2 ) } );
+
+		}
 
 	}
 
@@ -160,12 +209,18 @@ export class WMR2D {
 
 	}
 
+	#dimToPixel( dim: number ): number {
+
+		return dim * this.drawScale;
+
+	}
+
 	#wheelFromChassis( isFront: boolean ): Vec2 {
 
 		// TODO: incline?
 
-		let sign = isFront ? 1 : - 1;
-		let xOffset = sign * ( this.chassisLength / 2 - this.wheelInwardOffset );
+		const sign = isFront ? 1 : - 1;
+		const xOffset = sign * ( this.chassisLength / 2 - this.wheelInwardOffset );
 
 		return new Vec2( this.chassisPosition.x + xOffset, this.chassisPosition.y );
 
@@ -204,17 +259,52 @@ export class WMR2D {
 
 		// Draw the wall
 
-		let wallThickness = 20;
+		if ( this.wallPosition !== undefined ) {
 
-		x = this.#xToPixel( this.wallPosition.x );
-		y = this.#yToPixel( this.wallPosition.y );
-		this.#drawBox( x + wallThickness / 2, y, wallThickness, 400, 0.0, 'darkred' );
+			const wallThickness = this.#dimToPixel( this.wallThickness );
+			const wallHeight = 6;
+
+			x = this.#xToPixel( this.wallPosition + this.wallThickness / 2 );
+			y = this.#yToPixel( 0 );
+			this.#drawBox( x, y, wallThickness, this.#dimToPixel( wallHeight ), 0.0, 'darkred' );
+
+			// Draw the distance ray
+
+			const sensorColor = this.sensorIsColliding ? 'red' : 'green';
+
+			this.context.beginPath();
+			this.context.moveTo( this.#xToPixel( this.sensorStart.x ), this.#yToPixel( this.sensorStart.y ) );
+			this.context.lineTo( this.#xToPixel( this.sensorEnd.x ), this.#yToPixel( this.sensorEnd.y ) );
+			this.context.strokeStyle = sensorColor;
+			this.context.stroke();
+
+			this.context.beginPath();
+			this.context.arc( this.#xToPixel( this.sensorEnd.x ), this.#yToPixel( this.sensorEnd.y ), 5, 0, 2 * Math.PI );
+			this.context.fillStyle = sensorColor;
+			this.context.fill();
+
+		}
+
+		// Draw the step
+
+		if ( this.stepPosition !== undefined ) {
+
+			const stepWidth = this.#dimToPixel( this.stepWidth );
+			const stepHeight = this.#dimToPixel( this.stepHeight );
+
+			x = this.#xToPixel( this.stepPosition );
+			y = this.#yToPixel( 0 );
+			this.#drawBox( x, y, stepWidth, stepHeight, 0.0, 'darkgreen' );
+
+		}
 
 	}
 
 	#drawWheel( x: number, y: number, angle: number ) {
 
-		let radius = this.wheelRadius * this.drawScale;
+		const radius = this.wheelRadius * this.drawScale;
+
+		this.context.strokeStyle = 'black';
 
 		// Draw the front wheel
 		this.context.beginPath();
@@ -243,12 +333,12 @@ export class WMR2D {
 
 	#drawChassis() {
 
-		let width = this.chassisLength * this.drawScale;
-		let height = this.wheelRadius * this.drawScale;
+		const width = this.chassisLength * this.drawScale;
+		const height = this.wheelRadius * this.drawScale;
 
-		let x = this.#xToPixel( this.chassisPosition.x );
-		let y = this.#yToPixel( this.chassisPosition.y );
-		let angle = this.chassisAngle;
+		const x = this.#xToPixel( this.chassisPosition.x );
+		const y = this.#yToPixel( this.chassisPosition.y );
+		const angle = this.chassisAngle;
 
 		this.#drawBox( x, y, width, height, angle, 'darkslateblue' );
 
@@ -267,17 +357,59 @@ export class WMR2D {
 
 	}
 
-	updatePositionClosedForm( frameTime: number ) {
+	#updateDistanceSensor() {
+
+		if ( this.wallPosition !== undefined ) {
+
+			this.sensorStart = new Vec2(
+				this.chassisPosition.x + this.sensorYOffset * Math.sin( this.chassisAngle ),
+				this.chassisPosition.y + this.sensorYOffset * Math.cos( this.chassisAngle ),
+			);
+
+			this.sensorEnd = new Vec2(
+				this.sensorStart.x + this.sensorLimit * Math.cos( this.chassisAngle ),
+				this.sensorStart.y - this.sensorLimit * Math.sin( this.chassisAngle ),
+			);
+
+			const p = this.sensorStart;
+			const r = Vec2.sub( this.sensorEnd, this.sensorStart );
+			const q = new Vec2( this.wallPosition, 0 );
+			const s = new Vec2( 0, this.wallHeight / 2 );
+
+			// Check line segment intersection
+			// t = (q − p) × s / (r × s)
+			// u = (q − p) × r / (r × s)
+			const pq = Vec2.sub( q, p );
+			const rxs = Vec2.cross( r, s );
+			const t = Vec2.cross( pq, s ) / rxs;
+			const u = Vec2.cross( pq, r ) / rxs;
+
+			if ( t > 0 && t < 1 && u > 0 && u < 1 ) {
+
+				this.sensorEnd = Vec2.add( p, Vec2.mul( r, t ) );
+				this.sensorIsColliding = true;
+
+			}
+
+		}
+
+	}
+
+	updatePositionClosedForm( time: number ) {
 
 		// TODO: incline?
 
-		this.time += frameTime;
+		this.time = time;
 
-		// Check for collision with wall
+		// Check for collision with wall and edge of simulation
 
-		let possibleFrontWheelPosition = this.#wheelFromChassis( true );
+		const frontWheelPosition = this.#wheelFromChassis( true );
+		const frontWheelLeadingEdge = frontWheelPosition.x + this.wheelRadius;
 
-		if ( ( possibleFrontWheelPosition.x + this.wheelRadius ) < this.wallPosition.x ) {
+		const distanceToWall = this.wallPosition === undefined ? Infinity : this.wallPosition - frontWheelLeadingEdge;
+		const distanceToEdge = this.simWidth - frontWheelLeadingEdge;
+
+		if ( distanceToWall > 0 && distanceToEdge > 0 ) {
 
 			// Set body pose
 
@@ -309,9 +441,15 @@ export class WMR2D {
 
 		while ( this.timeAccumulator >= this.timeStep ) {
 
-			let possibleFrontWheelPosition = this.#wheelFromChassis( true );
+			// Check for collision with wall and edge of simulation
 
-			if ( ( possibleFrontWheelPosition.x + this.wheelRadius ) < this.wallPosition.x ) {
+			const frontWheelPosition = this.#wheelFromChassis( true );
+			const frontWheelLeadingEdge = frontWheelPosition.x + this.wheelRadius;
+
+			const distanceToWall = this.wallPosition === undefined ? Infinity : this.wallPosition - frontWheelLeadingEdge;
+			const distanceToEdge = this.simWidth - frontWheelLeadingEdge;
+
+			if ( distanceToWall > 0 && distanceToEdge > 0 ) {
 
 				// Set body pose
 
@@ -343,8 +481,8 @@ export class WMR2D {
 
 	updatePositionPhysicsEngine( frameTime: number ) {
 
-		let velocityIterations = 8;
-		let positionIterations = 3;
+		const velocityIterations = 8;
+		const positionIterations = 3;
 
 		this.timeAccumulator += frameTime;
 
@@ -360,7 +498,7 @@ export class WMR2D {
 		// NOTE: we only need to update poses once per frame
 
 		this.chassisPosition = this.chassis.getPosition();
-		this.chassisAngle = this.chassis.getAngle();
+		this.chassisAngle = - this.chassis.getAngle();
 
 		this.wheelPositionFront = this.wheelFront.getPosition();
 		this.wheelAngleFront = - this.wheelFront.getAngle();
@@ -368,11 +506,22 @@ export class WMR2D {
 		this.wheelPositionRear = this.wheelRear.getPosition();
 		this.wheelAngleRear = - this.wheelRear.getAngle();
 
+		this.#updateDistanceSensor();
+
 	}
 
-	getTime(): number {
+	getDistanceToWall(): number {
 
-		return this.time;
+		return Vec2.sub( this.sensorEnd, this.sensorStart ).length();
+
+	}
+
+	setWheelAngularVelocity( angularVelocity: number ) {
+
+		this.angularVelocity = angularVelocity;
+
+		this.wheelMotorFront.setMotorSpeed( - angularVelocity );
+		this.wheelMotorRear.setMotorSpeed( - angularVelocity );
 
 	}
 

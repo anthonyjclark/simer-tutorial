@@ -1,0 +1,1 @@
+{ "plugins": ["jsdom-quokka-plugin"], "jsdom": {"file": "index.html"} }

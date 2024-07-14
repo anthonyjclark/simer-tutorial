@@ -14,130 +14,50 @@ Let's start with the following problem statement:
 
 
 ```{ojs}
+import { Player } from '../_lib/Player/dist/player.js';
 import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';
 
-timeEnd = 2.0;
-timeStep = 0.1;
+uiTimeEnd = 16.0;
+uiTimeStep = 0.1;
 
-wmr = new WMR2D( 'wmr-canvas' );
+function updateWMR1( time ) {
 
-function updateWMR( time ) {
-
-  wmr.updatePositionClosedForm( time );
-  wmr.render( true );
+  wmr1.updatePositionClosedForm( time );
+  wmr1.render( true );
 
 }
 
-viewof player = Player( timeEnd, timeStep, updateWMR )
+wmr1 = new WMR2D( 'wmr-canvas1' );
+
+player1 = new Player( uiTimeEnd, uiTimeStep, updateWMR1 );
+player1.create();
 ```
 
 ```{=html}
 <div>
-    <canvas id="wmr-canvas"></canvas>
+    <canvas id="wmr-canvas1"></canvas>
 </div>
 ```
 
+
 ```{ojs}
+function updateWMR2( time ) {
 
-function Player( timeEnd, timeStep, update = time =>  time ) {
+  wmr2.updatePositionClosedForm( time );
+  wmr2.render( true );
 
-  const numSteps = timeEnd / timeStep + 1;
-
-  const form = html`
-    <form>
-
-      <button name="b" type="button" style="margin: 0.4em; width: 5em;"></button>
-
-      <label style="display: flex; align-items: center;">
-
-        <input
-          name="i"
-          type="range"
-          min="0"
-          max="${numSteps - 1}"
-          value="0"
-          step="1"
-          style="width: 180px;"
-          disabled
-        />
-
-        <output name="o" style="margin-left: 0.4em;"></output>
-
-      </label>
-
-    </form>`;
-
-  // TODO: remove frame? no longer canceling
-  let frame = null;
-
-
-  let prevTime = null;
-  let accumulator = 0.0;
-  let running = true;
-
-  function nextValue() {
-    return (form.i.valueAsNumber + 1 + numSteps) % numSteps;
-  }
-
-  function start() {
-    prevTime = null;
-    accumulator = 0.0;
-    running = true;
-
-    form.b.textContent = "Pause";
-    frame = requestAnimationFrame(tick);
-  }
-
-  function stop() {
-    form.b.textContent = "Play";
-    running = false;
-    accumulator = 0.0;
-    //if (frame !== null) cancelAnimationFrame(frame), (frame = null);
-  }
-
-  function tick(now) {
-    if ( ! prevTime) prevTime = now;
-    let dt = now - prevTime;
-    prevTime = now;
-
-    if ( form.i.valueAsNumber === (numSteps - 1) ) stop();
-
-    if ( running ) {
-
-      accumulator += dt;
-
-      if ( accumulator >= timeStep * 1000.0 ) {
-        form.i.valueAsNumber = nextValue();
-        form.i.dispatchEvent(new CustomEvent("input", { bubbles: true }));
-        accumulator -= timeStep * 1000.0;
-      }
-
-    }
-
-    update(form.i.valueAsNumber * timeStep + accumulator/1000.0);
-
-    frame = requestAnimationFrame(tick);
-  }
-
-  form.i.oninput = (event) => {
-    form.o.value = (form.i.valueAsNumber * timeStep).toFixed(2);
-  };
-
-  form.b.onclick = () => {
-    if ( running ) return stop();
-
-    form.i.valueAsNumber = nextValue();
-    form.i.dispatchEvent(new CustomEvent("input", { bubbles: true }));
-    start();
-  };
-
-  form.i.oninput();
-
-  stop();
-
-  Inputs.disposal(form).then(stop);
-
-  return form;
 }
 
+wmr2 = new WMR2D( 'wmr-canvas2', { addWall: true } );
+
+player2 = new Player( uiTimeEnd, uiTimeStep, updateWMR2 );
+player2.create();
+```
+
+
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas2"></canvas>
+</div>
 ```

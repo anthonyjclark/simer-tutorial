@@ -4,7 +4,7 @@
     "href": "demos/1-analytical.html",
     "title": "Demo 1: Analytical Models",
     "section": "",
-    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\n\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\ntimeEnd = 2.0;\ntimeStep = 0.1;\n\nwmr = new WMR2D( 'wmr-canvas' );\n\nfunction updateWMR( time ) {\n\n  wmr.updatePositionClosedForm( time );\n  wmr.render( true );\n\n}\n\nviewof player = Player( timeEnd, timeStep, updateWMR )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    \n\n\nfunction Player( timeEnd, timeStep, update = time =&gt;  time ) {\n\n  const numSteps = timeEnd / timeStep + 1;\n\n  const form = html`\n    &lt;form&gt;\n\n      &lt;button name=\"b\" type=\"button\" style=\"margin: 0.4em; width: 5em;\"&gt;&lt;/button&gt;\n\n      &lt;label style=\"display: flex; align-items: center;\"&gt;\n\n        &lt;input\n          name=\"i\"\n          type=\"range\"\n          min=\"0\"\n          max=\"${numSteps - 1}\"\n          value=\"0\"\n          step=\"1\"\n          style=\"width: 180px;\"\n          disabled\n        /&gt;\n\n        &lt;output name=\"o\" style=\"margin-left: 0.4em;\"&gt;&lt;/output&gt;\n\n      &lt;/label&gt;\n\n    &lt;/form&gt;`;\n\n  // TODO: remove frame? no longer canceling\n  let frame = null;\n\n\n  let prevTime = null;\n  let accumulator = 0.0;\n  let running = true;\n\n  function nextValue() {\n    return (form.i.valueAsNumber + 1 + numSteps) % numSteps;\n  }\n\n  function start() {\n    prevTime = null;\n    accumulator = 0.0;\n    running = true;\n\n    form.b.textContent = \"Pause\";\n    frame = requestAnimationFrame(tick);\n  }\n\n  function stop() {\n    form.b.textContent = \"Play\";\n    running = false;\n    accumulator = 0.0;\n    //if (frame !== null) cancelAnimationFrame(frame), (frame = null);\n  }\n\n  function tick(now) {\n    if ( ! prevTime) prevTime = now;\n    let dt = now - prevTime;\n    prevTime = now;\n\n    if ( form.i.valueAsNumber === (numSteps - 1) ) stop();\n\n    if ( running ) {\n\n      accumulator += dt;\n\n      if ( accumulator &gt;= timeStep * 1000.0 ) {\n        form.i.valueAsNumber = nextValue();\n        form.i.dispatchEvent(new CustomEvent(\"input\", { bubbles: true }));\n        accumulator -= timeStep * 1000.0;\n      }\n\n    }\n\n    update(form.i.valueAsNumber * timeStep + accumulator/1000.0);\n\n    frame = requestAnimationFrame(tick);\n  }\n\n  form.i.oninput = (event) =&gt; {\n    form.o.value = (form.i.valueAsNumber * timeStep).toFixed(2);\n  };\n\n  form.b.onclick = () =&gt; {\n    if ( running ) return stop();\n\n    form.i.valueAsNumber = nextValue();\n    form.i.dispatchEvent(new CustomEvent(\"input\", { bubbles: true }));\n    start();\n  };\n\n  form.i.oninput();\n\n  stop();\n\n  Inputs.disposal(form).then(stop);\n\n  return form;\n}",
+    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nfunction updateWMR1( time ) {\n\n  wmr1.updatePositionClosedForm( time );\n  wmr1.render( true );\n\n}\n\nwmr1 = new WMR2D( 'wmr-canvas1' );\n\nplayer1 = new Player( uiTimeEnd, uiTimeStep, updateWMR1 );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    \n\n\nfunction updateWMR2( time ) {\n\n  wmr2.updatePositionClosedForm( time );\n  wmr2.render( true );\n\n}\n\nwmr2 = new WMR2D( 'wmr-canvas2', { addWall: true } );\n\nplayer2 = new Player( uiTimeEnd, uiTimeStep, updateWMR2 );\nplayer2.create();",
     "crumbs": [
       "Home",
       "Demos",
@@ -175,8 +175,8 @@
     "objectID": "presentation.html#format",
     "href": "presentation.html#format",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
+    "section": "Format",
+    "text": "Format\nThis tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
     "crumbs": [
       "Home",
       "Presentation",
@@ -187,8 +187,8 @@
     "objectID": "presentation.html#evolutionary-robotics",
     "href": "presentation.html#evolutionary-robotics",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "The use of evolutionary algorithms to explore the design space of robots and their control software.",
+    "section": "Evolutionary Robotics",
+    "text": "Evolutionary Robotics\nThe use of evolutionary algorithms to explore the design space of robots and their control software.",
     "crumbs": [
       "Home",
       "Presentation",
@@ -199,8 +199,8 @@
     "objectID": "presentation.html#research-questions",
     "href": "presentation.html#research-questions",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "There is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
+    "section": "Research Questions",
+    "text": "Research Questions\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
     "crumbs": [
       "Home",
       "Presentation",
@@ -211,8 +211,8 @@
     "objectID": "presentation.html#general-algorithm",
     "href": "presentation.html#general-algorithm",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "flowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "section": "General Algorithm",
+    "text": "General Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
     "crumbs": [
       "Home",
       "Presentation",
@@ -423,7 +423,7 @@
     "href": "presentation.html",
     "title": "SimER Tutorial",
     "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminolody\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
     "crumbs": [
       "Home",
       "Presentation",

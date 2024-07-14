@@ -1,0 +1,42 @@
+{
+  "name": "player",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/player.umd.cjs",
+  "module": "./dist/player.js",
+  "types": "./dist/player.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/player.js",
+      "require": "./dist/player.umd.cjs"
+    },
+    "./dist/main.css": "./dist/main.css"
+  },
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "delete:dist": "rm -rf dist",
+    "delete:node": "rm -rf node_modules",
+    "delete:all": "npm run delete:dist && npm run delete:node"
+  },
+  "author": "Anthony J. Clark",
+  "license": "ISC",
+  "description": "User interface for an animation player.",
+  "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "@stylistic/eslint-plugin": "^2.1.0",
+    "eslint": "^8.57.0",
+    "globals": "^15.4.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.13.0",
+    "vite": "^5.2.13",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "dependencies": {
+    "htl": "^0.3.1"
+  }
+}

@@ -19,7 +19,7 @@ format:
 
 This tutorial will follow a format in which:
 
-- We'll get on the same page with respect to terminolody
+- We'll get on the same page with respect to terminology
 - Loop
   - I'll present for a bit
   - I'll ask you all to read through an exercise
