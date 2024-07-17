@@ -34,7 +34,7 @@ GENOME_MAPPING = {
     "chassis_length": (1, 4),
     "suspension_frequency": (1, 8),
     "suspension_damping": (0.3, 0.9),
-    "sensor_limit": (1, 10),
+    "sensor_limit": (1, 15),
     "speed_max": (0, 10),
     "speed_slope": (0, 10),
     "speed_intercept": (-20, 20),
@@ -175,16 +175,14 @@ def fitness(genome: Genome, testing=False) -> tuple[Fitness, dict]:
     objective += 0.25 * (1 - genome[0])
     sim_info["objective"]["wheel_radius"] = params["wheel_radius"]
 
-    # # If at target, penalize final velocity
-    # final_speed = sim_info["speed"][-1]
-    # objective += 1 - abs(final_speed) / GENOME_MAPPING["speed_max"][1]
-    # sim_info["objective"]["final_speed"] = final_speed
-
-    # # If at target, minimize time to rest
-    # near_zero = [abs(s) < SPEED_TOLERANCE for s in sim_info["speed"]]
-    # index = (n - indexOf(reversed(near_zero), True)) if near_zero[-1] else n
-    # objective += 1 - (index / n)
-    # sim_info["objective"]["index_at_rest"] = index
+    # If at target, minimize time to rest
+    near_zero = [abs(s) < SPEED_TOLERANCE for s in sim_info["speed"]]
+    if False in near_zero:
+        index = (n - indexOf(reversed(near_zero), False)) if near_zero[-1] else n
+    else:
+        index = n
+    objective += 0.25 * (1 - (index / n))
+    sim_info["objective"]["index_at_rest"] = index
 
     return Fitness(0, objective), sim_info
 
@@ -255,7 +253,7 @@ def combine(original: Population, children: Population) -> Population:
     # combined_pop = original + children
     # return sorted(combined_pop, key=fitness_key, reverse=True)[:n]
     best = max(original, key=fitness_key)
-    return [best] + children
+    return [best] + children[:-1]
 
 
 def statistics(pop: Population) -> tuple[Fitness, Fitness, Fitness]:
@@ -279,22 +277,31 @@ def main():
         ]
     )
 
-    # "wheel_radius": (0.5, 1.5),
-    # "chassis_length": (1, 4),
-    # "suspension_frequency": (1, 8),
-    # "suspension_damping": (0.3, 0.9),
-    # "sensor_limit": (1, 10),
-    # "speed_max": (0, 10),
-    # "speed_slope": (0, 10),
-    # "speed_intercept": (0, 10),
-
     manager = get_manager()
     progress = manager.counter(total=args.num_generations + 1, desc="Generations")
 
-    seed_values = [1.2, 3, 4, 0.7, 10, 3, 2, -15]
+    seed_values = {
+        "wheel_radius": 1.2,
+        "chassis_length": 3,
+        "suspension_frequency": 4,
+        "suspension_damping": 0.7,
+        "sensor_limit": 10,
+        "speed_max": 3,
+        "speed_slope": 2,
+        "speed_intercept": -15,
+    }
+
     seed_genome = [
-        scale(g[0], g[1], 0, 1, v) for g, v in zip(GENOME_MAPPING.values(), seed_values)
+        scale(g[0], g[1], 0, 1, v)
+        for g, v in zip(GENOME_MAPPING.values(), seed_values.values())
     ]
+
+    # seed_fitness, seed_info = fitness(seed_genome, testing=True)
+    # print(seed_fitness)
+    # print(seed_info["objective"])
+    # with open(f"{args.name}-seed-visualization.json", "w") as f:
+    #     json.dump(seed_info["visualization"], f)
+    # raise SystemExit
 
     population = initialize(args.population_size)
     population[0] = (seed_genome, DEFAULT_FITNESS)
@@ -335,38 +342,46 @@ def main():
 
         progress.update()
 
-    progress.close()
-    manager.stop()
-
     df_generations.to_csv(f"{args.name}-generations.csv", index_label="Generation")
 
-    evolved_params = {
+    pop_info = {
         k: [scale(0, 1, lo, hi, ind[i]) for ind, _ in population]
         for i, (k, (lo, hi)) in enumerate(GENOME_MAPPING.items())
     }
 
-    pd.DataFrame(evolved_params).to_csv(
-        f"{args.name}-parameters.csv", index_label="Individual"
+    # Add scaled values (good for parallel coordinates plot)
+    pop_info.update(
+        {
+            f"{k}-genome": [ind[i] for ind, _ in population]
+            for i, k in enumerate(GENOME_MAPPING.keys())
+        }
+    )
+
+    pop_sim = [fitness(ind, testing=True) for ind, _ in population]
+    pop_info["feasibility"] = [f.feasibility for f, _ in pop_sim]
+    pop_info["objective"] = [f.objective for f, _ in pop_sim]
+    pop_info["final_distance"] = [i["objective"]["final_distance"] for _, i in pop_sim]
+    pop_info["final_speed"] = [i["objective"]["final_speed"] for _, i in pop_sim]
+    pop_info["hit_wall"] = [i["objective"]["hit_wall"] for _, i in pop_sim]
+    pop_info["wheel_radius"] = [i["objective"]["wheel_radius"] for _, i in pop_sim]
+    pop_info["index_at_rest"] = [i["objective"]["index_at_rest"] for _, i in pop_sim]
+
+    pd.DataFrame(pop_info).to_csv(
+        f"{args.name}-population.csv", index_label="Individual"
     )
 
     best_individual = max(population, key=fitness_key)
     best_fitness, best_info = fitness(best_individual[0], testing=True)
 
+    print(args.name)
     print(best_fitness)
-
     print(best_info["objective"])
 
     with open(f"{args.name}-visualization.json", "w") as f:
         json.dump(best_info["visualization"], f)
 
-    # seed_fitness, seed_info = fitness(seed_genome, testing=True)
-
-    # print(seed_fitness)
-
-    # print(seed_info["objective"])
-
-    # with open(f"{args.name}-seed-visualization.json", "w") as f:
-    #     json.dump(seed_info["visualization"], f)
+    progress.close()
+    manager.stop()
 
 
 if __name__ == "__main__":
