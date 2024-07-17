@@ -174,6 +174,7 @@ export class WMR2D {
 
 			this.stepPosition = stepPositionVec.x;
 
+			// TODO: step friction
 			const step = this.world.createBody( { type: 'static', position: stepPositionVec } );
 			step.createFixture( { shape: new Box( this.stepWidth / 2, this.stepHeight / 2 ) } );
 

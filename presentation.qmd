@@ -52,17 +52,51 @@ flowchart LR
     Comb --> Eval
 ```
 
+TODO: fix flow chart and pseudocode
+
 ```{.pseudocode}
 population = Initialize()
 
 LOOP
-  Evaluate(population)
-  IF Stop(population) THEN BREAK
-  selected = Select(population)
+  fitnesses = Evaluate(population)
+  IF Stop(fitnesses) THEN BREAK
+  selected = Select(population, fitnesses)
   children = Modify(selected)
   population = Combine(population, children)
 
 RETURN population
+```
+
+```python
+population = initialize(POPULATION_SIZE)
+population = evaluate(population)
+
+for generation in range(NUM_GENERATIONS):
+    if stop(population):
+        break
+
+    # Tournament selection
+    selected = select(population)
+    # Just mutation (no crossover?); maybe DE?
+    children = modify(selected)
+    children = evaluate(children)
+    # Elitism of 1?
+    population = combine(population, children)
+```
+
+```python
+
+Fitness = tuple[float, float]
+Genome = list[float]
+Individual = tuple[Genome, Fitness]
+Population = list[Individual]
+
+def initialize(size: int) -> Population: ...
+def evaluate(pop: Population) -> Population: ...
+def stop(pop: Population) -> bool: ...
+def select(pop: Population) -> Population: ...
+def modify(pop: Population) -> Population: ...
+def combine(pop1: Population, pop2: Population) -> Population: ...
 ```
 
 # Practical Considerations

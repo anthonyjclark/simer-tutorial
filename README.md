@@ -32,6 +32,19 @@ TODO:
   - box2d?
   - visualize in review
   - plots (fitness, parallel coordinates, etc.)
+- swap out simulators
+- swap out algorithms
+- faking hydrodynamics
+- fitness exploitation (evolves what you tell it to evolve)
+- checkpointing
+- constraint handling
+- controls and baselines
+- incrementally introduce fitness:
+  - start simple
+  - add complexity
+  - distance to target
+  - then penalize hitting wall
+- differential evolution
 
 Tutorial:
 
@@ -72,3 +85,7 @@ Autonomous first-order differential equation
 And second order
 
 y'' + 2 blah w y' + w^2 y = 0
+
+
+[HTML5 Genetic Algorithm 2D Car Thingy - Chrome recommended](https://rednuht.org/genetic_cars_2/)
+[Genetic algorithm - peteshadbolt.co.uk](https://peteshadbolt.co.uk/posts/ga/)
