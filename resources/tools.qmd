@@ -3,6 +3,8 @@ title: "Tools"
 format: html
 ---
 
+<!-- https://github.com/anthonyjclark/simple-scene-description-language/blob/main/src/cli/generator.ts -->
+
 <!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
 <!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
 

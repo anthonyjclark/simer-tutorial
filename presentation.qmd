@@ -154,4 +154,4 @@ Starting with [Analytical Models](demos/1-analytical.qmd)
 
 ## Full Examples
 
-Full description at [Full Example](demos/5-full-example.qmd).
+Full description at [Full Example](demos/4-full-example.qmd)

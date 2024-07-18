@@ -1,5 +1,7 @@
 ---
 title: "Demo 4: Full Example"
+execute:
+    echo: false
 format:
     html:
         css: ../_lib/WMR2D/css/main.css
@@ -188,14 +190,268 @@ You can find the [full script with SLURM options here](https://github.com/anthon
 
 ## Analyze
 
-Last, we take a look at the results. I like to start with the behaviors. I have my script output the "best" individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with [Review](https://review.github.io/) (a tool I created for this purpose).
+Last, let's take a look at the results.
 
-<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+### Visualizations
+
+I like to start with the behaviors. I have my script output the "best" individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with [Review](https://review.github.io/) (a tool I created for this purpose).
+
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not allow use of an iframe.</p>
 </iframe>
 
 Here's a second example with a slightly different behavior:
 
-<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not allow use of an iframe.</p>
 </iframe>
+
+Both of these are "better" behaviors than I was able to achieve by hand.
+
+### Evolutionary Progress
+
+Figure @fig-generations shows the fitness of the best and average individuals over generations. We can see that the best individual from each replicate improves over time. The shaded regions denote the 95% confidence interval around the average performance.
+
+The average performance (in orange) will always be a bit noisy depending on the exact algorithm. I implemented an overly simple algorithm with a lot of "exploration" and less "exploitation."
+
+```{python}
+# | label: fig-generations
+# | fig-cap: "Generations Vs. Fitness"
+
+from pathlib import Path
+import pandas as pd
+import numpy as np
+
+import plotly.express as px
+import plotly.graph_objs as go
+import plotly.io as pio
+
+pio.templates.default = "plotly_white"
+
+data_dir = Path("../_example/data")
+replicate_name = "trial"
+files = data_dir.glob("*-generations.csv")
+
+partial_dfs = []
+
+for f in files:
+    trial = f.stem.split(replicate_name)[1].split("-")[0]
+    df_partial = pd.read_csv(f)
+    df_partial["Trial"] = trial
+
+    partial_dfs.append(df_partial)
+
+df_generations = pd.concat(partial_dfs, ignore_index=True)
+
+
+def lineplot(fig, df, x, y, title, x_label, y_label):
+    i = len(fig.data) // 3
+    line_color = px.colors.qualitative.Dark2[i]
+    # line_color = "rgb(31, 119, 180)"
+    c = px.colors.qualitative.Pastel2[i].split("(")[1].split(")")[0]
+    fill_color = f"rgba({c}, 0.3)"
+    # fill_color = "rgba(68, 68, 68, 0.3)"
+
+    df_plot = df[[x, y]].groupby([x]).agg(["mean", "std", "count"])
+    df_plot = df_plot.droplevel(axis=1, level=0).reset_index()
+    df_plot["ci"] = 1.96 * df_plot["std"] / np.sqrt(df_plot["count"])
+    df_plot["ci_lower"] = df_plot["mean"] - df_plot["ci"]
+    df_plot["ci_upper"] = df_plot["mean"] + df_plot["ci"]
+
+    fig.add_traces(
+        [
+            go.Scatter(
+                name=y,
+                x=df_plot[x],
+                y=df_plot["mean"],
+                mode="lines",
+                line=dict(color=line_color),
+            ),
+            go.Scatter(
+                name="95% CI Upper",
+                x=df_plot[x],
+                y=df_plot["ci_upper"],
+                mode="lines",
+                marker=dict(color="#444"),
+                line=dict(width=0),
+                showlegend=False,
+            ),
+            go.Scatter(
+                name="95 CI Lower",
+                x=df_plot[x],
+                y=df_plot["ci_lower"],
+                marker=dict(color="#444"),
+                line=dict(width=0),
+                mode="lines",
+                fillcolor=fill_color,
+                fill="tonexty",
+                showlegend=False,
+            ),
+        ]
+    )
+    fig.update_layout(
+        xaxis_title=x_label,
+        yaxis_title=y_label,
+        # title=title,
+        hovermode="x",
+        legend=dict(
+            yanchor="bottom",
+            y=0,
+            xanchor="right",
+            x=0.99,
+        ),
+    )
+    return fig
+
+
+fig = go.Figure()
+
+lineplot(
+    fig,
+    df_generations,
+    "Generation",
+    "Best Objective",
+    "Fitness over Generations",
+    "Generation",
+    "Fitness",
+)
+
+lineplot(
+    fig,
+    df_generations,
+    "Generation",
+    "Average Objective",
+    "Fitness over Generations",
+    "Generation",
+    "Fitness",
+)
+
+fig.show()
+```
+
+### Final Fitness Values
+
+```{python}
+
+files = data_dir.glob("*-population.csv")
+
+partial_dfs = []
+
+for f in files:
+    trial = f.stem.split(replicate_name)[1].split("-")[0]
+    df_partial = pd.read_csv(f)
+    df_partial["Trial"] = trial
+
+    partial_dfs.append(df_partial)
+
+df_pop = pd.concat(partial_dfs, ignore_index=True)
+df_pop.columns = [n.replace("_", " ").replace("-", " ").title() for n in df_pop.columns]
+
+df_pop = df_pop.nlargest(int(df_pop.shape[0] * 0.05), "Objective")
+```
+
+I used the following objective function:
+
+$$
+f = 2 \left(1 - \frac{d}{d_{\text{max}}}\right) + 1 \left(1 - \frac{\omega}{\omega_{\text{max}}}\right) + \frac{1}{2} \left( 1 - \text{hit} \right) + \frac{1}{4} \left(1 - \frac{r}{r_{\text{max}}}\right) + \frac{1}{4} \left(1 - \frac{t_r}{t_{\text{max}}}\right)
+$$
+
+The different components are meant to:
+
+1. Minimize distance from the final target location.
+2. Minimize the final angular velocity of the wheels.
+3. Penalize hitting the wall.
+4. Minimize the wheel radius.
+5. Minimize the time taken to reach rest.
+
+This equation is pretty brittle, and with multiple objectives you would be better off using a many objective optimization algorithm, such as [Lexicase](https://direct.mit.edu/artl/article/28/4/479/112725/Lexicase-Selection-for-Multi-Task-Evolutionary).
+
+From @fig-objective, we can see that we mostly achieve our goals. It appears that there is a minimum wheel radius that is able to get over the step, and we cannot instantaneously reach the target position.
+
+```{python}
+# | label: fig-objective
+# | fig-cap: "Evolved Objectives of Top 5% of Final Populations"
+
+objectives = {
+    "Final Distance": (0, 17),
+    "Final Speed": (0, 10),
+    "Hit Wall": (0, 1),
+    "Wheel Radius": (0.5, 1.5),
+    "Index At Rest": (0, 2008),
+}
+
+columns = objectives.keys()
+
+df_altered = df_pop[columns].copy()
+df_altered["Hit Wall"] = df_pop["Hit Wall"].astype(float)
+
+for name, (lo, hi) in objectives.items():
+    df_altered[name] = df_altered[name] / (hi - lo) - lo
+
+fig = px.strip(df_altered)
+
+fig.update_layout(
+    yaxis_showticklabels=False,
+    yaxis_title="",
+    xaxis_title="",
+    yaxis_range=[0, 1],
+)
+
+fig.show()
+```
+
+### Evolved Parameters
+
+Now we turn to the evolved parameters, shown in @fig-parameters.
+
+```{python}
+# | label: fig-parameters
+# | fig-cap: "Evolved Parameters of Top 5% of Final Populations"
+
+limits = {
+    "Wheel Radius": (0.5, 1.5),
+    "Chassis Length": (1, 4),
+    "Suspension Frequency": (1, 8),
+    "Suspension Damping": (0.3, 0.9),
+    "Sensor Limit": (1, 15),
+    "Speed Max": (0, 10),
+    "Speed Slope": (0, 10),
+    "Speed Intercept": (-20, 20),
+}
+
+columns = [f"{name} Genome" for name in limits.keys()]
+labels = ["<br>".join(name.split(" ")[:2]) for name in columns]
+
+df_renamed = df_pop[columns]
+df_renamed.columns = labels
+
+fig = px.strip(df_renamed)
+
+fig.update_layout(
+    yaxis_showticklabels=False,
+    yaxis_title="",
+    xaxis_title="",
+)
+
+fig.show()
+```
+
+This plot only shows the top 5% of individuals across all final replicate populations. I filtered out the lower performing individuals since I have a heavily "exploration"-centered algorithm.
+
+From these values, we can get a good idea of our design constraints. We can also guess that it would be good to increase the maximum possible value for suspension frequency and the sensor limit. Increasing the top speed is probably not a good idea since it will be limited by the hardware more so than the other two parameters.
+
+
+Finally, in @fig-correlations, we take a look at the correlations among parameters.
+
+```{python}
+# | label: fig-correlations
+# | fig-cap: "Correlations among Evolved Parameters of Top 5% of Final Populations"
+
+df_corr = df_renamed.corr().round(1)
+mask = np.zeros_like(df_corr, dtype=bool)
+mask[np.tril_indices_from(mask)] = True
+fig = px.imshow(df_corr.mask(~mask), text_auto=True)
+fig.show()
+```
+
+It is usually a good idea to see if there are any strong tradeoffs among the parameters. For example, there is a strongly negative correlation between the speed slop and intercept.
