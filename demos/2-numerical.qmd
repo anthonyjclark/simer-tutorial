@@ -1,4 +1,106 @@
 ---
 title: "Demo 2: Numerical Models"
-format: html
+execute:
+    echo: false
+format:
+    html:
+        css: ../_lib/WMR2D/css/main.css
+        highlight-style: pygments
 ---
+
+Moving to a numerical version. It is easy to handle the wall now.
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas1"></canvas>
+</div>
+```
+
+```{ojs}
+import { Player } from '../_lib/Player/dist/player.js';
+import { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';
+
+uiTimeEnd = 16.0;
+uiTimeStep = 0.1;
+
+wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Numerical );
+player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wmr1.reset() );
+player1.create();
+```
+
+```typescript
+// Closed-form solution
+chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
+
+// Numerical solution
+chassisPosition += angularVelocity * wheelRadius * timeStep;
+```
+
+Also means we can now control the distance easier.
+
+```typescript
+wmr = new WMR2D( { addWall: true } );
+
+let prevTime = 0.0;
+let time = 0.0;
+
+const controlPeriod = 0.1;
+let controlLastUpdate = 0.0;
+
+while ( true ) {
+
+  if ( ! prevTime ) prevTime = now;
+  const dt = ( now - prevTime ) / 1000.0;
+  prevTime = now;
+
+  time += dt;
+
+  // Simulate
+  wmr.updatePositionNumerical( dt );
+
+  // Draw
+  wmr.render();
+
+  // Update control
+  if ( time >= controlLastUpdate ) {
+
+    const dist = wmr.getDistanceToWall();
+    const speed = Math.min( 3.0, 20 * ( dist - 2.5 ) / 20.0 );
+    wmr.setWheelAngularVelocity( speed );
+
+    controlLastUpdate += controlPeriod;
+
+  }
+
+}
+```
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas2"></canvas>
+</div>
+```
+
+```{ojs}
+wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Numerical, { addWall: true } );
+player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
+player2.create();
+```
+
+What if we want to add an incline?
+
+Can do, but the equations are more complex.
+
+Again, how about a step? How about an incline and a step?
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas3"></canvas>
+</div>
+```
+
+```{ojs}
+wmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Numerical, { addWall: true, addStep: true } );
+player3 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr3.step(time), () => wmr3.reset() );
+player3.create();
+```

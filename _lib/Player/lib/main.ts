@@ -11,10 +11,11 @@ export class Player {
 	numSteps: number;
 
 	update: ( time: number ) => void;
+	reset: () => void;
 
 	form: HTMLFormElement;
 
-	constructor( timeEnd: number, timeStep: number, update: ( time: number ) => void = time => time ) {
+	constructor( timeEnd: number, timeStep: number, update: ( time: number ) => void, reset: () => void ) {
 
 		// TODO: remove frame? no longer canceling
 		this.frame = null;
@@ -31,9 +32,13 @@ export class Player {
 
 		this.update = update;
 
+		this.reset = reset;
+
 		this.form = html`<form>
 
 			<button name="b" type="button" style="margin: 0.4em; width: 5em;"></button>
+
+			<button name="r" type="button" style="margin: 0.4em; width: 5em;">Reset</button>
 
 			<label style="display: flex; align-items: center;">
 
@@ -67,6 +72,17 @@ export class Player {
 			this.form.i.valueAsNumber = this.#nextValue();
 			this.form.i.dispatchEvent( new CustomEvent( 'input', { bubbles: true } ) );
 			this.#start();
+
+		};
+
+		this.form.r.onclick = () => {
+
+			if ( this.running ) this.#stop();
+
+			this.form.i.valueAsNumber = 0;
+			this.form.i.dispatchEvent( new CustomEvent( 'input', { bubbles: true } ) );
+
+			this.reset();
 
 		};
 

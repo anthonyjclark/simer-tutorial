@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -66,9 +100,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../_lib/WMR2D/css/main.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
@@ -236,10 +273,186 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Moving to a numerical version. It is easy to handle the wall now.</p>
+<div>
+    <canvas id="wmr-canvas1"></canvas>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="20" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 19;"><span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Player } <span class="im">from</span> <span class="st">'../_lib/Player/dist/player.js'</span><span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { WMRSimulator<span class="op">,</span> WMR2DMode } <span class="im">from</span>  <span class="st">'../_lib/WMR2D/dist/wmr2d.js'</span><span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>uiTimeEnd <span class="op">=</span> <span class="fl">16.0</span><span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>uiTimeStep <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>wmr1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas1'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Numerical</span> )<span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>player1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>player1<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Closed-form solution</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Numerical solution</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">+=</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> timeStep<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Also means we can now control the distance easier.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wmr <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMR2D</span>( { addWall<span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> prevTime <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> time <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> controlPeriod <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> controlLastUpdate <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> ( <span class="kw">true</span> ) {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ( <span class="op">!</span> prevTime ) prevTime <span class="op">=</span> now<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dt <span class="op">=</span> ( now <span class="op">-</span> prevTime ) <span class="op">/</span> <span class="fl">1000.0</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  prevTime <span class="op">=</span> now<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  time <span class="op">+=</span> dt<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Simulate</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  wmr<span class="op">.</span><span class="fu">updatePositionNumerical</span>( dt )<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Draw</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  wmr<span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Update control</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ( time <span class="op">&gt;=</span> controlLastUpdate ) {</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> dist <span class="op">=</span> wmr<span class="op">.</span><span class="fu">getDistanceToWall</span>()<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> speed <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>( <span class="fl">3.0</span><span class="op">,</span> <span class="dv">20</span> <span class="op">*</span> ( dist <span class="op">-</span> <span class="fl">2.5</span> ) <span class="op">/</span> <span class="fl">20.0</span> )<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    wmr<span class="op">.</span><span class="fu">setWheelAngularVelocity</span>( speed )<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    controlLastUpdate <span class="op">+=</span> controlPeriod<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+    <canvas id="wmr-canvas2"></canvas>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="85" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 84;"><span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>wmr2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas2'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Numerical</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>player2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>player2<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p>What if we want to add an incline?</p>
+<p>Can do, but the equations are more complex.</p>
+<p>Again, how about a step? How about an incline and a step?</p>
+<div>
+    <canvas id="wmr-canvas3"></canvas>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="103" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 102;"><span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>wmr3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas3'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Numerical</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">addStep</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>player3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>player3<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
 
 
 
 </main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IFBsYXllciB9IGZyb20gJy4uL19saWIvUGxheWVyL2Rpc3QvcGxheWVyLmpzJztcbmltcG9ydCB7IFdNUlNpbXVsYXRvciwgV01SMkRNb2RlIH0gZnJvbSAgJy4uL19saWIvV01SMkQvZGlzdC93bXIyZC5qcyc7XG5cbnVpVGltZUVuZCA9IDE2LjA7XG51aVRpbWVTdGVwID0gMC4xO1xuXG53bXIxID0gbmV3IFdNUlNpbXVsYXRvciggJ3dtci1jYW52YXMxJywgV01SMkRNb2RlLk51bWVyaWNhbCApO1xucGxheWVyMSA9IG5ldyBQbGF5ZXIoIHVpVGltZUVuZCwgdWlUaW1lU3RlcCwgKHRpbWUpID0+IHdtcjEuc3RlcCh0aW1lKSwgKCkgPT4gd21yMS5yZXNldCgpICk7XG5wbGF5ZXIxLmNyZWF0ZSgpO1xuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoid21yMiA9IG5ldyBXTVJTaW11bGF0b3IoICd3bXItY2FudmFzMicsIFdNUjJETW9kZS5OdW1lcmljYWwsIHsgYWRkV2FsbDogdHJ1ZSB9ICk7XG5wbGF5ZXIyID0gbmV3IFBsYXllciggdWlUaW1lRW5kLCB1aVRpbWVTdGVwLCAodGltZSkgPT4gd21yMi5zdGVwKHRpbWUpLCAoKSA9PiB3bXIyLnJlc2V0KCkgKTtcbnBsYXllcjIuY3JlYXRlKCk7XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ3bXIzID0gbmV3IFdNUlNpbXVsYXRvciggJ3dtci1jYW52YXMzJywgV01SMkRNb2RlLk51bWVyaWNhbCwgeyBhZGRXYWxsOiB0cnVlLCBhZGRTdGVwOiB0cnVlIH0gKTtcbnBsYXllcjMgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIzLnN0ZXAodGltZSksICgpID0+IHdtcjMucmVzZXQoKSApO1xucGxheWVyMy5jcmVhdGUoKTtcbiJ9XX0=
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../demos";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

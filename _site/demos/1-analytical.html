@@ -277,24 +277,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>We want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.</p>
 </blockquote>
+<p>Base demo</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+    <canvas id="wmr-canvas1"></canvas>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="17" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 16;"><span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Player } <span class="im">from</span> <span class="st">'../_lib/Player/dist/player.js'</span><span class="op">;</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { WMR2D } <span class="im">from</span>  <span class="st">'../_lib/WMR2D/dist/wmr2d.js'</span><span class="op">;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>uiTimeEnd <span class="op">=</span> <span class="fl">16.0</span><span class="op">;</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>uiTimeStep <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updateWMR1</span>( time ) {</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  wmr1<span class="op">.</span><span class="fu">updatePositionClosedForm</span>( time )<span class="op">;</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  wmr1<span class="op">.</span><span class="fu">render</span>( <span class="kw">true</span> )<span class="op">;</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>wmr1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMR2D</span>( <span class="st">'wmr-canvas1'</span> )<span class="op">;</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>player1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> updateWMR1 )<span class="op">;</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>player1<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="28" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 27;"><span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Player } <span class="im">from</span> <span class="st">'../_lib/Player/dist/player.js'</span><span class="op">;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { WMRSimulator<span class="op">,</span> WMR2DMode } <span class="im">from</span>  <span class="st">'../_lib/WMR2D/dist/wmr2d.js'</span><span class="op">;</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>uiTimeEnd <span class="op">=</span> <span class="fl">16.0</span><span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>uiTimeStep <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>wmr1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas1'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">ClosedForm</span> )<span class="op">;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>player1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>player1<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -339,34 +336,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-1-7" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-1-8" data-nodetype="expression">
+<div id="ojs-cell-1-7" data-nodetype="expression">
 
 </div>
 </div>
 </div>
 </div>
+<p>With wall (what is the equation now?); can figure it out with some work.</p>
 <div>
-    <canvas id="wmr-canvas1"></canvas>
+    <canvas id="wmr-canvas2"></canvas>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="44" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 43;"><span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updateWMR2</span>( time ) {</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  wmr2<span class="op">.</span><span class="fu">updatePositionClosedForm</span>( time )<span class="op">;</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  wmr2<span class="op">.</span><span class="fu">render</span>( <span class="kw">true</span> )<span class="op">;</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>wmr2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMR2D</span>( <span class="st">'wmr-canvas2'</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>player2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> updateWMR2 )<span class="op">;</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>player2<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="49" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 48;"><span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>wmr2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas2'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">ClosedForm</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>player2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>player2<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-2-1" data-nodetype="declaration">
@@ -383,28 +366,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-2-3" data-nodetype="declaration">
+<div id="ojs-cell-2-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p>With step; probably cannot get a reasonable result.</p>
+<div>
+    <canvas id="wmr-canvas3"></canvas>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="63" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 62;"><span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>wmr3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas3'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">ClosedForm</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">addStep</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>player3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>player3<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
 
 </div>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-2-4" data-nodetype="expression">
+<div id="ojs-cell-3-2" data-nodetype="declaration">
 
 </div>
 </div>
 </div>
-</div>
+<div class="cell-output cell-output-display">
 <div>
-    <canvas id="wmr-canvas2"></canvas>
+<div id="ojs-cell-3-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
 </div>
 
 
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IFBsYXllciB9IGZyb20gJy4uL19saWIvUGxheWVyL2Rpc3QvcGxheWVyLmpzJztcbmltcG9ydCB7IFdNUjJEIH0gZnJvbSAgJy4uL19saWIvV01SMkQvZGlzdC93bXIyZC5qcyc7XG5cbnVpVGltZUVuZCA9IDE2LjA7XG51aVRpbWVTdGVwID0gMC4xO1xuXG5mdW5jdGlvbiB1cGRhdGVXTVIxKCB0aW1lICkge1xuXG4gIHdtcjEudXBkYXRlUG9zaXRpb25DbG9zZWRGb3JtKCB0aW1lICk7XG4gIHdtcjEucmVuZGVyKCB0cnVlICk7XG5cbn1cblxud21yMSA9IG5ldyBXTVIyRCggJ3dtci1jYW52YXMxJyApO1xuXG5wbGF5ZXIxID0gbmV3IFBsYXllciggdWlUaW1lRW5kLCB1aVRpbWVTdGVwLCB1cGRhdGVXTVIxICk7XG5wbGF5ZXIxLmNyZWF0ZSgpO1xuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiZnVuY3Rpb24gdXBkYXRlV01SMiggdGltZSApIHtcblxuICB3bXIyLnVwZGF0ZVBvc2l0aW9uQ2xvc2VkRm9ybSggdGltZSApO1xuICB3bXIyLnJlbmRlciggdHJ1ZSApO1xuXG59XG5cbndtcjIgPSBuZXcgV01SMkQoICd3bXItY2FudmFzMicsIHsgYWRkV2FsbDogdHJ1ZSB9ICk7XG5cbnBsYXllcjIgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsIHVwZGF0ZVdNUjIgKTtcbnBsYXllcjIuY3JlYXRlKCk7XG4ifV19
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IFBsYXllciB9IGZyb20gJy4uL19saWIvUGxheWVyL2Rpc3QvcGxheWVyLmpzJztcbmltcG9ydCB7IFdNUlNpbXVsYXRvciwgV01SMkRNb2RlIH0gZnJvbSAgJy4uL19saWIvV01SMkQvZGlzdC93bXIyZC5qcyc7XG5cbnVpVGltZUVuZCA9IDE2LjA7XG51aVRpbWVTdGVwID0gMC4xO1xuXG53bXIxID0gbmV3IFdNUlNpbXVsYXRvciggJ3dtci1jYW52YXMxJywgV01SMkRNb2RlLkNsb3NlZEZvcm0gKTtcbnBsYXllcjEgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIxLnN0ZXAodGltZSksICgpID0+IHdtcjEucmVzZXQoKSApO1xucGxheWVyMS5jcmVhdGUoKTtcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IndtcjIgPSBuZXcgV01SU2ltdWxhdG9yKCAnd21yLWNhbnZhczInLCBXTVIyRE1vZGUuQ2xvc2VkRm9ybSwgeyBhZGRXYWxsOiB0cnVlIH0gKTtcbnBsYXllcjIgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIyLnN0ZXAodGltZSksICgpID0+IHdtcjIucmVzZXQoKSApO1xucGxheWVyMi5jcmVhdGUoKTtcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IndtcjMgPSBuZXcgV01SU2ltdWxhdG9yKCAnd21yLWNhbnZhczMnLCBXTVIyRE1vZGUuQ2xvc2VkRm9ybSwgeyBhZGRXYWxsOiB0cnVlLCBhZGRTdGVwOiB0cnVlIH0gKTtcbnBsYXllcjMgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIzLnN0ZXAodGltZSksICgpID0+IHdtcjMucmVzZXQoKSApO1xucGxheWVyMy5jcmVhdGUoKTtcbiJ9XX0=
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

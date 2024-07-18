@@ -1,5 +1,83 @@
 import { Body, Box, Circle, Edge, Vec2, WheelJoint, World } from 'planck';
 
+export enum WMR2DMode { ClosedForm, Numerical, PhysicsEngine }
+
+export class WMRSimulator {
+
+	wmr: WMR2D;
+	wmrUpdate: ( time: number, dt: number ) => void;
+	wmrSpeed: ( dist: number ) => void;
+
+	prevTime = 0.0;
+	time = 0.0;
+
+	controlPeriod = 0.1;
+	controlLastUpdate = 0.0;
+
+	speedMax = 3.0;
+	speedSlope = 2.0;
+	speedIntercept = - 15.0;
+
+	constructor( id: string, mode: WMR2DMode, { simMinWidth = 10.0, addWall = false, addStep = false } = {} ) {
+
+		this.wmr = new WMR2D( id, { simMinWidth, addWall, addStep } );
+
+		switch ( mode ) {
+
+			case WMR2DMode.ClosedForm:
+				this.wmrUpdate = ( time, _ ) => this.wmr.updatePositionClosedForm( time );
+				this.wmrSpeed = _ => this.wmr.angularVelocity;
+				break;
+
+			case WMR2DMode.Numerical:
+				this.wmrUpdate = ( _, dt ) => this.wmr.updatePositionNumerical( dt );
+				this.wmrSpeed = dist => this.wmr.setWheelAngularVelocity( Math.max( - this.speedMax, Math.min( this.speedMax, this.speedSlope * dist + this.speedIntercept ) ) );
+				break;
+
+			case WMR2DMode.PhysicsEngine:
+				this.wmrUpdate = ( _, dt ) => this.wmr.updatePositionPhysicsEngine( dt );
+				this.wmrSpeed = dist => this.wmr.setWheelAngularVelocity( Math.max( - this.speedMax, Math.min( this.speedMax, this.speedSlope * dist + this.speedIntercept ) ) );
+				break;
+
+		}
+
+	}
+
+	step( now: number ) {
+
+		if ( ! this.prevTime ) this.prevTime = now;
+		const dt = ( now - this.prevTime );
+		this.prevTime = now;
+
+		this.time += dt;
+
+		this.wmrUpdate( this.time, dt );
+
+		this.wmr.render( true );
+
+		if ( this.time >= this.controlLastUpdate ) {
+
+			const dist = this.wmr.getDistanceToWall();
+			this.wmrSpeed( dist );
+
+			this.controlLastUpdate += this.controlPeriod;
+
+		}
+
+	}
+
+	reset() {
+
+		this.prevTime = 0.0;
+		this.time = 0.0;
+		this.controlLastUpdate = 0.0;
+
+		this.wmr.reset();
+
+	}
+
+}
+
 export class WMR2D {
 
 	canvas: HTMLCanvasElement;
@@ -187,14 +265,31 @@ export class WMR2D {
 		this.chassisPosition = this.initialPosition.clone();
 		this.chassisAngle = 0.0;
 
-		this.wheelPositionFront = new Vec2( - this.chassisLength / 2 + this.wheelInwardOffset, this.chassisPosition.y );
+		// this.wheelPositionFront = new Vec2( - this.chassisLength / 2 + this.wheelInwardOffset, this.chassisPosition.y );
+		this.wheelPositionFront = this.#wheelFromChassis( true );
 		this.wheelAngleFront = 0.0;
 
-		this.wheelPositionRear = new Vec2( this.chassisLength / 2 - this.wheelInwardOffset, this.chassisPosition.y );
+		// this.wheelPositionRear = new Vec2( this.chassisLength / 2 - this.wheelInwardOffset, this.chassisPosition.y );
+		this.wheelPositionRear = this.#wheelFromChassis( false );
 		this.wheelAngleRear = 0.0;
 
 		this.time = 0.0;
 		this.timeAccumulator = 0.0;
+
+		this.chassis.setPosition( this.chassisPosition );
+		this.chassis.setAngle( 0 );
+		this.chassis.setLinearVelocity( new Vec2( 0.0, 0.0 ) );
+		this.chassis.setAngularVelocity( 0.0 );
+
+		this.wheelFront.setPosition( this.wheelPositionFront );
+		this.wheelFront.setAngle( 0 );
+		this.wheelFront.setLinearVelocity( new Vec2( 0.0, 0.0 ) );
+		this.wheelFront.setAngularVelocity( 0.0 );
+
+		this.wheelRear.setPosition( this.wheelPositionRear );
+		this.wheelRear.setAngle( 0 );
+		this.wheelRear.setLinearVelocity( new Vec2( 0.0, 0.0 ) );
+		this.wheelRear.setAngularVelocity( 0.0 );
 
 	}
 
@@ -432,6 +527,8 @@ export class WMR2D {
 		this.wheelPositionRear = this.#wheelFromChassis( false );
 		this.wheelAngleRear = this.angularVelocity * this.time;
 
+		this.#updateDistanceSensor();
+
 	}
 
 	updatePositionNumerical( frameTime: number ) {
@@ -477,6 +574,8 @@ export class WMR2D {
 		// NOTE: we only need to update the wheel positions once per frame
 		this.wheelPositionFront = this.#wheelFromChassis( true );
 		this.wheelPositionRear = this.#wheelFromChassis( false );
+
+		this.#updateDistanceSensor();
 
 	}
 

@@ -4,7 +4,7 @@
     "href": "demos/1-analytical.html",
     "title": "Demo 1: Analytical Models",
     "section": "",
-    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nfunction updateWMR1( time ) {\n\n  wmr1.updatePositionClosedForm( time );\n  wmr1.render( true );\n\n}\n\nwmr1 = new WMR2D( 'wmr-canvas1' );\n\nplayer1 = new Player( uiTimeEnd, uiTimeStep, updateWMR1 );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    \n\n\nfunction updateWMR2( time ) {\n\n  wmr2.updatePositionClosedForm( time );\n  wmr2.render( true );\n\n}\n\nwmr2 = new WMR2D( 'wmr-canvas2', { addWall: true } );\n\nplayer2 = new Player( uiTimeEnd, uiTimeStep, updateWMR2 );\nplayer2.create();",
+    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\nBase demo\nchassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.ClosedForm );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWith wall (what is the equation now?); can figure it out with some work.\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.ClosedForm, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWith step; probably cannot get a reasonable result.\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.ClosedForm, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();",
     "crumbs": [
       "Home",
       "Demos",
@@ -175,8 +175,8 @@
     "objectID": "presentation.html#format",
     "href": "presentation.html#format",
     "title": "SimER Tutorial",
-    "section": "Format",
-    "text": "Format\nThis tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
+    "section": "",
+    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
     "crumbs": [
       "Home",
       "Presentation",
@@ -187,8 +187,8 @@
     "objectID": "presentation.html#evolutionary-robotics",
     "href": "presentation.html#evolutionary-robotics",
     "title": "SimER Tutorial",
-    "section": "Evolutionary Robotics",
-    "text": "Evolutionary Robotics\nThe use of evolutionary algorithms to explore the design space of robots and their control software.",
+    "section": "",
+    "text": "The use of evolutionary algorithms to explore the design space of robots and their control software.",
     "crumbs": [
       "Home",
       "Presentation",
@@ -199,8 +199,8 @@
     "objectID": "presentation.html#research-questions",
     "href": "presentation.html#research-questions",
     "title": "SimER Tutorial",
-    "section": "Research Questions",
-    "text": "Research Questions\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
+    "section": "",
+    "text": "There is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
     "crumbs": [
       "Home",
       "Presentation",
@@ -211,8 +211,8 @@
     "objectID": "presentation.html#general-algorithm",
     "href": "presentation.html#general-algorithm",
     "title": "SimER Tutorial",
-    "section": "General Algorithm",
-    "text": "General Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "section": "",
+    "text": "flowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nTODO: fix flow chart and pseudocode\npopulation = Initialize()\n\nLOOP\n  fitnesses = Evaluate(population)\n  IF Stop(fitnesses) THEN BREAK\n  selected = Select(population, fitnesses)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population\npopulation = initialize(POPULATION_SIZE)\npopulation = evaluate(population)\n\nfor generation in range(NUM_GENERATIONS):\n    if stop(population):\n        break\n\n    # Tournament selection\n    selected = select(population)\n    # Just mutation (no crossover?); maybe DE?\n    children = modify(selected)\n    children = evaluate(children)\n    # Elitism of 1?\n    population = combine(population, children)\n\nFitness = tuple[float, float]\nGenome = list[float]\nIndividual = tuple[Genome, Fitness]\nPopulation = list[Individual]\n\ndef initialize(size: int) -&gt; Population: ...\ndef evaluate(pop: Population) -&gt; Population: ...\ndef stop(pop: Population) -&gt; bool: ...\ndef select(pop: Population) -&gt; Population: ...\ndef modify(pop: Population) -&gt; Population: ...\ndef combine(pop1: Population, pop2: Population) -&gt; Population: ...",
     "crumbs": [
       "Home",
       "Presentation",
@@ -423,7 +423,7 @@
     "href": "presentation.html",
     "title": "SimER Tutorial",
     "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\npopulation = Initialize()\n\nLOOP\n  Evaluate(population)\n  IF Stop(population) THEN BREAK\n  selected = Select(population)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population",
+    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nTODO: fix flow chart and pseudocode\npopulation = Initialize()\n\nLOOP\n  fitnesses = Evaluate(population)\n  IF Stop(fitnesses) THEN BREAK\n  selected = Select(population, fitnesses)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population\npopulation = initialize(POPULATION_SIZE)\npopulation = evaluate(population)\n\nfor generation in range(NUM_GENERATIONS):\n    if stop(population):\n        break\n\n    # Tournament selection\n    selected = select(population)\n    # Just mutation (no crossover?); maybe DE?\n    children = modify(selected)\n    children = evaluate(children)\n    # Elitism of 1?\n    population = combine(population, children)\n\nFitness = tuple[float, float]\nGenome = list[float]\nIndividual = tuple[Genome, Fitness]\nPopulation = list[Individual]\n\ndef initialize(size: int) -&gt; Population: ...\ndef evaluate(pop: Population) -&gt; Population: ...\ndef stop(pop: Population) -&gt; bool: ...\ndef select(pop: Population) -&gt; Population: ...\ndef modify(pop: Population) -&gt; Population: ...\ndef combine(pop1: Population, pop2: Population) -&gt; Population: ...",
     "crumbs": [
       "Home",
       "Presentation",
@@ -452,6 +452,42 @@
       "Home",
       "Presentation",
       "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "demos/2-numerical.html",
+    "href": "demos/2-numerical.html",
+    "title": "Demo 2: Numerical Models",
+    "section": "",
+    "text": "Moving to a numerical version. It is easy to handle the wall now.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Numerical );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// Closed-form solution\nchassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n\n// Numerical solution\nchassisPosition += angularVelocity * wheelRadius * timeStep;\nAlso means we can now control the distance easier.\nwmr = new WMR2D( { addWall: true } );\n\nlet prevTime = 0.0;\nlet time = 0.0;\n\nconst controlPeriod = 0.1;\nlet controlLastUpdate = 0.0;\n\nwhile ( true ) {\n\n  if ( ! prevTime ) prevTime = now;\n  const dt = ( now - prevTime ) / 1000.0;\n  prevTime = now;\n\n  time += dt;\n\n  // Simulate\n  wmr.updatePositionNumerical( dt );\n\n  // Draw\n  wmr.render();\n\n  // Update control\n  if ( time &gt;= controlLastUpdate ) {\n\n    const dist = wmr.getDistanceToWall();\n    const speed = Math.min( 3.0, 20 * ( dist - 2.5 ) / 20.0 );\n    wmr.setWheelAngularVelocity( speed );\n\n    controlLastUpdate += controlPeriod;\n\n  }\n\n}\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Numerical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat if we want to add an incline?\nCan do, but the equations are more complex.\nAgain, how about a step? How about an incline and a step?\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Numerical, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 2: Numerical Models"
+    ]
+  },
+  {
+    "objectID": "demos/3-adding-collisions.html",
+    "href": "demos/3-adding-collisions.html",
+    "title": "Demo 3: Adding Collisions",
+    "section": "",
+    "text": "mutable number = 0;\n\n\n\n\n\n\n\nmutable number += 1;",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
+    ]
+  },
+  {
+    "objectID": "demos/4-rigid-body.html",
+    "href": "demos/4-rigid-body.html",
+    "title": "Demo 4: Rigid Body Models",
+    "section": "",
+    "text": "import { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.PhysicsEngine, { addWall: true, addStep: true} );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 4: Rigid Body Models"
     ]
   }
 ]

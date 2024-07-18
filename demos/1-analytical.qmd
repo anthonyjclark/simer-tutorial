@@ -12,25 +12,10 @@ Let's start with the following problem statement:
 
 > We want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.
 
+Base demo
 
-```{ojs}
-import { Player } from '../_lib/Player/dist/player.js';
-import { WMR2D } from  '../_lib/WMR2D/dist/wmr2d.js';
-
-uiTimeEnd = 16.0;
-uiTimeStep = 0.1;
-
-function updateWMR1( time ) {
-
-  wmr1.updatePositionClosedForm( time );
-  wmr1.render( true );
-
-}
-
-wmr1 = new WMR2D( 'wmr-canvas1' );
-
-player1 = new Player( uiTimeEnd, uiTimeStep, updateWMR1 );
-player1.create();
+```typescript
+chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
 ```
 
 ```{=html}
@@ -39,25 +24,43 @@ player1.create();
 </div>
 ```
 
-
 ```{ojs}
-function updateWMR2( time ) {
+import { Player } from '../_lib/Player/dist/player.js';
+import { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';
 
-  wmr2.updatePositionClosedForm( time );
-  wmr2.render( true );
+uiTimeEnd = 16.0;
+uiTimeStep = 0.1;
 
-}
-
-wmr2 = new WMR2D( 'wmr-canvas2', { addWall: true } );
-
-player2 = new Player( uiTimeEnd, uiTimeStep, updateWMR2 );
-player2.create();
+wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.ClosedForm );
+player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wmr1.reset() );
+player1.create();
 ```
 
 
+With wall (what is the equation now?); can figure it out with some work.
 
 ```{=html}
 <div>
     <canvas id="wmr-canvas2"></canvas>
 </div>
+```
+
+```{ojs}
+wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.ClosedForm, { addWall: true } );
+player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
+player2.create();
+```
+
+With step; probably cannot get a reasonable result.
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas3"></canvas>
+</div>
+```
+
+```{ojs}
+wmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.ClosedForm, { addWall: true, addStep: true } );
+player3 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr3.step(time), () => wmr3.reset() );
+player3.create();
 ```
