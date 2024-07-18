@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -66,6 +100,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -161,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../demos/3-rigid-body-dynamics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo 3: Adding Collisions</span></a>
+ <span class="menu-text">Demo 3: Rigid Body Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -207,7 +244,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
+  <li><a href="#evolution" id="toc-evolution" class="nav-link" data-scroll-target="#evolution">Evolution</a></li>
+  <li><a href="#launch" id="toc-launch" class="nav-link" data-scroll-target="#launch">Launch</a></li>
+  <li><a href="#analyze" id="toc-analyze" class="nav-link" data-scroll-target="#analyze">Analyze</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -231,15 +278,172 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Test</p>
-<p>steps (maybe show comparison chart for several physics engines)</p>
+<p>We’ll now look at a full evolutionary robotics example. Here are the steps:</p>
 <ol type="1">
-<li>install software</li>
-<li>create “world” (and collision space)</li>
-<li>create “robot” (bodies and geometries/shapes; constraints/joints)</li>
+<li>Setup a compute environment.</li>
+<li>Create a simulation that is decoupled from evolution and visualization.</li>
+<li>Implement an evolutionary algorithm.</li>
+<li>Launch the evolutionary process and leverage parallelism.</li>
+<li>Analyze and visualize the results.</li>
 </ol>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>I am using an HPC linux server with <a href="https://lmod.readthedocs.io/en/latest/">Lmod</a> (used for environment management) and <a href="https://slurm.schedmd.com/documentation.html">Slurm</a> (for workload management). Though these instructions will work pretty broadly.</p>
+<p>I use <a href="https://github.com/conda-forge/miniforge">Miniforge</a> to manage my software installations. So, here is my process:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install or activate Miniforge</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new environment</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">--name</span> simer</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Install necessary packages</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install pybox2d ipython pandas enlighten jupyter seaborn plotly</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the environment for reproducibility (create both)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--from-history</span> <span class="op">&gt;</span> cross-platform.yml</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list <span class="at">--explicit</span> <span class="op">&gt;</span> spec-file.txt</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directory for code (and a separate for data if needed)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/simer-tutorial</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/simer-tutorial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once the directory is created, I typically edit code using <a href="https://code.visualstudio.com/">VSCode</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a> extension.</p>
+</section>
+<section id="simulation" class="level2">
+<h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
+<p>My WMR simulation, written in Python, largely follows the version from demos 1-3. The key is that the simulation can be constructed with the parameters we want to evolve:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WMR:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">*</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        wheel_radius: <span class="bu">float</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        chassis_length: <span class="bu">float</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        suspension_frequency: <span class="bu">float</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        suspension_damping: <span class="bu">float</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        sensor_limit: <span class="bu">float</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        duration: <span class="bu">float</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        time_step: <span class="bu">float</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        visualize: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the evolution file, we can then simulate with:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wmr <span class="op">=</span> WMR(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    wheel_radius<span class="op">=</span>wheel_radius,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    chassis_length<span class="op">=</span>chassis_length,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    suspension_frequency<span class="op">=</span>suspension_frequency,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    suspension_damping<span class="op">=</span>suspension_damping,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    sensor_limit<span class="op">=</span>sensor_limit,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    duration<span class="op">=</span>DURATION,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    time_step<span class="op">=</span>TIME_STEP,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    visualize<span class="op">=</span>visualize,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where each of these values is computed from a genome.</p>
+</section>
+<section id="evolution" class="level2">
+<h2 class="anchored" data-anchor-id="evolution">Evolution</h2>
+<p>Here is the basic structure of the evolutionary algorithm:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    Init[Initialize] --&gt; Eval[Evaluate]
+    Eval --&gt; Stop{Stop?}
+    Stop --Yes--&gt; Retn[Return]
+    Stop --No--&gt; Sele[Select]
+    Sele --&gt; Modi[Modify]
+    Modi --&gt; Evl2[Evaluate]
+    Evl2 --&gt; Comb[Combine]
+    Comb --&gt; Stop
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>I like to get a bit of linting help by defining the types I’ll be using:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Genome <span class="op">=</span> <span class="bu">list</span>[<span class="bu">float</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Fitness <span class="op">=</span> namedtuple(<span class="st">"Fitness"</span>, [<span class="st">"feasibility"</span>, <span class="st">"objective"</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Individual <span class="op">=</span> <span class="bu">tuple</span>[Genome, Fitness]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Population <span class="op">=</span> <span class="bu">list</span>[Individual]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And also some utility function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clamp(lo: <span class="bu">float</span>, hi: <span class="bu">float</span>, value: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>: ...</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scale(from_lo: <span class="bu">float</span>, from_hi: <span class="bu">float</span>, to_lo: <span class="bu">float</span>, to_hi: <span class="bu">float</span>, value: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>: ...</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> statistics(pop: Population) <span class="op">-&gt;</span> <span class="bu">tuple</span>[Fitness, Fitness, Fitness]: ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the core of our algorithm’s implementation:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_genome() <span class="op">-&gt;</span> Genome: ...</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(...) <span class="op">-&gt;</span> Fitness: ...</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fitness(genome: Genome, testing<span class="op">=</span><span class="va">False</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[Fitness, <span class="bu">dict</span>]: ...</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initialize(size: <span class="bu">int</span>) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(pop: Population, manager) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stop(pop: Population, <span class="op">*</span>, _best<span class="op">=</span>[Fitness(<span class="dv">0</span>, <span class="dv">0</span>)], _counter<span class="op">=</span>[<span class="dv">0</span>]) <span class="op">-&gt;</span> <span class="bu">bool</span>: ...</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tournament(pop: Population) <span class="op">-&gt;</span> Individual: ...</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> select(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mutate_gene(gene: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>: ...</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mutate(genome: Genome) <span class="op">-&gt;</span> Genome: ...</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> modify(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> combine(original: Population, children: Population) <span class="op">-&gt;</span> Population: ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And here is the main loop:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>population <span class="op">=</span> initialize(args.population_size)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>population <span class="op">=</span> evaluate(population, manager)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> generation <span class="kw">in</span> <span class="bu">range</span>(args.num_generations):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> stop(population):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    selected <span class="op">=</span> select(population)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    children <span class="op">=</span> modify(selected)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    children <span class="op">=</span> evaluate(children, manager)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    population <span class="op">=</span> combine(population, children)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A few of my implementation specific details are bleeding through. For example, using the <a href="https://python-enlighten.readthedocs.io/en/stable/">enlighten</a> progress bar manager. You can view <a href="https://github.com/anthonyjclark/simer-tutorial/tree/main/_example">the full code in the repository</a>.</p>
+<p>Here’s a demo of the evolution script:</p>
+<script id="asciicast-668746" src="https://asciinema.org/a/668746.js" async=""></script>
+<!-- https://asciinema.org/a/668746 -->
+</section>
+<section id="launch" class="level2">
+<h2 class="anchored" data-anchor-id="launch">Launch</h2>
+<p>Rarely do we want to run a single “replicate” of an evolutionary optimization process. Instead, we run many with different initial conditions. The script below will launch 10 trials of the evolutionary process:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load conda and activate an environment</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniconda3</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate boxcarv2</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="va">POP_SIZE</span><span class="op">=</span>100</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_GENERATIONS</span><span class="op">=</span>100</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_TRIALS</span><span class="op">=</span>10</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="va">slurm_args</span><span class="op">=</span><span class="st">"--ntasks=1 --nodes=1 --exclusive"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="va">cmd</span><span class="op">=</span><span class="st">"python wmr_evolution.py"</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="va">cmd_args</span><span class="op">=</span><span class="st">"--population_size </span><span class="va">$POP_SIZE</span><span class="st"> --num_generations </span><span class="va">$NUM_GENERATIONS</span><span class="st">"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-exuo</span> pipefail</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trial <span class="kw">in</span> <span class="va">$(</span><span class="fu">seq</span> 1 <span class="va">$NUM_TRIALS)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="va">$slurm_args</span> <span class="va">$cmd</span> <span class="st">"trial</span><span class="va">$trial</span><span class="st">"</span> <span class="va">$cmd_args</span> <span class="at">--seed</span> <span class="va">$trial</span> <span class="kw">&amp;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="bu">wait</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can find the <a href="https://github.com/anthonyjclark/simer-tutorial/blob/main/_example/run.slurm.sh">full script with SLURM options here</a>.</p>
+</section>
+<section id="analyze" class="level2">
+<h2 class="anchored" data-anchor-id="analyze">Analyze</h2>
+<p>Last, we take a look at the results. I like to start with the behaviors. I have my script output the “best” individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with <a href="https://review.github.io/">Review</a> (a tool I created for this purpose).</p>
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+<p>
+Visualization not shown because your browser does not allow use of an iframe.
+</p>
+</iframe>
+<p>Here’s a second example with a slightly different behavior:</p>
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+<p>
+Visualization not shown because your browser does not allow use of an iframe.
+</p>
+</iframe>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

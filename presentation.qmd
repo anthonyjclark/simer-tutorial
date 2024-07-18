@@ -48,20 +48,22 @@ flowchart LR
     Stop --Yes--> Retn[Return]
     Stop --No--> Sele[Select]
     Sele --> Modi[Modify]
-    Modi --> Comb[Combine]
-    Comb --> Eval
+    Modi --> Evl2[Evaluate]
+    Evl2 --> Comb[Combine]
+    Comb --> Stop
 ```
 
 TODO: fix flow chart and pseudocode
 
 ```{.pseudocode}
 population = Initialize()
+population = Evaluate(population)
 
 LOOP
-  fitnesses = Evaluate(population)
   IF Stop(fitnesses) THEN BREAK
-  selected = Select(population, fitnesses)
+  selected = Select(population)
   children = Modify(selected)
+  children = Evaluate(children)
   population = Combine(population, children)
 
 RETURN population

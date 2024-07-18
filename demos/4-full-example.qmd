@@ -6,10 +6,196 @@ format:
         highlight-style: pygments
 ---
 
-Test
+We'll now look at a full evolutionary robotics example. Here are the steps:
 
-steps (maybe show comparison chart for several physics engines)
+1. Setup a compute environment.
+2. Create a simulation that is decoupled from evolution and visualization.
+3. Implement an evolutionary algorithm.
+4. Launch the evolutionary process and leverage parallelism.
+5. Analyze and visualize the results.
 
-1. install software
-2. create "world" (and collision space)
-3. create "robot" (bodies and geometries/shapes; constraints/joints)
+## Setup
+
+I am using an HPC linux server with [Lmod](https://lmod.readthedocs.io/en/latest/) (used for environment management) and [Slurm](https://slurm.schedmd.com/documentation.html) (for workload management). Though these instructions will work pretty broadly.
+
+I use [Miniforge](https://github.com/conda-forge/miniforge) to manage my software installations. So, here is my process:
+
+```bash
+# Install or activate Miniforge
+module load miniforge3
+
+# Create a new environment
+mamba create --name simer
+
+# Install necessary packages
+mamba install pybox2d ipython pandas enlighten jupyter seaborn plotly
+
+# Save the environment for reproducibility (create both)
+conda env export --from-history > cross-platform.yml
+conda list --explicit > spec-file.txt
+
+# Create a directory for code (and a separate for data if needed)
+mkdir -p ~/simer-tutorial
+cd ~/simer-tutorial
+```
+
+Once the directory is created, I typically edit code using [VSCode](https://code.visualstudio.com/) with the [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension.
+
+## Simulation
+
+My WMR simulation, written in Python, largely follows the version from demos 1-3. The key is that the simulation can be constructed with the parameters we want to evolve:
+
+```python
+class WMR:
+    def __init__(
+        self,
+        *,
+        wheel_radius: float,
+        chassis_length: float,
+        suspension_frequency: float,
+        suspension_damping: float,
+        sensor_limit: float,
+        duration: float,
+        time_step: float,
+        visualize: bool = False,
+    ):
+    ...
+```
+
+In the evolution file, we can then simulate with:
+
+```python
+wmr = WMR(
+    wheel_radius=wheel_radius,
+    chassis_length=chassis_length,
+    suspension_frequency=suspension_frequency,
+    suspension_damping=suspension_damping,
+    sensor_limit=sensor_limit,
+    duration=DURATION,
+    time_step=TIME_STEP,
+    visualize=visualize,
+)
+```
+
+Where each of these values is computed from a genome.
+
+## Evolution
+
+Here is the basic structure of the evolutionary algorithm:
+
+```{mermaid}
+%%| fig-align: center
+
+flowchart LR
+    Init[Initialize] --> Eval[Evaluate]
+    Eval --> Stop{Stop?}
+    Stop --Yes--> Retn[Return]
+    Stop --No--> Sele[Select]
+    Sele --> Modi[Modify]
+    Modi --> Evl2[Evaluate]
+    Evl2 --> Comb[Combine]
+    Comb --> Stop
+```
+
+I like to get a bit of linting help by defining the types I'll be using:
+
+```python
+Genome = list[float]
+Fitness = namedtuple("Fitness", ["feasibility", "objective"])
+Individual = tuple[Genome, Fitness]
+Population = list[Individual]
+```
+
+And also some utility function:
+
+```python
+def clamp(lo: float, hi: float, value: float) -> float: ...
+def scale(from_lo: float, from_hi: float, to_lo: float, to_hi: float, value: float) -> float: ...
+def statistics(pop: Population) -> tuple[Fitness, Fitness, Fitness]: ...
+```
+
+Now the core of our algorithm's implementation:
+
+```python
+def generate_genome() -> Genome: ...
+def simulate(...) -> Fitness: ...
+def fitness(genome: Genome, testing=False) -> tuple[Fitness, dict]: ...
+
+def initialize(size: int) -> Population: ...
+def evaluate(pop: Population, manager) -> Population: ...
+def stop(pop: Population, *, _best=[Fitness(0, 0)], _counter=[0]) -> bool: ...
+
+def tournament(pop: Population) -> Individual: ...
+def select(pop: Population) -> Population: ...
+
+def mutate_gene(gene: float) -> float: ...
+def mutate(genome: Genome) -> Genome: ...
+def modify(pop: Population) -> Population: ...
+
+def combine(original: Population, children: Population) -> Population: ...
+```
+
+And here is the main loop:
+
+```python
+population = initialize(args.population_size)
+population = evaluate(population, manager)
+
+for generation in range(args.num_generations):
+    if stop(population):
+        break
+
+    selected = select(population)
+    children = modify(selected)
+    children = evaluate(children, manager)
+    population = combine(population, children)
+```
+
+A few of my implementation specific details are bleeding through. For example, using the [enlighten](https://python-enlighten.readthedocs.io/en/stable/) progress bar manager. You can view [the full code in the repository](https://github.com/anthonyjclark/simer-tutorial/tree/main/_example).
+
+Here's a demo of the evolution script:
+
+<script id="asciicast-668746" src="https://asciinema.org/a/668746.js" async></script>
+
+<!-- https://asciinema.org/a/668746 -->
+
+## Launch
+
+Rarely do we want to run a single "replicate" of an evolutionary optimization process. Instead, we run many with different initial conditions. The script below will launch 10 trials of the evolutionary process:
+
+```bash
+# Load conda and activate an environment
+module load miniconda3
+conda activate boxcarv2
+
+POP_SIZE=100
+NUM_GENERATIONS=100
+NUM_TRIALS=10
+
+slurm_args="--ntasks=1 --nodes=1 --exclusive"
+cmd="python wmr_evolution.py"
+cmd_args="--population_size $POP_SIZE --num_generations $NUM_GENERATIONS"
+
+set -exuo pipefail
+
+for trial in $(seq 1 $NUM_TRIALS); do
+    srun $slurm_args $cmd "trial$trial" $cmd_args --seed $trial &
+done
+wait
+```
+
+You can find the [full script with SLURM options here](https://github.com/anthonyjclark/simer-tutorial/blob/main/_example/run.slurm.sh).
+
+## Analyze
+
+Last, we take a look at the results. I like to start with the behaviors. I have my script output the "best" individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with [Review](https://review.github.io/) (a tool I created for this purpose).
+
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+  <p>Visualization not shown because your browser does not allow use of an iframe.</p>
+</iframe>
+
+Here's a second example with a slightly different behavior:
+
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+  <p>Visualization not shown because your browser does not allow use of an iframe.</p>
+</iframe>

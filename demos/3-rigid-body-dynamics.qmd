@@ -1,5 +1,5 @@
 ---
-title: "Demo 3: Adding Collisions"
+title: "Demo 3: Rigid Body Models"
 execute:
     echo: false
 format:
@@ -170,6 +170,8 @@ wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.RBDEngine, { addWall: true, ad
 player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
 player2.create();
 ```
+
+Here is [the full source code for the demo](https://github.com/anthonyjclark/simer-tutorial/blob/main/_lib/WMR2D/lib/main.ts).
 
 ## Optimizing our WMR
 

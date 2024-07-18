@@ -475,8 +475,9 @@ Anthony J. Clark
     Stop --Yes--&gt; Retn[Return]
     Stop --No--&gt; Sele[Select]
     Sele --&gt; Modi[Modify]
-    Modi --&gt; Comb[Combine]
-    Comb --&gt; Eval
+    Modi --&gt; Evl2[Evaluate]
+    Evl2 --&gt; Comb[Combine]
+    Comb --&gt; Stop
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -485,15 +486,16 @@ Anthony J. Clark
 </div>
 <p>TODO: fix flow chart and pseudocode</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource pseudocode number-lines code-with-copy"><code class="sourceCode pseudocode"><span id="cb1-1"><a></a>population = Initialize()</span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="cf">LOOP</span></span>
-<span id="cb1-4"><a></a>  fitnesses = Evaluate(population)</span>
+<span id="cb1-2"><a></a>population = Evaluate(population)</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a><span class="cf">LOOP</span></span>
 <span id="cb1-5"><a></a>  <span class="cf">IF</span> Stop(fitnesses) <span class="cf">THEN</span> <span class="cf">BREAK</span></span>
-<span id="cb1-6"><a></a>  selected = Select(population, fitnesses)</span>
+<span id="cb1-6"><a></a>  selected = Select(population)</span>
 <span id="cb1-7"><a></a>  children = Modify(selected)</span>
-<span id="cb1-8"><a></a>  population = Combine(population, children)</span>
-<span id="cb1-9"><a></a></span>
-<span id="cb1-10"><a></a><span class="cf">RETURN</span> population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a></a>  children = Evaluate(children)</span>
+<span id="cb1-9"><a></a>  population = Combine(population, children)</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a><span class="cf">RETURN</span> population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>population <span class="op">=</span> initialize(POPULATION_SIZE)</span>
 <span id="cb2-2"><a></a>population <span class="op">=</span> evaluate(population)</span>
 <span id="cb2-3"><a></a></span>
@@ -590,7 +592,7 @@ Anthony J. Clark
 </section>
 <section id="full-examples" class="slide level2">
 <h2>Full Examples</h2>
-<p>Full description at <a href="./demos/5-full-example.html">Full Example</a>.</p>
+<p>Full description at <a href="demos/5-full-example.qmd">Full Example</a>.</p>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
