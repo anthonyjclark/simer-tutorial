@@ -1,0 +1,37 @@
+==========================================
+SLURM_JOB_ID = 13131
+SLURM_JOB_NODELIST = a[002,009-012]
+==========================================
+Wed Jul 17 15:51:03 PDT 2024
+a002.hpc.pomona.edu
+trial3
+Fitness(feasibility=0, objective=3.877214395955887)
+{'final_distance': 0.012058258056640625, 'final_speed': 0.000100435156843659, 'hit_wall': False, 'wheel_radius': 0.64060018152722, 'index_at_rest': 690}
+trial1
+Fitness(feasibility=0, objective=3.88330550514952)
+{'final_distance': 0.0047016143798828125, 'final_speed': -7.85097504145682e-05, 'hit_wall': False, 'wheel_radius': 0.6446939711276711, 'index_at_rest': 640}
+trial6
+Fitness(feasibility=0, objective=3.8819540977066613)
+{'final_distance': -0.003131866455078125, 'final_speed': -8.78567117865714e-05, 'hit_wall': False, 'wheel_radius': 0.6308445620228481, 'index_at_rest': 680}
+trial4
+Fitness(feasibility=0, objective=3.854922659006805)
+{'final_distance': 0.0008087158203125, 'final_speed': -8.060953712885066e-05, 'hit_wall': False, 'wheel_radius': 0.720076458052171, 'index_at_rest': 720}
+trial2
+Fitness(feasibility=0, objective=3.8851714909977186)
+{'final_distance': 0.0019397735595703125, 'final_speed': -8.438484626083209e-05, 'hit_wall': False, 'wheel_radius': 0.6535198712424581, 'index_at_rest': 610}
+trial9
+Fitness(feasibility=0, objective=3.858307043218454)
+{'final_distance': 0.011968612670898438, 'final_speed': 8.244135016610699e-05, 'hit_wall': False, 'wheel_radius': 0.7962389960535112, 'index_at_rest': 530}
+trial10
+Fitness(feasibility=0, objective=3.8679817935503458)
+{'final_distance': -0.002490997314453125, 'final_speed': 4.6385478970734084e-05, 'hit_wall': False, 'wheel_radius': 0.6320794388760484, 'index_at_rest': 790}
+trial5
+Fitness(feasibility=0, objective=3.878487199136878)
+{'final_distance': -0.000209808349609375, 'final_speed': -6.496951816359342e-05, 'hit_wall': False, 'wheel_radius': 0.6311038935985847, 'index_at_rest': 710}
+trial8
+Fitness(feasibility=0, objective=3.8825453316552654)
+{'final_distance': -0.0032100677490234375, 'final_speed': -8.118464182693685e-05, 'hit_wall': False, 'wheel_radius': 0.648435499445001, 'index_at_rest': 640}
+trial7
+Fitness(feasibility=0, objective=3.873043041517693)
+{'final_distance': -0.01070404052734375, 'final_speed': -9.597777667380569e-05, 'hit_wall': False, 'wheel_radius': 0.7328871798100145, 'index_at_rest': 540}
+Wed Jul 17 16:09:32 PDT 2024

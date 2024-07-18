@@ -1,0 +1,56 @@
+Lmod Warning: MODULEPATH directory: "/opt/linux/rocky/8/modulefile" has too
+many non-modulefiles (102). Please make sure that modulefiles are in their own
+directory and not mixed in with non-modulefiles (e.g. source code)
+
+
+
+++ seq 1 10
++ for trial in $(seq 1 $NUM_TRIALS)
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial1 --population_size 100 --num_generations 100 --seed 1
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial2 --population_size 100 --num_generations 100 --seed 2
++ for trial in $(seq 1 $NUM_TRIALS)
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial3 --population_size 100 --num_generations 100 --seed 3
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial4 --population_size 100 --num_generations 100 --seed 4
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial5 --population_size 100 --num_generations 100 --seed 5
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial6 --population_size 100 --num_generations 100 --seed 6
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial7 --population_size 100 --num_generations 100 --seed 7
++ for trial in $(seq 1 $NUM_TRIALS)
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial8 --population_size 100 --num_generations 100 --seed 8
++ for trial in $(seq 1 $NUM_TRIALS)
++ wait
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial9 --population_size 100 --num_generations 100 --seed 9
++ srun --ntasks=1 --nodes=1 --exclusive python wmr_evolution.py trial10 --population_size 100 --num_generations 100 --seed 10
+srun: Job 13131 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=13131.27
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=13131.28
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=13131.29
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=13131.30
+srun: Job 13131 step creation still disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=13131.31
++ date
