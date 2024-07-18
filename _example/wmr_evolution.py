@@ -357,14 +357,17 @@ def main():
         }
     )
 
+    def val_or_nan(i, key):
+        return i["objective"][key] if "objective" in i else float("nan")
+
     pop_sim = [fitness(ind, testing=True) for ind, _ in population]
     pop_info["feasibility"] = [f.feasibility for f, _ in pop_sim]
     pop_info["objective"] = [f.objective for f, _ in pop_sim]
-    pop_info["final_distance"] = [i["objective"]["final_distance"] for _, i in pop_sim]
-    pop_info["final_speed"] = [i["objective"]["final_speed"] for _, i in pop_sim]
-    pop_info["hit_wall"] = [i["objective"]["hit_wall"] for _, i in pop_sim]
-    pop_info["wheel_radius"] = [i["objective"]["wheel_radius"] for _, i in pop_sim]
-    pop_info["index_at_rest"] = [i["objective"]["index_at_rest"] for _, i in pop_sim]
+    pop_info["final_distance"] = [val_or_nan(i, "final_distance") for _, i in pop_sim]
+    pop_info["final_speed"] = [val_or_nan(i, "final_speed") for _, i in pop_sim]
+    pop_info["hit_wall"] = [val_or_nan(i, "hit_wall") for _, i in pop_sim]
+    pop_info["wheel_radius"] = [val_or_nan(i, "wheel_radius") for _, i in pop_sim]
+    pop_info["index_at_rest"] = [val_or_nan(i, "index_at_rest") for _, i in pop_sim]
 
     pd.DataFrame(pop_info).to_csv(
         f"{args.name}-population.csv", index_label="Individual"

@@ -3,8 +3,11 @@
 #SBATCH --job-name="WMREvolution"
 #SBATCH --time=2-00:00:00
 #SBATCH --partition=amd
-#SBATCH --mem=60GB
+#SBATCH --nodes=5
 #SBATCH --ntasks=10
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=10GB
 #SBATCH --mail-user=anthony.clark@pomona.edu
 #SBATCH --mail-type=ALL
 #SBATCH --err SLURM_ERROR_LOG.%j.%N.txt
@@ -21,7 +24,7 @@ POP_SIZE=100
 NUM_GENERATIONS=100
 NUM_TRIALS=10
 
-slurm_args="--ntasks=1 --cpus-per-task=1 --mem-per-cpu=5GB --exclusive"
+slurm_args="--ntasks=1 --nodes=1 --exclusive"
 cmd="python wmr_evolution.py"
 cmd_args="--population_size $POP_SIZE --num_generations $NUM_GENERATIONS"
 

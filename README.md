@@ -45,6 +45,7 @@ TODO:
   - distance to target
   - then penalize hitting wall
 - differential evolution
+- show 1 and 4, 10 and 5
 
 Tutorial:
 
