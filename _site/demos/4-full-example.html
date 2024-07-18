@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>SimER - Tools</title>
+<title>SimER - Demo 4: Full Example</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,6 +69,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../_lib/WMR2D/css/main.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
@@ -107,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/advice.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/tools.html">Tools</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/4-full-example.html">Demo 4: Full Example</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -165,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../demos/4-full-example.html" class="sidebar-item-text sidebar-link">
+  <a href="../demos/4-full-example.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Demo 4: Full Example</span></a>
   </div>
 </li>
@@ -188,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../resources/tools.html" class="sidebar-item-text sidebar-link active">
+  <a href="../resources/tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tools</span></a>
   </div>
 </li>
@@ -206,28 +207,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#robot-simulators" id="toc-robot-simulators" class="nav-link active" data-scroll-target="#robot-simulators">Robot Simulators</a></li>
-  <li><a href="#game-engines" id="toc-game-engines" class="nav-link" data-scroll-target="#game-engines">Game Engines</a></li>
-  <li><a href="#physics-engines" id="toc-physics-engines" class="nav-link" data-scroll-target="#physics-engines">Physics Engines</a></li>
-  <li><a href="#numerical-engines" id="toc-numerical-engines" class="nav-link" data-scroll-target="#numerical-engines">Numerical Engines</a></li>
-  <li><a href="#soft-body-engines" id="toc-soft-body-engines" class="nav-link" data-scroll-target="#soft-body-engines">Soft-Body Engines</a></li>
-  <li><a href="#rendering-engines" id="toc-rendering-engines" class="nav-link" data-scroll-target="#rendering-engines">Rendering Engines</a></li>
-  <li><a href="#configuration-language" id="toc-configuration-language" class="nav-link" data-scroll-target="#configuration-language">Configuration Language</a></li>
-  <li><a href="#authoring-tools" id="toc-authoring-tools" class="nav-link" data-scroll-target="#authoring-tools">Authoring Tools</a></li>
-  <li><a href="#physics-engine-development" id="toc-physics-engine-development" class="nav-link" data-scroll-target="#physics-engine-development">Physics Engine Development</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/advice.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/tools.html">Tools</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/4-full-example.html">Demo 4: Full Example</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Tools</h1>
+<h1 class="title">Demo 4: Full Example</h1>
 </div>
 
 
@@ -244,151 +231,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
-<!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
-<p>Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we’ve listed a few related ideas below as well.</p>
-<p>Creating a simulation is called “modeling.” In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).</p>
-<p>Broadly, we can list the following forms of simulation as it relates to evolutionary robotics (ER)</p>
-<ul>
-<li>analytical (closed-form) dynamics,</li>
-<li>rigid-body dynamics (aka physical simulation or physics engine),</li>
-<li>soft-body dynamics,</li>
-<li>finite-element analysis, and</li>
-<li>digital evolution (e.g., Avida).</li>
-</ul>
-<p>Often, an increase in accuracy comes at the cost of an increase in complexity and compute time. Analytical simulations are often only useful for toy problems (i.e., they are not even expressive enough to simulate a double pendulum system). Numerical systems are much broader—in some sense, they encapsulate rigid-body and soft-body dynamics—but they are often slower and less powerful compared to rigid-body and soft-body simulators. For example, a nonholonomic system cannot be described by a closed-form solution. In this case, a numerical or physical simulation is required.</p>
-<!--
-
-https://robotics.stackexchange.com/a/9644
-
-For a nonholonomic system, you can at best determine a differential relationship between state and inputs. You cannot determine a closed-form geometric relationship. This means that the history of states is needed in order to determine the current state. Vehicles are a good example because you can intuitively see that turning the right wheel 100 rotations and turning the left wheel 100 rotations does not provide enough information to describe the change in position. If the wheels are turned synchronously, the vehicle will follow a straight line. If they are coordinated in another sequence, the robot will turn, and follow some other path. This is nonholonomic: knowing the total change in state variables is insufficient to describe the motion, because you cannot write a geometric relationship between input and output. It is differential at best.
-
--->
-<p>Here are things to consider when selecting your simulation tool:</p>
-<ul>
-<li>computation efficiency: how long does it take to run a simulation?</li>
-<li>cost: do you need to purchase a license? or is it open-source?</li>
-<li>features: does it support the features you need? (e.g., 3d, sensors, actuators, controllers, etc.)</li>
-<li>simplicity: how easy is it to use?</li>
-<li>robustness: how well does it handle edge cases?</li>
-<li>accuracy: how close is the simulation to reality?</li>
-<li>determinism: does it produce the same results given the same inputs?</li>
-<li>support: is there a community or documentation to help you?</li>
-<li>interactive: can you interact with the simulation in real-time?</li>
-<li>headless: can you run the simulation without a GUI?</li>
-</ul>
-<section id="robot-simulators" class="level2">
-<h2 class="anchored" data-anchor-id="robot-simulators">Robot Simulators</h2>
-<ul>
-<li><a href="https://gazebosim.org/home">Gazebo</a></li>
-<li><a href="https://coppeliarobotics.com/">CoppeliaSim</a> (V-REP replacement)</li>
-<li><a href="https://cyberbotics.com/">Webots</a></li>
-<li><a href="https://developer.nvidia.com/isaac-sim">Isaac Sim</a></li>
-<li><a href="https://www.cm-labs.com/en/vortex-studio/">Vortex Studio</a></li>
-<li><a href="https://drake.mit.edu/">Drake</a></li>
-<li><a href="https://robodk.com/">RoboDK</a></li>
-<li><a href="https://rock-simulation.github.io/mars/">MARS</a></li>
-<li><a href="https://www.mathworks.com/products/simscape-multibody.html">Simscape Multibody</a></li>
-<li><a href="https://raisim.com/">RaiSim</a></li>
-</ul>
-</section>
-<section id="game-engines" class="level2">
-<h2 class="anchored" data-anchor-id="game-engines">Game Engines</h2>
-<ul>
-<li><a href="https://www.unrealengine.com/en-US">Unreal Engine</a></li>
-<li><a href="https://unity.com/">Unity</a></li>
-<li><a href="https://godotengine.org/">Godot Engine</a></li>
-<li><a href="https://bevyengine.org/">Bevy</a></li>
-</ul>
-</section>
-<section id="physics-engines" class="level2">
-<h2 class="anchored" data-anchor-id="physics-engines">Physics Engines</h2>
-<ul>
-<li>Game focused
-<ul>
-<li><a href="https://developer.nvidia.com/physx-sdk">PhysX</a></li>
-<li><a href="https://pybullet.org/wordpress/">Bullet</a></li>
-<li><a href="https://bitbucket.org/odedevs/ode/src/master/">ODE</a></li>
-<li><a href="https://github.com/jrouwe/JoltPhysics">Jolt Physics</a></li>
-<li><a href="https://www.havok.com/">Havok</a></li>
-<li><a href="http://newtondynamics.com/forum/newton.php">Newton Dynamics</a></li>
-<li><a href="https://www.reactphysics3d.com/">ReactPhysics3D</a></li>
-</ul></li>
-<li>Research/Robotics focused
-<ul>
-<li><a href="https://mujoco.readthedocs.io/en/latest/overview.html">MuJoCo</a></li>
-<li><a href="https://projectchrono.org/">PROJECTCHRONO</a></li>
-<li><a href="https://dartsim.github.io/">DART</a></li>
-<li><a href="https://community.gazebosim.org/t/announcing-new-physics-engine-tpe-trivial-physics-engine/629">TPE (Trivial Physics Engine)</a></li>
-<li><a href="https://rbdl.github.io/">RBDL</a></li>
-<li><a href="https://github.com/JuliaRobotics/RigidBodyDynamics.jl">RigidBodyDynamics.jl</a></li>
-<li><a href="https://rapier.rs/">Rapier</a></li>
-</ul></li>
-</ul>
-</section>
-<section id="numerical-engines" class="level2">
-<h2 class="anchored" data-anchor-id="numerical-engines">Numerical Engines</h2>
-<ul>
-<li><a href="https://octave.org/">GNU Octave</a></li>
-<li><a href="https://www.sagemath.org/">SageMath</a></li>
-<li><a href="https://www.scilab.org/download">Scilab</a></li>
-<li><a href="https://simpy.readthedocs.io/en/latest/">SimPy</a></li>
-<li><a href="https://www.mathworks.com/products/matlab.html">MATLAB</a></li>
-<li><a href="https://www.wolfram.com/mathematica/">Wolfram Mathematica</a></li>
-<li><a href="https://www.maplesoft.com/products/Maple/">Maple</a></li>
-<li><a href="https://juliadynamics.github.io/DynamicalSystems.jl/dev/">DynamicalSystems.jl</a></li>
-</ul>
-</section>
-<section id="soft-body-engines" class="level2">
-<h2 class="anchored" data-anchor-id="soft-body-engines">Soft-Body Engines</h2>
-<ul>
-<li><a href="https://softroboticstoolkit.com/home">Soft Robotics Toolkit</a></li>
-<li><a href="https://www.creativemachineslab.com/voxcad.html">VoxCad</a></li>
-<li><a href="https://github.com/skriegman/evosoro">evosoro: soft robot simulator</a></li>
-<li><a href="https://github.com/mit-gfx/DiffAqua">DiffAqua</a></li>
-</ul>
-</section>
-<section id="rendering-engines" class="level2">
-<h2 class="anchored" data-anchor-id="rendering-engines">Rendering Engines</h2>
-<ul>
-<li><a href="https://www.ogre3d.org/">OGRE</a></li>
-<li><a href="https://irrlicht.sourceforge.io/">Irrlicht Engine</a></li>
-<li><a href="https://bkaradzic.github.io/bgfx/index.html">bgfx</a></li>
-<li><a href="https://google.github.io/filament/">Filament</a></li>
-<li><a href="https://magnum.graphics/">Magnum Engine</a></li>
-<li><a href="https://threejs.org/">Three.js</a></li>
-</ul>
-</section>
-<section id="configuration-language" class="level2">
-<h2 class="anchored" data-anchor-id="configuration-language">Configuration Language</h2>
-<ul>
-<li><a href="http://wiki.ros.org/urdf">URDF</a> (and <a href="http://wiki.ros.org/xacro">Xacro</a>)</li>
-<li><a href="http://sdformat.org/">SDFormat</a></li>
-<li><a href="https://dartsim.github.io/skel_file_format.html">SKEL</a></li>
-<li><a href="https://www.khronos.org/collada/">COLLADA</a></li>
-<li><a href="https://github.com/rock-simulation/smurf_parser">SMURF</a></li>
-<li><a href="http://wiki.ros.org/srdf">SRDF</a></li>
-</ul>
-</section>
-<section id="authoring-tools" class="level2">
-<h2 class="anchored" data-anchor-id="authoring-tools">Authoring Tools</h2>
-<ul>
-<li><a href="https://github.com/dfki-ric/phobos">Phobos</a></li>
-<li><a href="https://onshape-to-robot.readthedocs.io/en/latest/">Onshape-to-robot</a></li>
-<li><a href="http://wiki.ros.org/sw_urdf_exporter">SolidWorks to URDF Exporter</a></li>
-</ul>
-</section>
-<section id="physics-engine-development" class="level2">
-<h2 class="anchored" data-anchor-id="physics-engine-development">Physics Engine Development</h2>
-<ul>
-<li><a href="https://gafferongames.com/post/integration_basics/">Integration Basics</a></li>
-<li><a href="https://gafferongames.com/post/fix_your_timestep/">Fix Your Timestep!</a></li>
-<li><a href="https://matthias-research.github.io/pages/tenMinutePhysics/">Ten Minute Physics</a></li>
-<li><a href="https://github.com/erincatto/box2d-lite">Box2D-Lite</a></li>
-</ul>
+<p>Test</p>
+<p>steps (maybe show comparison chart for several physics engines)</p>
+<ol type="1">
+<li>install software</li>
+<li>create “world” (and collision space)</li>
+<li>create “robot” (bodies and geometries/shapes; constraints/joints)</li>
+</ol>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

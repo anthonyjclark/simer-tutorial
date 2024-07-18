@@ -3,6 +3,10 @@ title: "Tools"
 format: html
 ---
 
+<!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
+<!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
+
+
 Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we've listed a few related ideas below as well.
 
 Creating a simulation is called "modeling." In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).

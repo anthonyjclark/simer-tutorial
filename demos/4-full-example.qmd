@@ -1,6 +1,9 @@
 ---
-title: "Demo 5: Full Example"
-format: html
+title: "Demo 4: Full Example"
+format:
+    html:
+        css: ../_lib/WMR2D/css/main.css
+        highlight-style: pygments
 ---
 
 Test

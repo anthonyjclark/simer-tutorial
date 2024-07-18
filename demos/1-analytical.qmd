@@ -10,13 +10,83 @@ format:
 
 Let's start with the following problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
 
-Base demo
+## Analytical Model
+
+We'll start with the simplest form of simulation: an analytical model for the WMR (also known as a closed-form solution).
+
+For a WMR (like the one in the animation below), we can model the motion of the robot using the following equation:
+
+$$
+x_t = x_0 + \omega r t
+$$ {#eq-analytical}
+
+where $x_t$ is the position of the robot at time $t$, $x_0$ is the initial position of the robot, $\omega$ is the angular velocity of the robot's wheels, and $r$ is the radius of its wheels. This maps directly to the following code:
 
 ```typescript
 chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
 ```
+
+A full simulation might look like:
+
+```typescript
+initialPosition = 0;
+chassisPosition = initialPosition;
+
+angularVelocity = 1;
+wheelRadius = 1;
+
+function simulate( time: number ) {
+    // x = v t = x0 + ω r t
+    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
+}
+```
+
+## Visualization
+
+Visualizing the WMR's motion is not necessary for evolutionary robotics, but it can help us understand behaviors and debug our models. It is useful to completely decouple simulation from visualization. Here is a snippet showing how the visualizations below are created:
+
+```typescript
+initialPosition = 0;
+chassisPosition = initialPosition;
+
+angularVelocity = 1;
+wheelRadius = 1;
+
+wheelChassisOffset = 1;
+wheelPositionFront = wheelChassisOffset;
+wheelPositionRear = -wheelChassisOffset;
+
+wheelAngleFront = 0;
+wheelAngleRear = 0;
+
+function simulate( time: number ) {
+
+    // p = v t = ω r t
+    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
+
+    wheelPositionFront = chassisPosition + wheelChassisOffset;
+    wheelPositionRear = chassisPosition - wheelChassisOffset;
+
+    wheelAngleFront = angularVelocity * time;
+    wheelAngleRear = angularVelocity * time;
+
+}
+
+while ( !done ) {
+
+    time = getTime();
+    simulate( time );
+    render();
+
+}
+```
+
+
+## Analytical Model Simulation
+
+The following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It "collides" with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis's position but not he wheel rotations.
 
 ```{=html}
 <div>
@@ -31,13 +101,12 @@ import { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';
 uiTimeEnd = 16.0;
 uiTimeStep = 0.1;
 
-wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.ClosedForm );
+wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Analytical );
 player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wmr1.reset() );
 player1.create();
 ```
 
-
-With wall (what is the equation now?); can figure it out with some work.
+What if we want to add an additional obstacle? For example, a wall partway through the environment. What happens when we simulate the WMR now?
 
 ```{=html}
 <div>
@@ -46,12 +115,57 @@ With wall (what is the equation now?); can figure it out with some work.
 ```
 
 ```{ojs}
-wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.ClosedForm, { addWall: true } );
+wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Analytical, { addWall: true } );
 player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
 player2.create();
 ```
 
-With step; probably cannot get a reasonable result.
+::: {.callout-note collapse="true"}
+## What happens when we add a wall?
+
+Adding simple collisions is pretty easy, even with the analytical model. We just add an additional check in the update loop.
+
+```typescript
+if ( distanceToWall > 0 && distanceToEdge > 0 ) {
+
+    this.chassisPosition += this.angularVelocity * this.wheelRadius * this.timeStep;
+
+}
+```
+
+:::
+
+## Dynamic Control
+
+What if we want to add dynamic control to the WMR? For example, we want the WMR to stop in front of the wall without hitting it? Something like the following:
+
+$$
+\omega = \max( -\Omega, \min( \Omega, m d + b)
+$$ {#eq-control}
+
+where $\Omega$ is the maximum angular velocity, $m$ is the proportional gain, $d$ is the distance to the wall, and $b$ is the control bias.
+
+Take a second to understand the equation above.
+
+::: {.callout-note collapse="true"}
+## What does the equation mean?
+
+The equation above is a simple proportional controller. It calculates the angular velocity of the robot based on the distance to the wall. The robot will stop when it reaches some distance from the wall based on the values of $m$ and $b$.
+
+:::
+
+Now, consider how we might add this equation to the simulation. Here is the simulate function from above:
+
+```typescript
+function simulate( time: number ) {
+    // x = v t = x0 + ω r t
+    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;
+}
+```
+
+How can we change the `chassisPosition` based on a dynamic value for `angularVelocity`? You can probably think of some ways to restructure the code, but essentially, we can no longer compute the current position based solely on the time. Instead, we need to know the time, the current position, and the current angular velocity.
+
+This dependency on the current position is a problem for the analytical model.
 
 ```{=html}
 <div>
@@ -60,7 +174,9 @@ With step; probably cannot get a reasonable result.
 ```
 
 ```{ojs}
-wmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.ClosedForm, { addWall: true, addStep: true } );
+wmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Analytical, { addWall: true } );
 player3 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr3.step(time), () => wmr3.reset() );
 player3.create();
 ```
+
+The simulation above does not stop in front of the wall, because we have better methods for handling this scenario. We will explore these methods in [the next demo](2-numerical.qmd).

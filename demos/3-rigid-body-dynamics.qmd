@@ -1,4 +1,195 @@
 ---
 title: "Demo 3: Adding Collisions"
-format: html
+execute:
+    echo: false
+format:
+    html:
+        css: ../_lib/WMR2D/css/main.css
+        highlight-style: pygments
 ---
+
+Let's revisit our problem statement:
+
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+
+At this point, we can still not handle complex obstacles. A rigid body dynamics engine will enable us to do so.
+
+## Rigid Body Dynamics
+
+The example below uses [Planck.js](https://piqnt.com/planck.js) to simulate our WMR. This is a 2D physics engine (meant for games) that can fully simulate our scenario. Planck.js is a Javascript/Typescript library based on a commonly used C/C++ physics engine called [Box2D](https://box2d.org/).
+
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas1"></canvas>
+</div>
+```
+
+```{ojs}
+import { Player } from '../_lib/Player/dist/player.js';
+import { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';
+
+uiTimeEnd = 16.0;
+uiTimeStep = 0.1;
+
+wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.RBDEngine );
+player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wmr1.reset() );
+player1.create();
+```
+
+You might notice that the WMR "jolts" a bit when it hits the wall. This is a nice benefit of using the physics engine---it does a better job of simulating the contact between the robot and the wall. This simulation also adds a suspension to the interface between the wheels and the chassis. This will be easier to see in the next animation.
+
+## Creating a More Realistic WMR
+
+Using a physics engine takes some work, but it completely pays off. In general, one must:
+
+1. Create a dynamics "world" and collision space.
+2. Create static bodies and geometries (e.g., walls).
+3. Create dynamic bodies and geometries (e.g., the robot).
+4. Add constraints and joints (e.g., connecting wheels to the chassis).
+5. Continually "step" the simulation and apply external forces (e.g., motor torque).
+
+Here are each of those steps using Planck.js and our WMR:
+
+```typescript
+// 1. Create a dynamics "world" and collision space.
+
+world = new World( { gravity: new Vec2( 0.0, - 9.8 ) } );
+
+// 2. Create static bodies and geometries (e.g., walls).
+
+const groundFriction = 0.7;
+ground = world.createBody( { type: 'static', position: new Vec2( 0.0, 0.0 ) } );
+ground.createFixture( { shape: new Edge( new Vec2( - 100, 0 ), new Vec2( 100, 0 ) ), friction: groundFriction } );
+
+const wallPositionVec = new Vec2( simWidth * 0.9, 0.0 );
+wall = world.createBody( { type: 'static', position: wallPositionVec } );
+wall.createFixture( { shape: new Box( wallThickness / 2.0, 2.0 ) } );
+
+// 3. Create dynamic bodies and geometries (e.g., the robot).
+
+const materialDensity = 0.7;
+const materialFriction = 0.3;
+
+chassis = world.createBody( { type: 'dynamic', position: initialPosition } );
+chassis.createFixture( { shape: new Box( chassisLength / 2, chassisHeight / 2 ), density: materialDensity, friction: materialFriction } );
+
+wheelFront = world.createBody( { type: 'dynamic', position: wheelPositionFront } );
+wheelFront.createFixture( { shape: new Circle( wheelRadius ), density: materialDensity, friction: materialFriction } );
+
+wheelRear = world.createBody( { type: 'dynamic', position: wheelPositionRear } );
+wheelRear.createFixture( { shape: new Circle( wheelRadius ), density: materialDensity, friction: materialFriction } );
+
+// 4. Add constraints and joints (e.g., connecting wheels to the chassis).
+
+const motorMaxTorque = 20.0;
+const suspensionHz = 4.0;
+const suspensionDampingRatio = 0.7;
+
+wheelMotorFront = world.createJoint( new WheelJoint( {
+    motorSpeed: 0.0,
+    enableMotor: true,
+    maxMotorTorque: motorMaxTorque,
+    frequencyHz: suspensionHz,
+    dampingRatio: suspensionDampingRatio,
+}, chassis, wheelFront, wheelFront.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;
+
+wheelMotorRear = world.createJoint( new WheelJoint( {
+    motorSpeed: 0.0,
+    enableMotor: true,
+    maxMotorTorque: motorMaxTorque,
+    frequencyHz: suspensionHz,
+    dampingRatio: suspensionDampingRatio,
+}, chassis, wheelRear, wheelRear.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;
+
+wheelMotorFront.setMotorSpeed( - angularVelocity );
+wheelMotorRear.setMotorSpeed( - angularVelocity );
+
+// 5. Continually "step" the simulation and apply external forces (e.g., motor torque).
+
+function simulateStep( frameTime: number ) {
+
+    timeAccumulator += frameTime;
+
+    while ( timeAccumulator >= timeStep ) {
+
+        world.step( this.timeStep, velocityIterations, positionIterations );
+        timeAccumulator -= timeStep;
+        time += timeStep;
+
+        if ( time >= controlLastUpdate ) {
+
+            const dist = getDistanceToWall();
+            angularVelocity = Math.max( - speedMax, Math.min( speedMax, speedSlope * dist + speedIntercept ) );
+
+            controlLastUpdate += controlPeriod;
+
+        }
+
+    }
+
+}
+
+while ( !done ) {
+
+    frameTime = getFrameTime();
+    simulateStep( frameTime );
+    render();
+
+}
+```
+
+That might look a bit intimidating, but it is really just the same objects getting created for each rigid body. You'll create something that reacts to forces (rigid bodies) and collision objects (fixtures) so that the physics engine can simulate the interactions among them.
+
+Here is some of the terminology used by common physics engines:
+
+| Engine                                       | World       | Body           | Shape       | Joint   |
+| --------                                     | -------     | ------         | ----------- | ------- |
+| [Planck.js](https://piqnt.com/planck.js)     | World       | Body           | Shape       | Joint   |
+| [Box2D](https://box2d.org/)                  | World       | Body           | Shape       | Joint   |
+| [ODE](https://ode.org/wiki/index.php)        | World+Space | Body           | Geom        | Joint   |
+| [PROJECTCHRONO](https://projectchrono.org/)  | System      | Body           | Shape       | Link    |
+| [DART](https://dartsim.github.io/index.html) | World       | Skeleton+Shape | Shape       | Joint   |
+| [Bullet](https://pybullet.org/wordpress/)    | World       | Body           | Shape       | Joint   |
+| [urdf](http://wiki.ros.org/urdf)*            | World       | Link           | Geometry    | Joint   |
+
+*URDF is technically a file format, but it is used by several physics engines to describe the robot's structure and dynamics.
+
+## Adding a Small Obstacle
+
+Here is now our full example simulation.
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas2"></canvas>
+</div>
+```
+
+```{ojs}
+wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.RBDEngine, { addWall: true, addStep: true} );
+player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
+player2.create();
+```
+
+## Optimizing our WMR
+
+Revisiting our problem statement:
+
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+
+We just now need some way to optimize our WMR. Let's start by listing the evolvable parameters:
+
+::: {.callout-note collapse="true"}
+## Evolvable Parameters
+
+This is not an exhaustive list, but it is a good starting point:
+
+1. Wheel radius
+2. Chassis length
+3. Suspension parameters
+4. Sensor parameters
+5. Control parameters
+
+:::
+
+In [the final demo](4-full-example.qmd), we will explore how to optimize these parameters using a genetic algorithm.

@@ -1,6 +1,6 @@
 import { Body, Box, Circle, Edge, Vec2, WheelJoint, World } from 'planck';
 
-export enum WMR2DMode { ClosedForm, Numerical, PhysicsEngine }
+export enum WMR2DMode { Analytical, Numerical, RBDEngine }
 
 export class WMRSimulator {
 
@@ -16,16 +16,16 @@ export class WMRSimulator {
 
 	speedMax = 3.0;
 	speedSlope = 2.0;
-	speedIntercept = - 15.0;
+	speedIntercept = - 8.0;
 
-	constructor( id: string, mode: WMR2DMode, { simMinWidth = 10.0, addWall = false, addStep = false } = {} ) {
+	constructor( id: string, mode: WMR2DMode, { width = 20.0, addWall = false, addStep = false } = {} ) {
 
-		this.wmr = new WMR2D( id, { simMinWidth, addWall, addStep } );
+		this.wmr = new WMR2D( id, { width, addWall, addStep } );
 
 		switch ( mode ) {
 
-			case WMR2DMode.ClosedForm:
-				this.wmrUpdate = ( time, _ ) => this.wmr.updatePositionClosedForm( time );
+			case WMR2DMode.Analytical:
+				this.wmrUpdate = ( time, _ ) => this.wmr.updatePositionAnalytical( time );
 				this.wmrSpeed = _ => this.wmr.angularVelocity;
 				break;
 
@@ -34,8 +34,8 @@ export class WMRSimulator {
 				this.wmrSpeed = dist => this.wmr.setWheelAngularVelocity( Math.max( - this.speedMax, Math.min( this.speedMax, this.speedSlope * dist + this.speedIntercept ) ) );
 				break;
 
-			case WMR2DMode.PhysicsEngine:
-				this.wmrUpdate = ( _, dt ) => this.wmr.updatePositionPhysicsEngine( dt );
+			case WMR2DMode.RBDEngine:
+				this.wmrUpdate = ( _, dt ) => this.wmr.updatePositionRBDEngine( dt );
 				this.wmrSpeed = dist => this.wmr.setWheelAngularVelocity( Math.max( - this.speedMax, Math.min( this.speedMax, this.speedSlope * dist + this.speedIntercept ) ) );
 				break;
 
@@ -138,7 +138,7 @@ export class WMR2D {
 	wheelMotorFront: WheelJoint;
 	wheelMotorRear: WheelJoint;
 
-	constructor( id: string, { simMinWidth = 10.0, addWall = false, addStep = false } = {} ) {
+	constructor( id: string, { width = 20.0, addWall = false, addStep = false } = {} ) {
 
 		this.canvas = document.getElementById( id ) as HTMLCanvasElement;
 		this.context = this.canvas.getContext( '2d' ) as CanvasRenderingContext2D;
@@ -148,12 +148,13 @@ export class WMR2D {
 		const padding = 20;
 
 		this.canvas.width = parent.clientWidth - padding * 2;
-		this.canvas.height = Math.min( 0.75 * window.innerHeight, this.canvas.width / 2.0 );
+		this.canvas.height = Math.min( 0.9 * window.innerHeight, this.canvas.width / 3.0 );
 
 		this.groundLevelPixels = this.canvas.height - padding;
 
 		// Scale is used to convert between simulation units and pixels
-		this.drawScale = Math.min( this.canvas.width, this.canvas.height ) / simMinWidth;
+		// this.drawScale = Math.min( this.canvas.width, this.canvas.height ) / width;
+		this.drawScale = this.canvas.width / width;
 
 		// Useful for knowing the simulation bounds
 		this.simWidth = this.canvas.width / this.drawScale;
@@ -202,7 +203,6 @@ export class WMR2D {
 		// Rear wheel
 
 		this.wheelRear = this.world.createBody( { type: 'dynamic', position: this.wheelPositionRear } );
-
 		this.wheelRear.createFixture( { shape: new Circle( this.wheelRadius ), density: materialDensity, friction: materialFriction } );
 
 		this.wheelMotorRear = this.world.createJoint( new WheelJoint( {
@@ -491,7 +491,7 @@ export class WMR2D {
 
 	}
 
-	updatePositionClosedForm( time: number ) {
+	updatePositionAnalytical( time: number ) {
 
 		// TODO: incline?
 
@@ -579,7 +579,7 @@ export class WMR2D {
 
 	}
 
-	updatePositionPhysicsEngine( frameTime: number ) {
+	updatePositionRBDEngine( frameTime: number ) {
 
 		const velocityIterations = 8;
 		const positionIterations = 3;

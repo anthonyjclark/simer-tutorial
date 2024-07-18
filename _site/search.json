@@ -4,7 +4,7 @@
     "href": "demos/1-analytical.html",
     "title": "Demo 1: Analytical Models",
     "section": "",
-    "text": "Let’s start with the following problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to maximize the distance traveled in a fixed amount of time.\n\nBase demo\nchassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.ClosedForm );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWith wall (what is the equation now?); can figure it out with some work.\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.ClosedForm, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWith step; probably cannot get a reasonable result.\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.ClosedForm, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();",
+    "text": "Let’s start with the following problem statement:",
     "crumbs": [
       "Home",
       "Demos",
@@ -175,8 +175,8 @@
     "objectID": "presentation.html#format",
     "href": "presentation.html#format",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
+    "section": "Format",
+    "text": "Format\nThis tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full",
     "crumbs": [
       "Home",
       "Presentation",
@@ -187,8 +187,8 @@
     "objectID": "presentation.html#evolutionary-robotics",
     "href": "presentation.html#evolutionary-robotics",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "The use of evolutionary algorithms to explore the design space of robots and their control software.",
+    "section": "Evolutionary Robotics",
+    "text": "Evolutionary Robotics\nThe use of evolutionary algorithms to explore the design space of robots and their control software.",
     "crumbs": [
       "Home",
       "Presentation",
@@ -199,8 +199,8 @@
     "objectID": "presentation.html#research-questions",
     "href": "presentation.html#research-questions",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "There is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
+    "section": "Research Questions",
+    "text": "Research Questions\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)",
     "crumbs": [
       "Home",
       "Presentation",
@@ -211,8 +211,8 @@
     "objectID": "presentation.html#general-algorithm",
     "href": "presentation.html#general-algorithm",
     "title": "SimER Tutorial",
-    "section": "",
-    "text": "flowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nTODO: fix flow chart and pseudocode\npopulation = Initialize()\n\nLOOP\n  fitnesses = Evaluate(population)\n  IF Stop(fitnesses) THEN BREAK\n  selected = Select(population, fitnesses)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population\npopulation = initialize(POPULATION_SIZE)\npopulation = evaluate(population)\n\nfor generation in range(NUM_GENERATIONS):\n    if stop(population):\n        break\n\n    # Tournament selection\n    selected = select(population)\n    # Just mutation (no crossover?); maybe DE?\n    children = modify(selected)\n    children = evaluate(children)\n    # Elitism of 1?\n    population = combine(population, children)\n\nFitness = tuple[float, float]\nGenome = list[float]\nIndividual = tuple[Genome, Fitness]\nPopulation = list[Individual]\n\ndef initialize(size: int) -&gt; Population: ...\ndef evaluate(pop: Population) -&gt; Population: ...\ndef stop(pop: Population) -&gt; bool: ...\ndef select(pop: Population) -&gt; Population: ...\ndef modify(pop: Population) -&gt; Population: ...\ndef combine(pop1: Population, pop2: Population) -&gt; Population: ...",
+    "section": "General Algorithm",
+    "text": "General Algorithm\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nTODO: fix flow chart and pseudocode\npopulation = Initialize()\n\nLOOP\n  fitnesses = Evaluate(population)\n  IF Stop(fitnesses) THEN BREAK\n  selected = Select(population, fitnesses)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population\npopulation = initialize(POPULATION_SIZE)\npopulation = evaluate(population)\n\nfor generation in range(NUM_GENERATIONS):\n    if stop(population):\n        break\n\n    # Tournament selection\n    selected = select(population)\n    # Just mutation (no crossover?); maybe DE?\n    children = modify(selected)\n    children = evaluate(children)\n    # Elitism of 1?\n    population = combine(population, children)\n\nFitness = tuple[float, float]\nGenome = list[float]\nIndividual = tuple[Genome, Fitness]\nPopulation = list[Individual]\n\ndef initialize(size: int) -&gt; Population: ...\ndef evaluate(pop: Population) -&gt; Population: ...\ndef stop(pop: Population) -&gt; bool: ...\ndef select(pop: Population) -&gt; Population: ...\ndef modify(pop: Population) -&gt; Population: ...\ndef combine(pop1: Population, pop2: Population) -&gt; Population: ...",
     "crumbs": [
       "Home",
       "Presentation",
@@ -225,6 +225,18 @@
     "title": "SimER Tutorial",
     "section": "Practical Considerations",
     "text": "Practical Considerations\n\nSimulation, feasibility, and reality gap\nComputational resources (headless, parallelism, etc.)\nManagement (analysis, visualizing, plotting, etc.)\nResearch management (tracking, reproducibility, collaboration, etc.)\nValidation on hardware\n\nMajor challenge: “reality gap”",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#simulation",
+    "href": "presentation.html#simulation",
+    "title": "SimER Tutorial",
+    "section": "Simulation",
+    "text": "Simulation\n\nFollow a gradient of feasibility to provide a better “gradient”\nScale your parameters for numerical stability\n…",
     "crumbs": [
       "Home",
       "Presentation",
@@ -249,6 +261,18 @@
     "title": "SimER Tutorial",
     "section": "Parallelism Advice",
     "text": "Parallelism Advice\n\nPlan to use \\(N - 2\\) cores, where \\(N\\) is the number of cores available\nUse a tool like GNU Parallel at the replicate level\nUse a library like Python multiprocessing at lower levels\nConsider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism\n\nDo you care more about the variance across replicates? Parallelize at the replicate level\nDo you care more about the performance of a single replicate? Parallelize at the individual level",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#experiment-management",
+    "href": "presentation.html#experiment-management",
+    "title": "SimER Tutorial",
+    "section": "Experiment Management",
+    "text": "Experiment Management\n\nwandb, for example",
     "crumbs": [
       "Home",
       "Presentation",
@@ -419,66 +443,6 @@
     "text": "This is the second occurrence of SimER. The first was as a workshop held at GECCO 2017. Here are the contributions from the workshop:\n\n20 years of reality gap: a few thoughts about simulators in evolutionary robotics by Jean-Baptiste Mouret and Konstantinos Chatzilygeroudis\nSimulating the evolution of soft and rigid-body robots by Sam Kriegman, Collin Cappelle, Francesco Corucci, Anton Bernatskiy, Nick Cheney, and Josh C. Bongard\nA baseline-realistic objective open-ended kinematics simulator for evolutionary robotics by Riley Konsella, Frank Chiarulli, John Peterson, and John Rieffel\n\nAnthony J. Clark received is Ph.D from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA and a Research Scientist at Caltech in Pasadena, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.\nJared M. Moore received is Ph.D from Michigan State University. He is currently an Associate Professor in the School of Computing and Information Systems at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization."
   },
   {
-    "objectID": "presentation.html",
-    "href": "presentation.html",
-    "title": "SimER Tutorial",
-    "section": "",
-    "text": "This tutorial will follow a format in which:\n\nWe’ll get on the same page with respect to terminology\nLoop\n\nI’ll present for a bit\nI’ll ask you all to read through an exercise\nWe’ll have time for discussion\n\nWe’ll cover a more complete example in full\n\n\n\n\nThe use of evolutionary algorithms to explore the design space of robots and their control software.\n\n\n\nThere is a wide variety of research in evolutionary robotics, but I’ll focus on:\n\nOptimization and novelty (application-based)\nAlgorithm design (theory-based)\n\n\n\n\n\n\n\n\n\nflowchart LR\n    Init[Initialize] --&gt; Eval[Evaluate]\n    Eval --&gt; Stop{Stop?}\n    Stop --Yes--&gt; Retn[Return]\n    Stop --No--&gt; Sele[Select]\n    Sele --&gt; Modi[Modify]\n    Modi --&gt; Comb[Combine]\n    Comb --&gt; Eval\n\n\n\n\n\n\nTODO: fix flow chart and pseudocode\npopulation = Initialize()\n\nLOOP\n  fitnesses = Evaluate(population)\n  IF Stop(fitnesses) THEN BREAK\n  selected = Select(population, fitnesses)\n  children = Modify(selected)\n  population = Combine(population, children)\n\nRETURN population\npopulation = initialize(POPULATION_SIZE)\npopulation = evaluate(population)\n\nfor generation in range(NUM_GENERATIONS):\n    if stop(population):\n        break\n\n    # Tournament selection\n    selected = select(population)\n    # Just mutation (no crossover?); maybe DE?\n    children = modify(selected)\n    children = evaluate(children)\n    # Elitism of 1?\n    population = combine(population, children)\n\nFitness = tuple[float, float]\nGenome = list[float]\nIndividual = tuple[Genome, Fitness]\nPopulation = list[Individual]\n\ndef initialize(size: int) -&gt; Population: ...\ndef evaluate(pop: Population) -&gt; Population: ...\ndef stop(pop: Population) -&gt; bool: ...\ndef select(pop: Population) -&gt; Population: ...\ndef modify(pop: Population) -&gt; Population: ...\ndef combine(pop1: Population, pop2: Population) -&gt; Population: ...",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#simulation",
-    "href": "presentation.html#simulation",
-    "title": "SimER Tutorial",
-    "section": "Simulation",
-    "text": "Simulation\n\nFollow a gradient of feasibility to provide a better “gradient”\nScale your parameters for numerical stability\n…",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "presentation.html#experiment-management",
-    "href": "presentation.html#experiment-management",
-    "title": "SimER Tutorial",
-    "section": "Experiment Management",
-    "text": "Experiment Management\n\nwandb, for example",
-    "crumbs": [
-      "Home",
-      "Presentation",
-      "SimER Tutorial"
-    ]
-  },
-  {
-    "objectID": "demos/2-numerical.html",
-    "href": "demos/2-numerical.html",
-    "title": "Demo 2: Numerical Models",
-    "section": "",
-    "text": "Moving to a numerical version. It is easy to handle the wall now.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Numerical );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// Closed-form solution\nchassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n\n// Numerical solution\nchassisPosition += angularVelocity * wheelRadius * timeStep;\nAlso means we can now control the distance easier.\nwmr = new WMR2D( { addWall: true } );\n\nlet prevTime = 0.0;\nlet time = 0.0;\n\nconst controlPeriod = 0.1;\nlet controlLastUpdate = 0.0;\n\nwhile ( true ) {\n\n  if ( ! prevTime ) prevTime = now;\n  const dt = ( now - prevTime ) / 1000.0;\n  prevTime = now;\n\n  time += dt;\n\n  // Simulate\n  wmr.updatePositionNumerical( dt );\n\n  // Draw\n  wmr.render();\n\n  // Update control\n  if ( time &gt;= controlLastUpdate ) {\n\n    const dist = wmr.getDistanceToWall();\n    const speed = Math.min( 3.0, 20 * ( dist - 2.5 ) / 20.0 );\n    wmr.setWheelAngularVelocity( speed );\n\n    controlLastUpdate += controlPeriod;\n\n  }\n\n}\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Numerical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat if we want to add an incline?\nCan do, but the equations are more complex.\nAgain, how about a step? How about an incline and a step?\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Numerical, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();",
-    "crumbs": [
-      "Home",
-      "Demos",
-      "Demo 2: Numerical Models"
-    ]
-  },
-  {
-    "objectID": "demos/3-adding-collisions.html",
-    "href": "demos/3-adding-collisions.html",
-    "title": "Demo 3: Adding Collisions",
-    "section": "",
-    "text": "mutable number = 0;\n\n\n\n\n\n\n\nmutable number += 1;",
-    "crumbs": [
-      "Home",
-      "Demos",
-      "Demo 3: Adding Collisions"
-    ]
-  },
-  {
     "objectID": "demos/4-rigid-body.html",
     "href": "demos/4-rigid-body.html",
     "title": "Demo 4: Rigid Body Models",
@@ -488,6 +452,174 @@
       "Home",
       "Demos",
       "Demo 4: Rigid Body Models"
+    ]
+  },
+  {
+    "objectID": "demos/2-numerical.html",
+    "href": "demos/2-numerical.html",
+    "title": "Demo 2: Numerical Models",
+    "section": "",
+    "text": "Let’s revisit our problem statement:\nWith an analytical model, we can simulate the position of the WMR, but we did not attempt to handle obstacles and we learned that dynamic control was not possible.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 2: Numerical Models"
+    ]
+  },
+  {
+    "objectID": "demos/1-analytical.html#analytical-model",
+    "href": "demos/1-analytical.html#analytical-model",
+    "title": "Demo 1: Analytical Models",
+    "section": "Analytical Model",
+    "text": "Analytical Model\nWe’ll start with the simplest form of simulation: an analytical model for the WMR (also known as a closed-form solution).\nFor a WMR (like the one in the animation below), we can model the motion of the robot using the following equation:\n\\[\nx_t = x_0 + \\omega r t\n\\tag{1}\\]\nwhere \\(x_t\\) is the position of the robot at time \\(t\\), \\(x_0\\) is the initial position of the robot, \\(\\omega\\) is the angular velocity of the robot’s wheels, and \\(r\\) is the radius of its wheels. This maps directly to the following code:\nchassisPosition = initialPosition + angularVelocity * wheelRadius * time;\nA full simulation might look like:\ninitialPosition = 0;\nchassisPosition = initialPosition;\n\nangularVelocity = 1;\nwheelRadius = 1;\n\nfunction simulate( time: number ) {\n    // x = v t = x0 + ω r t\n    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n}",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
+  },
+  {
+    "objectID": "demos/1-analytical.html#analytical-model-simulation",
+    "href": "demos/1-analytical.html#analytical-model-simulation",
+    "title": "Demo 1: Analytical Models",
+    "section": "Analytical Model Simulation",
+    "text": "Analytical Model Simulation\nThe following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It “collides” with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis’s position but not he wheel rotations.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Analytical );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat if we want to add an additional obstacle? For example, a wall partway through the environment. What happens when we simulate the WMR now?\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Analytical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat happens when we add a wall?\n\n\n\n\n\nAdding simple collisions is pretty easy, even with the analytical model. We just add an additional check in the update loop.\nif ( distanceToWall &gt; 0 && distanceToEdge &gt; 0 ) {\n\n    this.chassisPosition += this.angularVelocity * this.wheelRadius * this.timeStep;\n\n}",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
+  },
+  {
+    "objectID": "demos/1-analytical.html#visualization",
+    "href": "demos/1-analytical.html#visualization",
+    "title": "Demo 1: Analytical Models",
+    "section": "Visualization",
+    "text": "Visualization\nVisualizing the WMR’s motion is not necessary for evolutionary robotics, but it can help us understand behaviors and debug our models. It is useful to completely decouple simulation from visualization. Here is a snippet showing how the visualizations below are created:\ninitialPosition = 0;\nchassisPosition = initialPosition;\n\nangularVelocity = 1;\nwheelRadius = 1;\n\nwheelChassisOffset = 1;\nwheelPositionFront = wheelChassisOffset;\nwheelPositionRear = -wheelChassisOffset;\n\nwheelAngleFront = 0;\nwheelAngleRear = 0;\n\nfunction simulate( time: number ) {\n\n    // p = v t = ω r t\n    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n\n    wheelPositionFront = chassisPosition + wheelChassisOffset;\n    wheelPositionRear = chassisPosition - wheelChassisOffset;\n\n    wheelAngleFront = angularVelocity * time;\n    wheelAngleRear = angularVelocity * time;\n\n}\n\nwhile ( !done ) {\n\n    time = getTime();\n    simulate( time );\n    render();\n\n}",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
+  },
+  {
+    "objectID": "demos/1-analytical.html#dynamic-control",
+    "href": "demos/1-analytical.html#dynamic-control",
+    "title": "Demo 1: Analytical Models",
+    "section": "Dynamic Control",
+    "text": "Dynamic Control\nWhat if we want to add dynamic control to the WMR? For example, we want the WMR to stop in front of the wall without hitting it? Something like the following:\n\\[\n\\omega = \\max( -\\Omega, \\min( \\Omega, m d + b)\n\\tag{2}\\]\nwhere \\(\\Omega\\) is the maximum angular velocity, \\(m\\) is the proportional gain, \\(d\\) is the distance to the wall, and \\(b\\) is the control bias.\nTake a second to understand the equation above.\n\n\n\n\n\n\nWhat does the equation mean?\n\n\n\n\n\nThe equation above is a simple proportional controller. It calculates the angular velocity of the robot based on the distance to the wall. The robot will stop when it reaches some distance from the wall based on the values of \\(m\\) and \\(b\\).\n\n\n\nNow, consider how we might add this equation to the simulation. Here is the simulate function from above:\nfunction simulate( time: number ) {\n    // x = v t = x0 + ω r t\n    chassisPosition = initialPosition + angularVelocity * wheelRadius * time;\n}\nHow can we change the chassisPosition based on a dynamic value for angularVelocity? You can probably think of some ways to restructure the code, but essentially, we can no longer compute the current position based solely on the time. Instead, we need to know the time, the current position, and the current angular velocity.\nThis dependency on the current position is a problem for the analytical model.\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Analytical, { addWall: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe simulation above does not stop in front of the wall, because we have better methods for handling this scenario. We will explore these methods in the next demo.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 1: Analytical Models"
+    ]
+  },
+  {
+    "objectID": "demos/2-numerical.html#dynamic-control",
+    "href": "demos/2-numerical.html#dynamic-control",
+    "title": "Demo 2: Numerical Models",
+    "section": "Dynamic Control",
+    "text": "Dynamic Control\nAlthough the numerical simulation requires more computational resources to compute the position, it enables us to handle obstacles and dynamic control. Here is the simulation with a wall in front of the WMR and the following controller:\n\\[\n\\omega = \\max( -\\Omega, \\min( \\Omega, m d + b)\n\\tag{3}\\]\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Numerical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnd here is the corresponding code snippet:\ninitialPosition = 0;\nchassisPosition = initialPosition;\n\nangularVelocity = 1;\nwheelRadius = 1;\n\nwheelChassisOffset = 1;\nwheelPositionFront = wheelChassisOffset;\nwheelPositionRear = -wheelChassisOffset;\n\nwheelAngleFront = 0;\nwheelAngleRear = 0;\n\ntimeAccumulator = 0;\ntimeStep = 0.01;\ntime = 0;\n\nspeedMax = 3;\nspeedSlope = 2;\nspeedIntercept = -8;\n\ncontrolPeriod = 0.1;\ncontrolLastUpdate = 0;\n\nfunction simulateStep( frameTime: number ) {\n\n    timeAccumulator += frameTime;\n\n    while ( timeAccumulator &gt;= timeStep ) {\n\n        // p = v t = ω r t\n        chassisPosition += angularVelocity * wheelRadius * timeStep;\n\n        wheelAngleFront += angularVelocity * timeStep;\n        wheelAngleRear += angularVelocity * timeStep;\n\n        timeAccumulator -= timeStep;\n        time += timeStep;\n\n        if ( time &gt;= controlLastUpdate ) {\n\n            const dist = getDistanceToWall();\n            angularVelocity = Math.max( - speedMax, Math.min( speedMax, speedSlope * dist + speedIntercept ) );\n\n            controlLastUpdate += controlPeriod;\n\n        }\n\n    }\n\n    wheelPositionFront = chassisPosition + wheelChassisOffset;\n    wheelPositionRear = chassisPosition - wheelChassisOffset;\n\n}\n\nwhile ( !done ) {\n\n    frameTime = getFrameTime();\n    simulateStep( frameTime );\n    render();\n\n}\nHere are some key points to note:\n\nWe can no longer compute the position of the robot for any time \\(t\\) without knowing the previous position.\nWe’ve decoupled simulation and visualization (rendering).\nWe’ve set a fixed time step, which is better for numerical stability.\nIn this simple example, we only need to update the wheel positions once per render time. This is not a general case, but a simplification that we can take since the wheels are not independent of the chassis.\n\nRead Fix Your Timestep! for more information on this code structure.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 2: Numerical Models"
+    ]
+  },
+  {
+    "objectID": "demos/2-numerical.html#adding-complex-collisions",
+    "href": "demos/2-numerical.html#adding-complex-collisions",
+    "title": "Demo 2: Numerical Models",
+    "section": "Adding Complex Collisions",
+    "text": "Adding Complex Collisions\nWhat if we want to add an incline?\nCan do, but the equations are more complex.\nAgain, how about a step? How about an incline and a step?\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Numerical, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 2: Numerical Models"
+    ]
+  },
+  {
+    "objectID": "demos/2-numerical.html#adding-complex-collisions-and-dynamics",
+    "href": "demos/2-numerical.html#adding-complex-collisions-and-dynamics",
+    "title": "Demo 2: Numerical Models",
+    "section": "Adding Complex Collisions and Dynamics",
+    "text": "Adding Complex Collisions and Dynamics\nHow could we change our code if we:\n\nAdded an incline to the ground plane?\nAdded a second wall in front of the robot?\nAdded a step in front of the robot?\n\nAlthough these changes seem similar, (1) and (3) are quite a bit harder to implement. Why?\n\n\n\n\n\n\nComplex Collisions and Dynamics\n\n\n\n\n\nChanging the incline will require us to move to a more advanced method for integration. The code above implements a simple Euler integration, which works perfectly well for constant velocity dynamics (constant between time steps).\nAdding a step requires us to change the orientations of all objects, implement more complex collision detection, and implement a friction model.\nAdding a second wall is as simple as the first wall.\n\n\n\n\n    \n\n\nwmr3 = new WMRSimulator( 'wmr-canvas3', WMR2DMode.Numerical, { addWall: true, addStep: true } );\nplayer3 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr3.step(time), () =&gt; wmr3.reset() );\nplayer3.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis simple numerical simulation does not work with a step. In the next demo we will explore how to handle complex collisions and dynamics.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 2: Numerical Models"
+    ]
+  },
+  {
+    "objectID": "demos/3-rigid-body-dynamics.html",
+    "href": "demos/3-rigid-body-dynamics.html",
+    "title": "Demo 3: Adding Collisions",
+    "section": "",
+    "text": "Let’s revisit our problem statement:\nAt this point, we can still not handle complex obstacles. A rigid body dynamics engine will enable us to do so.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
+    ]
+  },
+  {
+    "objectID": "demos/3-rigid-body-dynamics.html#rigid-body-dynamics",
+    "href": "demos/3-rigid-body-dynamics.html#rigid-body-dynamics",
+    "title": "Demo 3: Adding Collisions",
+    "section": "Rigid Body Dynamics",
+    "text": "Rigid Body Dynamics\nThe example below uses Planck.js to simulate our WMR. This is a 2D physics engine (meant for games) that can fully simulate our scenario. Planck.js is a Javascript/Typescript library based on a commonly used C/C++ physics engine called Box2D.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.RBDEngine );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou might notice that the WMR “jolts” a bit when it hits the wall. This is a nice benefit of using the physics engine—it does a better job of simulating the contact between the robot and the wall. This simulation also adds a suspension to the interface between the wheels and the chassis. This will be easier to see in the next animation.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
+    ]
+  },
+  {
+    "objectID": "demos/4-full-example.html",
+    "href": "demos/4-full-example.html",
+    "title": "Demo 4: Full Example",
+    "section": "",
+    "text": "Test\nsteps (maybe show comparison chart for several physics engines)\n\ninstall software\ncreate “world” (and collision space)\ncreate “robot” (bodies and geometries/shapes; constraints/joints)",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 4: Full Example"
+    ]
+  },
+  {
+    "objectID": "demos/3-rigid-body-dynamics.html#adding-a-small-obstacle",
+    "href": "demos/3-rigid-body-dynamics.html#adding-a-small-obstacle",
+    "title": "Demo 3: Adding Collisions",
+    "section": "Adding a Small Obstacle",
+    "text": "Adding a Small Obstacle\nHere is now our full example simulation.\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.RBDEngine, { addWall: true, addStep: true} );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
+    ]
+  },
+  {
+    "objectID": "demos/3-rigid-body-dynamics.html#creating-a-more-realistic-wmr",
+    "href": "demos/3-rigid-body-dynamics.html#creating-a-more-realistic-wmr",
+    "title": "Demo 3: Adding Collisions",
+    "section": "Creating a More Realistic WMR",
+    "text": "Creating a More Realistic WMR\nUsing a physics engine takes some work, but it completely pays off. In general, one must:\n\nCreate a dynamics “world” and collision space.\nCreate static bodies and geometries (e.g., walls).\nCreate dynamic bodies and geometries (e.g., the robot).\nAdd constraints and joints (e.g., connecting wheels to the chassis).\nContinually “step” the simulation and apply external forces (e.g., motor torque).\n\nHere are each of those steps using Planck.js and our WMR:\n// 1. Create a dynamics \"world\" and collision space.\n\nworld = new World( { gravity: new Vec2( 0.0, - 9.8 ) } );\n\n// 2. Create static bodies and geometries (e.g., walls).\n\nconst groundFriction = 0.7;\nground = world.createBody( { type: 'static', position: new Vec2( 0.0, 0.0 ) } );\nground.createFixture( { shape: new Edge( new Vec2( - 100, 0 ), new Vec2( 100, 0 ) ), friction: groundFriction } );\n\nconst wallPositionVec = new Vec2( simWidth * 0.9, 0.0 );\nwall = world.createBody( { type: 'static', position: wallPositionVec } );\nwall.createFixture( { shape: new Box( wallThickness / 2.0, 2.0 ) } );\n\n// 3. Create dynamic bodies and geometries (e.g., the robot).\n\nconst materialDensity = 0.7;\nconst materialFriction = 0.3;\n\nchassis = world.createBody( { type: 'dynamic', position: initialPosition } );\nchassis.createFixture( { shape: new Box( chassisLength / 2, chassisHeight / 2 ), density: materialDensity, friction: materialFriction } );\n\nwheelFront = world.createBody( { type: 'dynamic', position: wheelPositionFront } );\nwheelFront.createFixture( { shape: new Circle( wheelRadius ), density: materialDensity, friction: materialFriction } );\n\nwheelRear = world.createBody( { type: 'dynamic', position: wheelPositionRear } );\nwheelRear.createFixture( { shape: new Circle( wheelRadius ), density: materialDensity, friction: materialFriction } );\n\n// 4. Add constraints and joints (e.g., connecting wheels to the chassis).\n\nconst motorMaxTorque = 20.0;\nconst suspensionHz = 4.0;\nconst suspensionDampingRatio = 0.7;\n\nwheelMotorFront = world.createJoint( new WheelJoint( {\n    motorSpeed: 0.0,\n    enableMotor: true,\n    maxMotorTorque: motorMaxTorque,\n    frequencyHz: suspensionHz,\n    dampingRatio: suspensionDampingRatio,\n}, chassis, wheelFront, wheelFront.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;\n\nwheelMotorRear = world.createJoint( new WheelJoint( {\n    motorSpeed: 0.0,\n    enableMotor: true,\n    maxMotorTorque: motorMaxTorque,\n    frequencyHz: suspensionHz,\n    dampingRatio: suspensionDampingRatio,\n}, chassis, wheelRear, wheelRear.getPosition(), new Vec2( 0.0, 1.0 ) ) )!;\n\nwheelMotorFront.setMotorSpeed( - angularVelocity );\nwheelMotorRear.setMotorSpeed( - angularVelocity );\n\n// 5. Continually \"step\" the simulation and apply external forces (e.g., motor torque).\n\nfunction simulateStep( frameTime: number ) {\n\n    timeAccumulator += frameTime;\n\n    while ( timeAccumulator &gt;= timeStep ) {\n\n        world.step( this.timeStep, velocityIterations, positionIterations );\n        timeAccumulator -= timeStep;\n        time += timeStep;\n\n        if ( time &gt;= controlLastUpdate ) {\n\n            const dist = getDistanceToWall();\n            angularVelocity = Math.max( - speedMax, Math.min( speedMax, speedSlope * dist + speedIntercept ) );\n\n            controlLastUpdate += controlPeriod;\n\n        }\n\n    }\n\n}\n\nwhile ( !done ) {\n\n    frameTime = getFrameTime();\n    simulateStep( frameTime );\n    render();\n\n}\nThat might look a bit intimidating, but it is really just the same objects getting created for each rigid body. You’ll create something that reacts to forces (rigid bodies) and collision objects (fixtures) so that the physics engine can simulate the interactions among them.\nHere is some of the terminology used by common physics engines:\n\n\n\nEngine\nWorld\nBody\nShape\nJoint\n\n\n\n\nPlanck.js\nWorld\nBody\nShape\nJoint\n\n\nBox2D\nWorld\nBody\nShape\nJoint\n\n\nODE\nWorld+Space\nBody\nGeom\nJoint\n\n\nPROJECTCHRONO\nSystem\nBody\nShape\nLink\n\n\nDART\nWorld\nSkeleton+Shape\nShape\nJoint\n\n\nBullet\nWorld\nBody\nShape\nJoint\n\n\nurdf*\nWorld\nLink\nGeometry\nJoint\n\n\n\n*URDF is technically a file format, but it is used by several physics engines to describe the robot’s structure and dynamics.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
+    ]
+  },
+  {
+    "objectID": "demos/3-rigid-body-dynamics.html#optimizing-our-wmr",
+    "href": "demos/3-rigid-body-dynamics.html#optimizing-our-wmr",
+    "title": "Demo 3: Adding Collisions",
+    "section": "Optimizing our WMR",
+    "text": "Optimizing our WMR\nRevisiting our problem statement:\n\nWe want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.\n\nWe just now need some way to optimize our WMR. Let’s start by listing the evolvable parameters:\n\n\n\n\n\n\nEvolvable Parameters\n\n\n\n\n\nThis is not an exhaustive list, but it is a good starting point:\n\nWheel radius\nChassis length\nSuspension parameters\nSensor parameters\nControl parameters\n\n\n\n\nIn the final demo, we will explore how to optimize these parameters using a genetic algorithm.",
+    "crumbs": [
+      "Home",
+      "Demos",
+      "Demo 3: Adding Collisions"
     ]
   }
 ]

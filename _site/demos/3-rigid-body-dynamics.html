@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>SimER - Demo 1: Analytical Models</title>
+<title>SimER - Demo 3: Adding Collisions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,35 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="../_lib/WMR2D/css/main.css">
@@ -173,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demo 1: Analytical Models</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/3-rigid-body-dynamics.html">Demo 3: Adding Collisions</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -213,7 +184,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../demos/1-analytical.html" class="sidebar-item-text sidebar-link active">
+  <a href="../demos/1-analytical.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Demo 1: Analytical Models</span></a>
   </div>
 </li>
@@ -225,7 +196,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../demos/3-rigid-body-dynamics.html" class="sidebar-item-text sidebar-link">
+  <a href="../demos/3-rigid-body-dynamics.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Demo 3: Adding Collisions</span></a>
   </div>
 </li>
@@ -276,19 +247,19 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#analytical-model" id="toc-analytical-model" class="nav-link active" data-scroll-target="#analytical-model">Analytical Model</a></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
-  <li><a href="#analytical-model-simulation" id="toc-analytical-model-simulation" class="nav-link" data-scroll-target="#analytical-model-simulation">Analytical Model Simulation</a></li>
-  <li><a href="#dynamic-control" id="toc-dynamic-control" class="nav-link" data-scroll-target="#dynamic-control">Dynamic Control</a></li>
+  <li><a href="#rigid-body-dynamics" id="toc-rigid-body-dynamics" class="nav-link active" data-scroll-target="#rigid-body-dynamics">Rigid Body Dynamics</a></li>
+  <li><a href="#creating-a-more-realistic-wmr" id="toc-creating-a-more-realistic-wmr" class="nav-link" data-scroll-target="#creating-a-more-realistic-wmr">Creating a More Realistic WMR</a></li>
+  <li><a href="#adding-a-small-obstacle" id="toc-adding-a-small-obstacle" class="nav-link" data-scroll-target="#adding-a-small-obstacle">Adding a Small Obstacle</a></li>
+  <li><a href="#optimizing-our-wmr" id="toc-optimizing-our-wmr" class="nav-link" data-scroll-target="#optimizing-our-wmr">Optimizing our WMR</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demo 1: Analytical Models</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../demos/1-analytical.html">Demos</a></li><li class="breadcrumb-item"><a href="../demos/3-rigid-body-dynamics.html">Demo 3: Adding Collisions</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Demo 1: Analytical Models</h1>
+<h1 class="title">Demo 3: Adding Collisions</h1>
 </div>
 
 
@@ -305,84 +276,27 @@ window.Quarto = {
 </header>
 
 
-<p>Let’s start with the following problem statement:</p>
+<p>Let’s revisit our problem statement:</p>
 <blockquote class="blockquote">
 <p>We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.</p>
 </blockquote>
-<section id="analytical-model" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-model">Analytical Model</h2>
-<p>We’ll start with the simplest form of simulation: an analytical model for the WMR (also known as a closed-form solution).</p>
-<p>For a WMR (like the one in the animation below), we can model the motion of the robot using the following equation:</p>
-<p><span id="eq-analytical"><span class="math display">\[
-x_t = x_0 + \omega r t
-\tag{1}\]</span></span></p>
-<p>where <span class="math inline">\(x_t\)</span> is the position of the robot at time <span class="math inline">\(t\)</span>, <span class="math inline">\(x_0\)</span> is the initial position of the robot, <span class="math inline">\(\omega\)</span> is the angular velocity of the robot’s wheels, and <span class="math inline">\(r\)</span> is the radius of its wheels. This maps directly to the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A full simulation might look like:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>initialPosition <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">=</span> initialPosition<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>angularVelocity <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>wheelRadius <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">simulate</span>( time<span class="op">:</span> <span class="dt">number</span> ) {</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// x = v t = x0 + ω r t</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="visualization" class="level2">
-<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
-<p>Visualizing the WMR’s motion is not necessary for evolutionary robotics, but it can help us understand behaviors and debug our models. It is useful to completely decouple simulation from visualization. Here is a snippet showing how the visualizations below are created:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>initialPosition <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>chassisPosition <span class="op">=</span> initialPosition<span class="op">;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>angularVelocity <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>wheelRadius <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>wheelChassisOffset <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>wheelPositionFront <span class="op">=</span> wheelChassisOffset<span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>wheelPositionRear <span class="op">=</span> <span class="op">-</span>wheelChassisOffset<span class="op">;</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>wheelAngleFront <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>wheelAngleRear <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">simulate</span>( time<span class="op">:</span> <span class="dt">number</span> ) {</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// p = v t = ω r t</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    wheelPositionFront <span class="op">=</span> chassisPosition <span class="op">+</span> wheelChassisOffset<span class="op">;</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    wheelPositionRear <span class="op">=</span> chassisPosition <span class="op">-</span> wheelChassisOffset<span class="op">;</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    wheelAngleFront <span class="op">=</span> angularVelocity <span class="op">*</span> time<span class="op">;</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    wheelAngleRear <span class="op">=</span> angularVelocity <span class="op">*</span> time<span class="op">;</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> ( <span class="op">!</span>done ) {</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    time <span class="op">=</span> <span class="fu">getTime</span>()<span class="op">;</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simulate</span>( time )<span class="op">;</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">render</span>()<span class="op">;</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="analytical-model-simulation" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-model-simulation">Analytical Model Simulation</h2>
-<p>The following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It “collides” with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis’s position but not he wheel rotations.</p>
+<p>At this point, we can still not handle complex obstacles. A rigid body dynamics engine will enable us to do so.</p>
+<section id="rigid-body-dynamics" class="level2">
+<h2 class="anchored" data-anchor-id="rigid-body-dynamics">Rigid Body Dynamics</h2>
+<p>The example below uses <a href="https://piqnt.com/planck.js">Planck.js</a> to simulate our WMR. This is a 2D physics engine (meant for games) that can fully simulate our scenario. Planck.js is a Javascript/Typescript library based on a commonly used C/C++ physics engine called <a href="https://box2d.org/">Box2D</a>.</p>
 <div>
     <canvas id="wmr-canvas1"></canvas>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="98" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 97;"><span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Player } <span class="im">from</span> <span class="st">'../_lib/Player/dist/player.js'</span><span class="op">;</span></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { WMRSimulator<span class="op">,</span> WMR2DMode } <span class="im">from</span>  <span class="st">'../_lib/WMR2D/dist/wmr2d.js'</span><span class="op">;</span></span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>uiTimeEnd <span class="op">=</span> <span class="fl">16.0</span><span class="op">;</span></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>uiTimeStep <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>wmr1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas1'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Analytical</span> )<span class="op">;</span></span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>player1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>player1<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="29" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 28;"><span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Player } <span class="im">from</span> <span class="st">'../_lib/Player/dist/player.js'</span><span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { WMRSimulator<span class="op">,</span> WMR2DMode } <span class="im">from</span>  <span class="st">'../_lib/WMR2D/dist/wmr2d.js'</span><span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>uiTimeEnd <span class="op">=</span> <span class="fl">16.0</span><span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>uiTimeStep <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>wmr1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas1'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">RBDEngine</span> )<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>player1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr1<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>player1<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -433,14 +347,180 @@ x_t = x_0 + \omega r t
 </div>
 </div>
 </div>
-<p>What if we want to add an additional obstacle? For example, a wall partway through the environment. What happens when we simulate the WMR now?</p>
+<p>You might notice that the WMR “jolts” a bit when it hits the wall. This is a nice benefit of using the physics engine—it does a better job of simulating the contact between the robot and the wall. This simulation also adds a suspension to the interface between the wheels and the chassis. This will be easier to see in the next animation.</p>
+</section>
+<section id="creating-a-more-realistic-wmr" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-more-realistic-wmr">Creating a More Realistic WMR</h2>
+<p>Using a physics engine takes some work, but it completely pays off. In general, one must:</p>
+<ol type="1">
+<li>Create a dynamics “world” and collision space.</li>
+<li>Create static bodies and geometries (e.g., walls).</li>
+<li>Create dynamic bodies and geometries (e.g., the robot).</li>
+<li>Add constraints and joints (e.g., connecting wheels to the chassis).</li>
+<li>Continually “step” the simulation and apply external forces (e.g., motor torque).</li>
+</ol>
+<p>Here are each of those steps using Planck.js and our WMR:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. Create a dynamics "world" and collision space.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>world <span class="op">=</span> <span class="kw">new</span> <span class="fu">World</span>( { gravity<span class="op">:</span> <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="fl">0.0</span><span class="op">,</span> <span class="op">-</span> <span class="fl">9.8</span> ) } )<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. Create static bodies and geometries (e.g., walls).</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> groundFriction <span class="op">=</span> <span class="fl">0.7</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ground <span class="op">=</span> world<span class="op">.</span><span class="fu">createBody</span>( { type<span class="op">:</span> <span class="st">'static'</span><span class="op">,</span> position<span class="op">:</span> <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="fl">0.0</span><span class="op">,</span> <span class="fl">0.0</span> ) } )<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ground<span class="op">.</span><span class="fu">createFixture</span>( { shape<span class="op">:</span> <span class="kw">new</span> <span class="fu">Edge</span>( <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="op">-</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">0</span> )<span class="op">,</span> <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="dv">100</span><span class="op">,</span> <span class="dv">0</span> ) )<span class="op">,</span> friction<span class="op">:</span> groundFriction } )<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> wallPositionVec <span class="op">=</span> <span class="kw">new</span> <span class="fu">Vec2</span>( simWidth <span class="op">*</span> <span class="fl">0.9</span><span class="op">,</span> <span class="fl">0.0</span> )<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>wall <span class="op">=</span> world<span class="op">.</span><span class="fu">createBody</span>( { type<span class="op">:</span> <span class="st">'static'</span><span class="op">,</span> position<span class="op">:</span> wallPositionVec } )<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>wall<span class="op">.</span><span class="fu">createFixture</span>( { shape<span class="op">:</span> <span class="kw">new</span> <span class="fu">Box</span>( wallThickness <span class="op">/</span> <span class="fl">2.0</span><span class="op">,</span> <span class="fl">2.0</span> ) } )<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">// 3. Create dynamic bodies and geometries (e.g., the robot).</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> materialDensity <span class="op">=</span> <span class="fl">0.7</span><span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> materialFriction <span class="op">=</span> <span class="fl">0.3</span><span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>chassis <span class="op">=</span> world<span class="op">.</span><span class="fu">createBody</span>( { type<span class="op">:</span> <span class="st">'dynamic'</span><span class="op">,</span> position<span class="op">:</span> initialPosition } )<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>chassis<span class="op">.</span><span class="fu">createFixture</span>( { shape<span class="op">:</span> <span class="kw">new</span> <span class="fu">Box</span>( chassisLength <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> chassisHeight <span class="op">/</span> <span class="dv">2</span> )<span class="op">,</span> density<span class="op">:</span> materialDensity<span class="op">,</span> friction<span class="op">:</span> materialFriction } )<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>wheelFront <span class="op">=</span> world<span class="op">.</span><span class="fu">createBody</span>( { type<span class="op">:</span> <span class="st">'dynamic'</span><span class="op">,</span> position<span class="op">:</span> wheelPositionFront } )<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>wheelFront<span class="op">.</span><span class="fu">createFixture</span>( { shape<span class="op">:</span> <span class="kw">new</span> <span class="fu">Circle</span>( wheelRadius )<span class="op">,</span> density<span class="op">:</span> materialDensity<span class="op">,</span> friction<span class="op">:</span> materialFriction } )<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>wheelRear <span class="op">=</span> world<span class="op">.</span><span class="fu">createBody</span>( { type<span class="op">:</span> <span class="st">'dynamic'</span><span class="op">,</span> position<span class="op">:</span> wheelPositionRear } )<span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>wheelRear<span class="op">.</span><span class="fu">createFixture</span>( { shape<span class="op">:</span> <span class="kw">new</span> <span class="fu">Circle</span>( wheelRadius )<span class="op">,</span> density<span class="op">:</span> materialDensity<span class="op">,</span> friction<span class="op">:</span> materialFriction } )<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">// 4. Add constraints and joints (e.g., connecting wheels to the chassis).</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> motorMaxTorque <span class="op">=</span> <span class="fl">20.0</span><span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> suspensionHz <span class="op">=</span> <span class="fl">4.0</span><span class="op">;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> suspensionDampingRatio <span class="op">=</span> <span class="fl">0.7</span><span class="op">;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>wheelMotorFront <span class="op">=</span> world<span class="op">.</span><span class="fu">createJoint</span>( <span class="kw">new</span> <span class="fu">WheelJoint</span>( {</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    motorSpeed<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    enableMotor<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    maxMotorTorque<span class="op">:</span> motorMaxTorque<span class="op">,</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    frequencyHz<span class="op">:</span> suspensionHz<span class="op">,</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    dampingRatio<span class="op">:</span> suspensionDampingRatio<span class="op">,</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> chassis<span class="op">,</span> wheelFront<span class="op">,</span> wheelFront<span class="op">.</span><span class="fu">getPosition</span>()<span class="op">,</span> <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span> ) ) )<span class="op">!;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>wheelMotorRear <span class="op">=</span> world<span class="op">.</span><span class="fu">createJoint</span>( <span class="kw">new</span> <span class="fu">WheelJoint</span>( {</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    motorSpeed<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    enableMotor<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    maxMotorTorque<span class="op">:</span> motorMaxTorque<span class="op">,</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    frequencyHz<span class="op">:</span> suspensionHz<span class="op">,</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    dampingRatio<span class="op">:</span> suspensionDampingRatio<span class="op">,</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> chassis<span class="op">,</span> wheelRear<span class="op">,</span> wheelRear<span class="op">.</span><span class="fu">getPosition</span>()<span class="op">,</span> <span class="kw">new</span> <span class="fu">Vec2</span>( <span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span> ) ) )<span class="op">!;</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>wheelMotorFront<span class="op">.</span><span class="fu">setMotorSpeed</span>( <span class="op">-</span> angularVelocity )<span class="op">;</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>wheelMotorRear<span class="op">.</span><span class="fu">setMotorSpeed</span>( <span class="op">-</span> angularVelocity )<span class="op">;</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="co">// 5. Continually "step" the simulation and apply external forces (e.g., motor torque).</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">simulateStep</span>( frameTime<span class="op">:</span> <span class="dt">number</span> ) {</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    timeAccumulator <span class="op">+=</span> frameTime<span class="op">;</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> ( timeAccumulator <span class="op">&gt;=</span> timeStep ) {</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        world<span class="op">.</span><span class="fu">step</span>( <span class="kw">this</span><span class="op">.</span><span class="at">timeStep</span><span class="op">,</span> velocityIterations<span class="op">,</span> positionIterations )<span class="op">;</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        timeAccumulator <span class="op">-=</span> timeStep<span class="op">;</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        time <span class="op">+=</span> timeStep<span class="op">;</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> ( time <span class="op">&gt;=</span> controlLastUpdate ) {</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> dist <span class="op">=</span> <span class="fu">getDistanceToWall</span>()<span class="op">;</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>            angularVelocity <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>( <span class="op">-</span> speedMax<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>( speedMax<span class="op">,</span> speedSlope <span class="op">*</span> dist <span class="op">+</span> speedIntercept ) )<span class="op">;</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            controlLastUpdate <span class="op">+=</span> controlPeriod<span class="op">;</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> ( <span class="op">!</span>done ) {</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    frameTime <span class="op">=</span> <span class="fu">getFrameTime</span>()<span class="op">;</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simulateStep</span>( frameTime )<span class="op">;</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">render</span>()<span class="op">;</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That might look a bit intimidating, but it is really just the same objects getting created for each rigid body. You’ll create something that reacts to forces (rigid bodies) and collision objects (fixtures) so that the physics engine can simulate the interactions among them.</p>
+<p>Here is some of the terminology used by common physics engines:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Engine</th>
+<th>World</th>
+<th>Body</th>
+<th>Shape</th>
+<th>Joint</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://piqnt.com/planck.js">Planck.js</a></td>
+<td>World</td>
+<td>Body</td>
+<td>Shape</td>
+<td>Joint</td>
+</tr>
+<tr class="even">
+<td><a href="https://box2d.org/">Box2D</a></td>
+<td>World</td>
+<td>Body</td>
+<td>Shape</td>
+<td>Joint</td>
+</tr>
+<tr class="odd">
+<td><a href="https://ode.org/wiki/index.php">ODE</a></td>
+<td>World+Space</td>
+<td>Body</td>
+<td>Geom</td>
+<td>Joint</td>
+</tr>
+<tr class="even">
+<td><a href="https://projectchrono.org/">PROJECTCHRONO</a></td>
+<td>System</td>
+<td>Body</td>
+<td>Shape</td>
+<td>Link</td>
+</tr>
+<tr class="odd">
+<td><a href="https://dartsim.github.io/index.html">DART</a></td>
+<td>World</td>
+<td>Skeleton+Shape</td>
+<td>Shape</td>
+<td>Joint</td>
+</tr>
+<tr class="even">
+<td><a href="https://pybullet.org/wordpress/">Bullet</a></td>
+<td>World</td>
+<td>Body</td>
+<td>Shape</td>
+<td>Joint</td>
+</tr>
+<tr class="odd">
+<td><a href="http://wiki.ros.org/urdf">urdf</a>*</td>
+<td>World</td>
+<td>Link</td>
+<td>Geometry</td>
+<td>Joint</td>
+</tr>
+</tbody>
+</table>
+<p>*URDF is technically a file format, but it is used by several physics engines to describe the robot’s structure and dynamics.</p>
+</section>
+<section id="adding-a-small-obstacle" class="level2">
+<h2 class="anchored" data-anchor-id="adding-a-small-obstacle">Adding a Small Obstacle</h2>
+<p>Here is now our full example simulation.</p>
 <div>
     <canvas id="wmr-canvas2"></canvas>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="118" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 117;"><span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>wmr2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas2'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Analytical</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>player2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>player2<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="169" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 168;"><span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>wmr2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas2'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">RBDEngine</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">addStep</span><span class="op">:</span> <span class="kw">true</span>} )<span class="op">;</span></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>player2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr2<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>player2<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-2-1" data-nodetype="declaration">
@@ -463,96 +543,45 @@ x_t = x_0 + \omega r t
 </div>
 </div>
 </div>
+</section>
+<section id="optimizing-our-wmr" class="level2">
+<h2 class="anchored" data-anchor-id="optimizing-our-wmr">Optimizing our WMR</h2>
+<p>Revisiting our problem statement:</p>
+<blockquote class="blockquote">
+<p>We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.</p>
+</blockquote>
+<p>We just now need some way to optimize our WMR. Let’s start by listing the evolvable parameters:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What happens when we add a wall?
+Evolvable Parameters
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Adding simple collisions is pretty easy, even with the analytical model. We just add an additional check in the update loop.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ( distanceToWall <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> distanceToEdge <span class="op">&gt;</span> <span class="dv">0</span> ) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">chassisPosition</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">angularVelocity</span> <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">wheelRadius</span> <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">timeStep</span><span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is not an exhaustive list, but it is a good starting point:</p>
+<ol type="1">
+<li>Wheel radius</li>
+<li>Chassis length</li>
+<li>Suspension parameters</li>
+<li>Sensor parameters</li>
+<li>Control parameters</li>
+</ol>
 </div>
 </div>
 </div>
-</section>
-<section id="dynamic-control" class="level2">
-<h2 class="anchored" data-anchor-id="dynamic-control">Dynamic Control</h2>
-<p>What if we want to add dynamic control to the WMR? For example, we want the WMR to stop in front of the wall without hitting it? Something like the following:</p>
-<p><span id="eq-control"><span class="math display">\[
-\omega = \max( -\Omega, \min( \Omega, m d + b)
-\tag{2}\]</span></span></p>
-<p>where <span class="math inline">\(\Omega\)</span> is the maximum angular velocity, <span class="math inline">\(m\)</span> is the proportional gain, <span class="math inline">\(d\)</span> is the distance to the wall, and <span class="math inline">\(b\)</span> is the control bias.</p>
-<p>Take a second to understand the equation above.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What does the equation mean?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The equation above is a simple proportional controller. It calculates the angular velocity of the robot based on the distance to the wall. The robot will stop when it reaches some distance from the wall based on the values of <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span>.</p>
-</div>
-</div>
-</div>
-<p>Now, consider how we might add this equation to the simulation. Here is the simulate function from above:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">simulate</span>( time<span class="op">:</span> <span class="dt">number</span> ) {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// x = v t = x0 + ω r t</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    chassisPosition <span class="op">=</span> initialPosition <span class="op">+</span> angularVelocity <span class="op">*</span> wheelRadius <span class="op">*</span> time<span class="op">;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>How can we change the <code>chassisPosition</code> based on a dynamic value for <code>angularVelocity</code>? You can probably think of some ways to restructure the code, but essentially, we can no longer compute the current position based solely on the time. Instead, we need to know the time, the current position, and the current angular velocity.</p>
-<p>This dependency on the current position is a problem for the analytical model.</p>
-<div>
-    <canvas id="wmr-canvas3"></canvas>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="177" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 176;"><span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>wmr3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">WMRSimulator</span>( <span class="st">'wmr-canvas3'</span><span class="op">,</span> WMR2DMode<span class="op">.</span><span class="at">Analytical</span><span class="op">,</span> { <span class="dt">addWall</span><span class="op">:</span> <span class="kw">true</span> } )<span class="op">;</span></span>
-<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>player3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>( uiTimeEnd<span class="op">,</span> uiTimeStep<span class="op">,</span> (time) <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">step</span>(time)<span class="op">,</span> () <span class="kw">=&gt;</span> wmr3<span class="op">.</span><span class="fu">reset</span>() )<span class="op">;</span></span>
-<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>player3<span class="op">.</span><span class="fu">create</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-3" data-nodetype="expression">
-
-</div>
-</div>
-</div>
-</div>
-<p>The simulation above does not stop in front of the wall, because we have better methods for handling this scenario. We will explore these methods in <a href="../demos/2-numerical.html">the next demo</a>.</p>
+<p>In <a href="../demos/4-full-example.html">the final demo</a>, we will explore how to optimize these parameters using a genetic algorithm.</p>
 
 
 </section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IFBsYXllciB9IGZyb20gJy4uL19saWIvUGxheWVyL2Rpc3QvcGxheWVyLmpzJztcbmltcG9ydCB7IFdNUlNpbXVsYXRvciwgV01SMkRNb2RlIH0gZnJvbSAgJy4uL19saWIvV01SMkQvZGlzdC93bXIyZC5qcyc7XG5cbnVpVGltZUVuZCA9IDE2LjA7XG51aVRpbWVTdGVwID0gMC4xO1xuXG53bXIxID0gbmV3IFdNUlNpbXVsYXRvciggJ3dtci1jYW52YXMxJywgV01SMkRNb2RlLkFuYWx5dGljYWwgKTtcbnBsYXllcjEgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIxLnN0ZXAodGltZSksICgpID0+IHdtcjEucmVzZXQoKSApO1xucGxheWVyMS5jcmVhdGUoKTtcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IndtcjIgPSBuZXcgV01SU2ltdWxhdG9yKCAnd21yLWNhbnZhczInLCBXTVIyRE1vZGUuQW5hbHl0aWNhbCwgeyBhZGRXYWxsOiB0cnVlIH0gKTtcbnBsYXllcjIgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIyLnN0ZXAodGltZSksICgpID0+IHdtcjIucmVzZXQoKSApO1xucGxheWVyMi5jcmVhdGUoKTtcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IndtcjMgPSBuZXcgV01SU2ltdWxhdG9yKCAnd21yLWNhbnZhczMnLCBXTVIyRE1vZGUuQW5hbHl0aWNhbCwgeyBhZGRXYWxsOiB0cnVlIH0gKTtcbnBsYXllcjMgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIzLnN0ZXAodGltZSksICgpID0+IHdtcjMucmVzZXQoKSApO1xucGxheWVyMy5jcmVhdGUoKTtcbiJ9XX0=
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7IFBsYXllciB9IGZyb20gJy4uL19saWIvUGxheWVyL2Rpc3QvcGxheWVyLmpzJztcbmltcG9ydCB7IFdNUlNpbXVsYXRvciwgV01SMkRNb2RlIH0gZnJvbSAgJy4uL19saWIvV01SMkQvZGlzdC93bXIyZC5qcyc7XG5cbnVpVGltZUVuZCA9IDE2LjA7XG51aVRpbWVTdGVwID0gMC4xO1xuXG53bXIxID0gbmV3IFdNUlNpbXVsYXRvciggJ3dtci1jYW52YXMxJywgV01SMkRNb2RlLlJCREVuZ2luZSApO1xucGxheWVyMSA9IG5ldyBQbGF5ZXIoIHVpVGltZUVuZCwgdWlUaW1lU3RlcCwgKHRpbWUpID0+IHdtcjEuc3RlcCh0aW1lKSwgKCkgPT4gd21yMS5yZXNldCgpICk7XG5wbGF5ZXIxLmNyZWF0ZSgpO1xuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoid21yMiA9IG5ldyBXTVJTaW11bGF0b3IoICd3bXItY2FudmFzMicsIFdNUjJETW9kZS5SQkRFbmdpbmUsIHsgYWRkV2FsbDogdHJ1ZSwgYWRkU3RlcDogdHJ1ZX0gKTtcbnBsYXllcjIgPSBuZXcgUGxheWVyKCB1aVRpbWVFbmQsIHVpVGltZVN0ZXAsICh0aW1lKSA9PiB3bXIyLnN0ZXAodGltZSksICgpID0+IHdtcjIucmVzZXQoKSApO1xucGxheWVyMi5jcmVhdGUoKTtcbiJ9XX0=
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
