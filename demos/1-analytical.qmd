@@ -86,7 +86,7 @@ while ( !done ) {
 
 ## Analytical Model Simulation
 
-The following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It "collides" with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis's position but not he wheel rotations.
+The following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It "collides" with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis's position but not the wheel rotations.
 
 ```{=html}
 <div>

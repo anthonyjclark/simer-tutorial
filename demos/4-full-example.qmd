@@ -1,4 +1,4 @@
-
+---
 title: "Demo 4: Full Example"
 execute:
     echo: false
@@ -6,7 +6,7 @@ format:
     html:
         css: ../_lib/WMR2D/css/main.css
         highlight-style: pygments
-
+---
 
 We'll now look at a full evolutionary robotics example. Here are the steps:
 
@@ -92,7 +92,7 @@ I recommend using a two-value fitness function. One component is used for a feas
 
 $$
 f = \frac{l}{2} - r
-$$ {eq-feasibility}
+$$ {#eq-feasibility}
 
 where $l$ is the chassis length and $r$ is the wheel radius.
 
@@ -102,7 +102,7 @@ For the demo, I used the following objective function:
 
 $$
 o = 2 \left(1 - \frac{d}{d_{\text{max}}}\right) + 1 \left(1 - \frac{\omega}{\omega_{\text{max}}}\right) + \frac{1}{2} \left( 1 - \text{hit} \right) + \frac{1}{4} \left(1 - \frac{r}{r_{\text{max}}}\right) + \frac{1}{4} \left(1 - \frac{t_r}{t_{\text{max}}}\right)
-$$ {eq-objective}
+$$ {#eq-objective}
 
 The different components are meant to:
 

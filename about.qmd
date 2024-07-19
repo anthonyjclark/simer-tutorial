@@ -1,8 +1,8 @@
 ---
-title: "About"
+title: "SimER: Simulation in Evolutionary Robotics"
 image: images/ugv.png
 about:
-    template: broadside
+    template: marquee
     links:
     - icon: github
       text: GitHub

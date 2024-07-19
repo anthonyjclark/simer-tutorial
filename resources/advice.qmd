@@ -5,6 +5,12 @@ format: html
 
 Some general advice in no particular order:
 
+- Always prototype.
+  - Prototype your algorithms with small populations sizes and few generations.
+  - Test algorithms with benchmark datasets.
+  - Test simulations with benchmark algorithms.
+  - Test your simulation with extreme parameters.
+
 - Choose the correct level of abstraction.
   - What do you care about?
   - Do you care about the electro-mechanical properties of the motors?
@@ -45,5 +51,14 @@ Some general advice in no particular order:
   - See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
   - See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
 
-- Compare your results to a baseline.
+- Setup good tools for analysis.
+  - Compare your results to a baseline.
   - Try to construct a good solution by hand before evolving one.
+  - Use consistent themes for your plots and figures.
+  - Use vector graphics over raster graphics for plots.
+  - Generate plots and figures for both presentations and articles.
+
+- Write about your work.
+  - Write a small bit every day.
+  - Write down a prediction before you run an experiment.
+  - Write your article outline before you run your experiments.

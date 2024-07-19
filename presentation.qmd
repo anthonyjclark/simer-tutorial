@@ -1,19 +1,25 @@
 ---
 title: "SimER Tutorial"
 author: Anthony J. Clark
+date: "July 26, 2024"
 format:
   revealjs:
+    footer: "Anthony J. Clark, SimER Tutorial"
     progress: true
     controls: true
     controls-layout: bottom-right
     toc: true
+    toc-depth: 1
     syntax-definitions:
       - pseudocode.xml
     highlight-style: pygments
+    chalkboard: true
+    incremental: true
 ---
 
-# Introduction
+# {background-video="videos/walker.mp4" background-video-loop="true" autoplay="1"}
 
+# Introduction
 
 ## Format
 
@@ -23,19 +29,36 @@ This tutorial will follow a format in which:
 - Loop
   - I'll present for a bit
   - I'll ask you all to read through an exercise
+  - Ask questions on our shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing)
   - We'll have time for discussion
 - We'll cover a more complete example in full
+
+## About Me {.nostretch}
+
+![](https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg){width="60%" fig-align="center"}
+
+I am a professor in the Compute Science Department at [Pomona College](https://www.pomona.edu/) in Southern California, USA.
+
+I've spent arguably too much time playing around with different simulation methods (ODE, Bullet, DART, Box2D, Simulink, Chrono, MuJoCo, Gazebo, Unreal, Unity, Godot, Webots, SimPy, FEA, custom, ...).
 
 ## Evolutionary Robotics
 
 The use of evolutionary algorithms to explore the design space of robots and their control software.
 
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+  <p>Visualization not shown because your browser does not support use of an iframe.</p>
+</iframe>
+
 ## Research Questions
 
 There is a wide variety of research in evolutionary robotics, but I'll focus on:
 
-1. Optimization and novelty (application-based)
-2. Algorithm design (theory-based)
+- Optimization and novelty (application-based)
+  - How can we optimize the design of a robot for a specific task?
+  - How can we explore the space of possible designs and behaviors?
+- Algorithm design (theory-based)
+  - How can we design algorithms that are more efficient and effective?
+  - How can we design algorithms that are more robust to noise and uncertainty?
 
 ## General Algorithm
 
@@ -43,51 +66,33 @@ There is a wide variety of research in evolutionary robotics, but I'll focus on:
 %%| fig-align: center
 
 flowchart LR
-    Init[Initialize] --> Eval[Evaluate]
-    Eval --> Stop{Stop?}
-    Stop --Yes--> Retn[Return]
-    Stop --No--> Sele[Select]
-    Sele --> Modi[Modify]
-    Modi --> Evl2[Evaluate]
-    Evl2 --> Comb[Combine]
+    Init[initialize] --> Eval[evaluate]
+    Eval --> Stop{stop?}
+    Stop --Yes--> Retn[return]
+    Stop --No--> Sele[select]
+    Sele --> Modi[modify]
+    Modi --> Evl2[evaluate]
+    Evl2 --> Comb[combine]
     Comb --> Stop
 ```
 
-TODO: fix flow chart and pseudocode
-
-```{.pseudocode}
-population = Initialize()
-population = Evaluate(population)
-
-LOOP
-  IF Stop(fitnesses) THEN BREAK
-  selected = Select(population)
-  children = Modify(selected)
-  children = Evaluate(children)
-  population = Combine(population, children)
-
-RETURN population
-```
-
-```python
-population = initialize(POPULATION_SIZE)
+```{.python code-line-numbers="1-2|4-6|8-11"}
+population = initialize(population_size)
 population = evaluate(population)
 
-for generation in range(NUM_GENERATIONS):
+for generation in range(num_generations):
     if stop(population):
         break
 
-    # Tournament selection
     selected = select(population)
-    # Just mutation (no crossover?); maybe DE?
     children = modify(selected)
     children = evaluate(children)
-    # Elitism of 1?
     population = combine(population, children)
 ```
 
-```python
+## Python Implementation
 
+```{.python code-line-numbers="1-4|6|7|8|9|10|11"}
 Fitness = tuple[float, float]
 Genome = list[float]
 Individual = tuple[Genome, Fitness]
@@ -101,57 +106,128 @@ def modify(pop: Population) -> Population: ...
 def combine(pop1: Population, pop2: Population) -> Population: ...
 ```
 
-# Practical Considerations
+# Simulation
 
-## Practical Considerations
+This section and the related demos are the focus of this tutorial.
 
-1. Simulation, feasibility, and reality gap
-2. Computational resources (headless, parallelism, etc.)
-3. Management (analysis, visualizing, plotting, etc.)
-4. Research management (tracking, reproducibility, collaboration, etc.)
-5. Validation on hardware
+## Types of Simulation
 
-Major challenge: "reality gap"
+- Analytical (closed-form) dynamics
+- Numerical dynamics
+- **Rigid-body dynamics (physics engine)**
+- Soft-body dynamics
+- Finite-element analysis
+- Digital evolution (e.g., Avida)
 
-## Simulation
+## Simulation Advice
 
-- Follow a gradient of feasibility to provide a better "gradient"
-- Scale your parameters for numerical stability
-- ...
+Choose the correct level of abstraction.
+
+- What do you care about?
+- Do you care about the electro-mechanical properties of the motors?
+- Can you get away with spherical wheels? They are faster to simulate.
+- Can you fake hydrodynamics or do you need full fluid dynamics?
+- Do you care about vision?
+
+The main challenge: **reality gap**
+
+## Simulation Advice (2)
+
+Consider your simulation characteristics.
+
+- Simulation should be noisy but deterministic.
+- You should evaluate a single individual with multiple initial conditions.
+- Your simulation should be faster than real-time.
+- Your simulation should be parallelizable.
+- Your simulation should be able to run headless.
+- Avoid stiff springs.
+- Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).
+
+## Evolution Advice
+
+Decouple simulation, visualization, and optimization.
+
+- Make it easy to swap out simulators.
+- Make it easy to swap out optimization algorithms.
+- Make it easy to swap out visualization tools.
+- You should be able to run your algorithm with different random seeds.
+- Be careful that your simulation environment and fitness function are not too easy to "game."
+- Incorporate constraint and feasibility handling into your fitness and selection functions.
+- Include early stopping for your evaluations (e.g., stuck, flipped, etc.).
+- Include early stopping for your optimization (e.g., no progress, etc.).
+
+## Evolutionary Robotics Advice
+
+Always prototype.
+
+- Prototype your algorithms with small populations sizes and few generations.
+- Test algorithms with benchmark datasets.
+- Test simulations with benchmark algorithms.
+- Test your simulation with extreme parameters.
+
+## Experiment Management Advice
+
+Save all data if you can.
+
+- All individuals every generation.
+- Every replicate.
+- Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).
+- Use a tool like [wandb](https://wandb.ai/) for tracking.
 
 ## Parallelism
 
-You'll want to run your experiments on a compute cluster if possible.
+Consider your computational resources.
 
-1. Parallelize replicate experiments (different random seeds)
-2. Parallelize across generations (if mixing populations)
-3. Parallelize across populations (multiple population per replicate)
-4. Parallelize across individuals (multiple individuals per population)
-5. Parallelize across trials (multiple trials per individual)
+- Parallelize replicate experiments (trials different random seeds)
+- Parallelize across generations (if mixing populations)
+- Parallelize across populations (multiple population per replicate)
+- Parallelize across individuals (multiple individuals per population)
+- Parallelize across evaluations (multiple evaluations per individual)
+- See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
+- See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
 
 ## Parallelism Advice
 
 - Plan to use $N - 2$ cores, where $N$ is the number of cores available
 - Use a tool like [GNU Parallel](https://www.gnu.org/software/parallel/) at the replicate level
 - Use a library like [Python multiprocessing](https://docs.python.org/3/library/multiprocessing.html) at lower levels
-- Consider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism
-  - Do you care more about the variance across replicates? Parallelize at the replicate level
-  - Do you care more about the performance of a single replicate? Parallelize at the individual level
+- Do you care more about the variance across replicates? Parallelize at the replicate level
+- Do you care more about the performance of a single replicate? Parallelize at the individual level
 
-## Experiment Management
+## Analysis Advice
 
-- wandb, for example
+Setup good tools for analysis.
+
+- Compare your results to a baseline.
+- Try to construct a good solution by hand before evolving one.
+- Use consistent themes for your plots and figures.
+- Use vector graphics over raster graphics for plots.
+- Generate plots and figures for both presentations and articles.
+
+## Communication Advice
+
+Write about your work.
+
+- Write a small bit every day.
+- Write down a prediction before you run an experiment.
+- Write your article outline before you run your experiments.
 
 # Exemplar
 
 ## Problem Statement
 
-Objective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.
+Let's start with the following problem statement:
+
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
 
 ## Online Demos
 
-Starting with [Analytical Models](demos/1-analytical.qmd)
+Simulation demos:
 
-## Full Examples
+- [Analytical Models](demos/1-analytical.qmd)
+- [Numerical Models](demos/2-numerical.qmd)
+- [Rigid Body Dynamics](demos/3-rigid-body-dynamics.qmd)
 
-Full description at [Full Example](demos/4-full-example.qmd)
+Full ER demo:
+
+- [Full Example](demos/4-full-example.qmd)

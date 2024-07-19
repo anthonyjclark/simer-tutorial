@@ -33,8 +33,10 @@ Of course, covering this wide range of topics necessarily means that we will not
 
 - Friday, 26 July
 - Parallel session 10: 15:00 - 16:40
-- Room: TBD
-- Question and Answers: TBD (Google Sheet)
+- Room: Auditorium 0 ([Zoom link](https://itucph.zoom.us/j/62244371314?pwd=iSbh5YeNwSYKOcBx8pzDm8ZER7D4KG.1))
+- Presentation: [Slides](https://cs.pomona.edu/~ajc/tutorials/simer/presentation.html)
+- Code: [GitHub](https://github.com/anthonyjclark/simer-tutorial)
+- Question and Answers: [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing)
 
 ## Audience
 

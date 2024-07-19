@@ -8,10 +8,11 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.553">
+  <meta name="generator" content="quarto-1.5.55">
 
   <meta name="author" content="Anthony J. Clark">
-  <title>SimER - SimER Tutorial</title>
+  <meta name="dcterms.date" content="2024-07-26">
+  <title>SimER – SimER Tutorial</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -42,7 +43,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -98,6 +99,8 @@
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -403,34 +406,23 @@ Anthony J. Clark
 </div>
 </div>
 
+  <p class="date">2024-07-26</p>
 </section><section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#/introduction" id="/toc-introduction">Introduction</a>
-<ul>
-<li><a href="#/format" id="/toc-format">Format</a></li>
-<li><a href="#/evolutionary-robotics" id="/toc-evolutionary-robotics">Evolutionary Robotics</a></li>
-<li><a href="#/research-questions" id="/toc-research-questions">Research Questions</a></li>
-<li><a href="#/general-algorithm" id="/toc-general-algorithm">General Algorithm</a></li>
-</ul></li>
-<li><a href="#/practical-considerations" id="/toc-practical-considerations">Practical Considerations</a>
-<ul>
-<li><a href="#/practical-considerations-1" id="/toc-practical-considerations-1">Practical Considerations</a></li>
-<li><a href="#/simulation" id="/toc-simulation">Simulation</a></li>
-<li><a href="#/parallelism" id="/toc-parallelism">Parallelism</a></li>
-<li><a href="#/parallelism-advice" id="/toc-parallelism-advice">Parallelism Advice</a></li>
-<li><a href="#/experiment-management" id="/toc-experiment-management">Experiment Management</a></li>
-</ul></li>
-<li><a href="#/exemplar" id="/toc-exemplar">Exemplar</a>
-<ul>
-<li><a href="#/problem-statement" id="/toc-problem-statement">Problem Statement</a></li>
-<li><a href="#/online-demos" id="/toc-online-demos">Online Demos</a></li>
-<li><a href="#/full-examples" id="/toc-full-examples">Full Examples</a></li>
-</ul></li>
+
+<li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
+<li class="fragment"><a href="#/simulation" id="/toc-simulation">Simulation</a></li>
+<li class="fragment"><a href="#/exemplar" id="/toc-exemplar">Exemplar</a></li>
 </ul>
 </nav>
 </section>
+<section id="section" class="title-slide slide level1 center" data-background-video="videos/walker.mp4" data-background-video-loop="true" autoplay="1">
+<h1></h1>
+
+</section>
+
 <section>
 <section id="introduction" class="title-slide slide level1 center">
 <h1>Introduction</h1>
@@ -440,27 +432,51 @@ Anthony J. Clark
 <h2>Format</h2>
 <p>This tutorial will follow a format in which:</p>
 <ul>
-<li>We’ll get on the same page with respect to terminology</li>
-<li>Loop
+<li class="fragment">We’ll get on the same page with respect to terminology</li>
+<li class="fragment">Loop
 <ul>
-<li>I’ll present for a bit</li>
-<li>I’ll ask you all to read through an exercise</li>
-<li>We’ll have time for discussion</li>
+<li class="fragment">I’ll present for a bit</li>
+<li class="fragment">I’ll ask you all to read through an exercise</li>
+<li class="fragment">Ask questions on our shared <a href="https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing">Google Sheet</a></li>
+<li class="fragment">We’ll have time for discussion</li>
 </ul></li>
-<li>We’ll cover a more complete example in full</li>
+<li class="fragment">We’ll cover a more complete example in full</li>
 </ul>
+</section>
+<section id="about-me" class="slide level2 nostretch">
+<h2>About Me</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+<p>I am a professor in the Compute Science Department at <a href="https://www.pomona.edu/">Pomona College</a> in Southern California, USA.</p>
+<p>I’ve spent arguably too much time playing around with different simulation methods (ODE, Bullet, DART, Box2D, Simulink, Chrono, MuJoCo, Gazebo, Unreal, Unity, Godot, Webots, SimPy, FEA, custom, …).</p>
 </section>
 <section id="evolutionary-robotics" class="slide level2">
 <h2>Evolutionary Robotics</h2>
 <p>The use of evolutionary algorithms to explore the design space of robots and their control software.</p>
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+<p>
+Visualization not shown because your browser does not support use of an iframe.
+</p>
+</iframe>
 </section>
 <section id="research-questions" class="slide level2">
 <h2>Research Questions</h2>
 <p>There is a wide variety of research in evolutionary robotics, but I’ll focus on:</p>
-<ol type="1">
-<li>Optimization and novelty (application-based)</li>
-<li>Algorithm design (theory-based)</li>
-</ol>
+<ul>
+<li class="fragment">Optimization and novelty (application-based)
+<ul>
+<li class="fragment">How can we optimize the design of a robot for a specific task?</li>
+<li class="fragment">How can we explore the space of possible designs and behaviors?</li>
+</ul></li>
+<li class="fragment">Algorithm design (theory-based)
+<ul>
+<li class="fragment">How can we design algorithms that are more efficient and effective?</li>
+<li class="fragment">How can we design algorithms that are more robust to noise and uncertainty?</li>
+</ul></li>
+</ul>
 </section>
 <section id="general-algorithm" class="slide level2">
 <h2>General Algorithm</h2>
@@ -470,13 +486,13 @@ Anthony J. Clark
 <p></p><figure class=""><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    Init[Initialize] --&gt; Eval[Evaluate]
-    Eval --&gt; Stop{Stop?}
-    Stop --Yes--&gt; Retn[Return]
-    Stop --No--&gt; Sele[Select]
-    Sele --&gt; Modi[Modify]
-    Modi --&gt; Evl2[Evaluate]
-    Evl2 --&gt; Comb[Combine]
+    Init[initialize] --&gt; Eval[evaluate]
+    Eval --&gt; Stop{stop?}
+    Stop --Yes--&gt; Retn[return]
+    Stop --No--&gt; Sele[select]
+    Sele --&gt; Modi[modify]
+    Modi --&gt; Evl2[evaluate]
+    Evl2 --&gt; Comb[combine]
     Comb --&gt; Stop
 </pre>
 </div>
@@ -484,97 +500,148 @@ Anthony J. Clark
 </div>
 </div>
 </div>
-<p>TODO: fix flow chart and pseudocode</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource pseudocode number-lines code-with-copy"><code class="sourceCode pseudocode"><span id="cb1-1"><a></a>population = Initialize()</span>
-<span id="cb1-2"><a></a>population = Evaluate(population)</span>
+<div class="sourceCode" id="cb1" data-code-line-numbers="1-2|4-6|8-11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>population <span class="op">=</span> initialize(population_size)</span>
+<span id="cb1-2"><a></a>population <span class="op">=</span> evaluate(population)</span>
 <span id="cb1-3"><a></a></span>
-<span id="cb1-4"><a></a><span class="cf">LOOP</span></span>
-<span id="cb1-5"><a></a>  <span class="cf">IF</span> Stop(fitnesses) <span class="cf">THEN</span> <span class="cf">BREAK</span></span>
-<span id="cb1-6"><a></a>  selected = Select(population)</span>
-<span id="cb1-7"><a></a>  children = Modify(selected)</span>
-<span id="cb1-8"><a></a>  children = Evaluate(children)</span>
-<span id="cb1-9"><a></a>  population = Combine(population, children)</span>
-<span id="cb1-10"><a></a></span>
-<span id="cb1-11"><a></a><span class="cf">RETURN</span> population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>population <span class="op">=</span> initialize(POPULATION_SIZE)</span>
-<span id="cb2-2"><a></a>population <span class="op">=</span> evaluate(population)</span>
-<span id="cb2-3"><a></a></span>
-<span id="cb2-4"><a></a><span class="cf">for</span> generation <span class="kw">in</span> <span class="bu">range</span>(NUM_GENERATIONS):</span>
-<span id="cb2-5"><a></a>    <span class="cf">if</span> stop(population):</span>
-<span id="cb2-6"><a></a>        <span class="cf">break</span></span>
-<span id="cb2-7"><a></a></span>
-<span id="cb2-8"><a></a>    <span class="co"># Tournament selection</span></span>
-<span id="cb2-9"><a></a>    selected <span class="op">=</span> select(population)</span>
-<span id="cb2-10"><a></a>    <span class="co"># Just mutation (no crossover?); maybe DE?</span></span>
-<span id="cb2-11"><a></a>    children <span class="op">=</span> modify(selected)</span>
-<span id="cb2-12"><a></a>    children <span class="op">=</span> evaluate(children)</span>
-<span id="cb2-13"><a></a>    <span class="co"># Elitism of 1?</span></span>
-<span id="cb2-14"><a></a>    population <span class="op">=</span> combine(population, children)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a></span>
-<span id="cb3-2"><a></a>Fitness <span class="op">=</span> <span class="bu">tuple</span>[<span class="bu">float</span>, <span class="bu">float</span>]</span>
-<span id="cb3-3"><a></a>Genome <span class="op">=</span> <span class="bu">list</span>[<span class="bu">float</span>]</span>
-<span id="cb3-4"><a></a>Individual <span class="op">=</span> <span class="bu">tuple</span>[Genome, Fitness]</span>
-<span id="cb3-5"><a></a>Population <span class="op">=</span> <span class="bu">list</span>[Individual]</span>
-<span id="cb3-6"><a></a></span>
-<span id="cb3-7"><a></a><span class="kw">def</span> initialize(size: <span class="bu">int</span>) <span class="op">-&gt;</span> Population: ...</span>
-<span id="cb3-8"><a></a><span class="kw">def</span> evaluate(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
-<span id="cb3-9"><a></a><span class="kw">def</span> stop(pop: Population) <span class="op">-&gt;</span> <span class="bu">bool</span>: ...</span>
-<span id="cb3-10"><a></a><span class="kw">def</span> select(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
-<span id="cb3-11"><a></a><span class="kw">def</span> modify(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
-<span id="cb3-12"><a></a><span class="kw">def</span> combine(pop1: Population, pop2: Population) <span class="op">-&gt;</span> Population: ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a></a><span class="cf">for</span> generation <span class="kw">in</span> <span class="bu">range</span>(num_generations):</span>
+<span id="cb1-5"><a></a>    <span class="cf">if</span> stop(population):</span>
+<span id="cb1-6"><a></a>        <span class="cf">break</span></span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>    selected <span class="op">=</span> select(population)</span>
+<span id="cb1-9"><a></a>    children <span class="op">=</span> modify(selected)</span>
+<span id="cb1-10"><a></a>    children <span class="op">=</span> evaluate(children)</span>
+<span id="cb1-11"><a></a>    population <span class="op">=</span> combine(population, children)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="python-implementation" class="slide level2">
+<h2>Python Implementation</h2>
+<div class="sourceCode" id="cb2" data-code-line-numbers="1-4|6|7|8|9|10|11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>Fitness <span class="op">=</span> <span class="bu">tuple</span>[<span class="bu">float</span>, <span class="bu">float</span>]</span>
+<span id="cb2-2"><a></a>Genome <span class="op">=</span> <span class="bu">list</span>[<span class="bu">float</span>]</span>
+<span id="cb2-3"><a></a>Individual <span class="op">=</span> <span class="bu">tuple</span>[Genome, Fitness]</span>
+<span id="cb2-4"><a></a>Population <span class="op">=</span> <span class="bu">list</span>[Individual]</span>
+<span id="cb2-5"><a></a></span>
+<span id="cb2-6"><a></a><span class="kw">def</span> initialize(size: <span class="bu">int</span>) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb2-7"><a></a><span class="kw">def</span> evaluate(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb2-8"><a></a><span class="kw">def</span> stop(pop: Population) <span class="op">-&gt;</span> <span class="bu">bool</span>: ...</span>
+<span id="cb2-9"><a></a><span class="kw">def</span> select(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb2-10"><a></a><span class="kw">def</span> modify(pop: Population) <span class="op">-&gt;</span> Population: ...</span>
+<span id="cb2-11"><a></a><span class="kw">def</span> combine(pop1: Population, pop2: Population) <span class="op">-&gt;</span> Population: ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
-<section id="practical-considerations" class="title-slide slide level1 center">
-<h1>Practical Considerations</h1>
-
+<section id="simulation" class="title-slide slide level1 center">
+<h1>Simulation</h1>
+<p>This section and the related demos are the focus of this tutorial.</p>
 </section>
-<section id="practical-considerations-1" class="slide level2">
-<h2>Practical Considerations</h2>
-<ol type="1">
-<li>Simulation, feasibility, and reality gap</li>
-<li>Computational resources (headless, parallelism, etc.)</li>
-<li>Management (analysis, visualizing, plotting, etc.)</li>
-<li>Research management (tracking, reproducibility, collaboration, etc.)</li>
-<li>Validation on hardware</li>
-</ol>
-<p>Major challenge: “reality gap”</p>
-</section>
-<section id="simulation" class="slide level2">
-<h2>Simulation</h2>
+<section id="types-of-simulation" class="slide level2">
+<h2>Types of Simulation</h2>
 <ul>
-<li>Follow a gradient of feasibility to provide a better “gradient”</li>
-<li>Scale your parameters for numerical stability</li>
-<li>…</li>
+<li class="fragment">Analytical (closed-form) dynamics</li>
+<li class="fragment">Numerical dynamics</li>
+<li class="fragment"><strong>Rigid-body dynamics (physics engine)</strong></li>
+<li class="fragment">Soft-body dynamics</li>
+<li class="fragment">Finite-element analysis</li>
+<li class="fragment">Digital evolution (e.g., Avida)</li>
+</ul>
+</section>
+<section id="simulation-advice" class="slide level2">
+<h2>Simulation Advice</h2>
+<p>Choose the correct level of abstraction.</p>
+<ul>
+<li class="fragment">What do you care about?</li>
+<li class="fragment">Do you care about the electro-mechanical properties of the motors?</li>
+<li class="fragment">Can you get away with spherical wheels? They are faster to simulate.</li>
+<li class="fragment">Can you fake hydrodynamics or do you need full fluid dynamics?</li>
+<li class="fragment">Do you care about vision?</li>
+</ul>
+<p>The main challenge: <strong>reality gap</strong></p>
+</section>
+<section id="simulation-advice-2" class="slide level2">
+<h2>Simulation Advice (2)</h2>
+<p>Consider your simulation characteristics.</p>
+<ul>
+<li class="fragment">Simulation should be noisy but deterministic.</li>
+<li class="fragment">You should evaluate a single individual with multiple initial conditions.</li>
+<li class="fragment">Your simulation should be faster than real-time.</li>
+<li class="fragment">Your simulation should be parallelizable.</li>
+<li class="fragment">Your simulation should be able to run headless.</li>
+<li class="fragment">Avoid stiff springs.</li>
+<li class="fragment">Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).</li>
+</ul>
+</section>
+<section id="evolution-advice" class="slide level2">
+<h2>Evolution Advice</h2>
+<p>Decouple simulation, visualization, and optimization.</p>
+<ul>
+<li class="fragment">Make it easy to swap out simulators.</li>
+<li class="fragment">Make it easy to swap out optimization algorithms.</li>
+<li class="fragment">Make it easy to swap out visualization tools.</li>
+<li class="fragment">You should be able to run your algorithm with different random seeds.</li>
+<li class="fragment">Be careful that your simulation environment and fitness function are not too easy to “game.”</li>
+<li class="fragment">Incorporate constraint and feasibility handling into your fitness and selection functions.</li>
+<li class="fragment">Include early stopping for your evaluations (e.g., stuck, flipped, etc.).</li>
+<li class="fragment">Include early stopping for your optimization (e.g., no progress, etc.).</li>
+</ul>
+</section>
+<section id="evolutionary-robotics-advice" class="slide level2">
+<h2>Evolutionary Robotics Advice</h2>
+<p>Always prototype.</p>
+<ul>
+<li class="fragment">Prototype your algorithms with small populations sizes and few generations.</li>
+<li class="fragment">Test algorithms with benchmark datasets.</li>
+<li class="fragment">Test simulations with benchmark algorithms.</li>
+<li class="fragment">Test your simulation with extreme parameters.</li>
+</ul>
+</section>
+<section id="experiment-management-advice" class="slide level2">
+<h2>Experiment Management Advice</h2>
+<p>Save all data if you can.</p>
+<ul>
+<li class="fragment">All individuals every generation.</li>
+<li class="fragment">Every replicate.</li>
+<li class="fragment">Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).</li>
+<li class="fragment">Use a tool like <a href="https://wandb.ai/">wandb</a> for tracking.</li>
 </ul>
 </section>
 <section id="parallelism" class="slide level2">
 <h2>Parallelism</h2>
-<p>You’ll want to run your experiments on a compute cluster if possible.</p>
-<ol type="1">
-<li>Parallelize replicate experiments (different random seeds)</li>
-<li>Parallelize across generations (if mixing populations)</li>
-<li>Parallelize across populations (multiple population per replicate)</li>
-<li>Parallelize across individuals (multiple individuals per population)</li>
-<li>Parallelize across trials (multiple trials per individual)</li>
-</ol>
+<p>Consider your computational resources.</p>
+<ul>
+<li class="fragment">Parallelize replicate experiments (trials different random seeds)</li>
+<li class="fragment">Parallelize across generations (if mixing populations)</li>
+<li class="fragment">Parallelize across populations (multiple population per replicate)</li>
+<li class="fragment">Parallelize across individuals (multiple individuals per population)</li>
+<li class="fragment">Parallelize across evaluations (multiple evaluations per individual)</li>
+<li class="fragment">See <a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">GNU Parallel Tutorial</a></li>
+<li class="fragment">See <a href="https://github.com/nukesor/pueue">Pueue is a command-line task management tool</a></li>
+</ul>
 </section>
 <section id="parallelism-advice" class="slide level2">
 <h2>Parallelism Advice</h2>
 <ul>
-<li>Plan to use <span class="math inline">\(N - 2\)</span> cores, where <span class="math inline">\(N\)</span> is the number of cores available</li>
-<li>Use a tool like <a href="https://www.gnu.org/software/parallel/">GNU Parallel</a> at the replicate level</li>
-<li>Use a library like <a href="https://docs.python.org/3/library/multiprocessing.html">Python multiprocessing</a> at lower levels</li>
-<li>Consider what you need to evaluate for early stopping when making your choices between higher and lower levels of parallelism
-<ul>
-<li>Do you care more about the variance across replicates? Parallelize at the replicate level</li>
-<li>Do you care more about the performance of a single replicate? Parallelize at the individual level</li>
-</ul></li>
+<li class="fragment">Plan to use <span class="math inline">\(N - 2\)</span> cores, where <span class="math inline">\(N\)</span> is the number of cores available</li>
+<li class="fragment">Use a tool like <a href="https://www.gnu.org/software/parallel/">GNU Parallel</a> at the replicate level</li>
+<li class="fragment">Use a library like <a href="https://docs.python.org/3/library/multiprocessing.html">Python multiprocessing</a> at lower levels</li>
+<li class="fragment">Do you care more about the variance across replicates? Parallelize at the replicate level</li>
+<li class="fragment">Do you care more about the performance of a single replicate? Parallelize at the individual level</li>
 </ul>
 </section>
-<section id="experiment-management" class="slide level2">
-<h2>Experiment Management</h2>
+<section id="analysis-advice" class="slide level2">
+<h2>Analysis Advice</h2>
+<p>Setup good tools for analysis.</p>
 <ul>
-<li>wandb, for example</li>
+<li class="fragment">Compare your results to a baseline.</li>
+<li class="fragment">Try to construct a good solution by hand before evolving one.</li>
+<li class="fragment">Use consistent themes for your plots and figures.</li>
+<li class="fragment">Use vector graphics over raster graphics for plots.</li>
+<li class="fragment">Generate plots and figures for both presentations and articles.</li>
+</ul>
+</section>
+<section id="communication-advice" class="slide level2">
+<h2>Communication Advice</h2>
+<p>Write about your work.</p>
+<ul>
+<li class="fragment">Write a small bit every day.</li>
+<li class="fragment">Write down a prediction before you run an experiment.</li>
+<li class="fragment">Write your article outline before you run your experiments.</li>
 </ul>
 </section></section>
 <section>
@@ -584,19 +651,27 @@ Anthony J. Clark
 </section>
 <section id="problem-statement" class="slide level2">
 <h2>Problem Statement</h2>
-<p>Objective: maximize the distance traveled by an autonomous wheeled mobile robot (WMR) in a fixed amount of time.</p>
+<p>Let’s start with the following problem statement:</p>
+<blockquote>
+<p>We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.</p>
+</blockquote>
 </section>
 <section id="online-demos" class="slide level2">
 <h2>Online Demos</h2>
-<p>Starting with <a href="./demos/1-analytical.html">Analytical Models</a></p>
-</section>
-<section id="full-examples" class="slide level2">
-<h2>Full Examples</h2>
-<p>Full description at <a href="./demos/4-full-example.html">Full Example</a></p>
+<p>Simulation demos:</p>
+<ul>
+<li class="fragment"><a href="./demos/1-analytical.html">Analytical Models</a></li>
+<li class="fragment"><a href="./demos/2-numerical.html">Numerical Models</a></li>
+<li class="fragment"><a href="./demos/3-rigid-body-dynamics.html">Rigid Body Dynamics</a></li>
+</ul>
+<p>Full ER demo:</p>
+<ul>
+<li class="fragment"><a href="./demos/4-full-example.html">Full Example</a></li>
+</ul>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
-
+<p>Anthony J. Clark, SimER Tutorial</p>
 </div>
 </div>
 </section></section>
@@ -610,6 +685,7 @@ Anthony J. Clark
   <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -630,7 +706,8 @@ Anthony J. Clark
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -801,7 +878,7 @@ Anthony J. Clark
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -842,18 +919,7 @@ Anthony J. Clark
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -885,7 +951,29 @@ Anthony J. Clark
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -893,7 +981,7 @@ Anthony J. Clark
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {
