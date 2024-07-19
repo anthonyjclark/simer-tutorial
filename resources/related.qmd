@@ -3,6 +3,8 @@ title: "Related Events"
 format: html
 ---
 
+A list of past and current related workshops and tutorials.
+
 ## 2024
 
 - [Virtual Creatures Competition (VCC)!](https://sites.google.com/view/vcc-2024)
