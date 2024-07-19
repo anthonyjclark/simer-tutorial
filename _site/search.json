@@ -40,7 +40,7 @@
     "href": "demos/1-analytical.html#analytical-model-simulation",
     "title": "Demo 1: Analytical Models",
     "section": "Analytical Model Simulation",
-    "text": "Analytical Model Simulation\nThe following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It “collides” with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis’s position but not he wheel rotations.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Analytical );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat if we want to add an additional obstacle? For example, a wall partway through the environment. What happens when we simulate the WMR now?\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Analytical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat happens when we add a wall?\n\n\n\n\n\nAdding simple collisions is pretty easy, even with the analytical model. We just add an additional check in the update loop.\nif ( distanceToWall &gt; 0 && distanceToEdge &gt; 0 ) {\n\n    this.chassisPosition += this.angularVelocity * this.wheelRadius * this.timeStep;\n\n}",
+    "text": "Analytical Model Simulation\nThe following is a simple simulation of a WMR using the analytical model. The robot moves in a straight line without any obstacles. It “collides” with the edge of the simulation environment by adding a simple condition check in the simulation loop that limits the chassis’s position but not the wheel rotations.\n\n    \n\n\nimport { Player } from '../_lib/Player/dist/player.js';\nimport { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';\n\nuiTimeEnd = 16.0;\nuiTimeStep = 0.1;\n\nwmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.Analytical );\nplayer1 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr1.step(time), () =&gt; wmr1.reset() );\nplayer1.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat if we want to add an additional obstacle? For example, a wall partway through the environment. What happens when we simulate the WMR now?\n\n    \n\n\nwmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.Analytical, { addWall: true } );\nplayer2 = new Player( uiTimeEnd, uiTimeStep, (time) =&gt; wmr2.step(time), () =&gt; wmr2.reset() );\nplayer2.create();\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat happens when we add a wall?\n\n\n\n\n\nAdding simple collisions is pretty easy, even with the analytical model. We just add an additional check in the update loop.\nif ( distanceToWall &gt; 0 && distanceToEdge &gt; 0 ) {\n\n    this.chassisPosition += this.angularVelocity * this.wheelRadius * this.timeStep;\n\n}",
     "crumbs": [
       "Home",
       "Demos",
@@ -495,7 +495,19 @@
     "href": "presentation.html#online-demos",
     "title": "SimER Tutorial",
     "section": "Online Demos",
-    "text": "Online Demos\nSimulation demos:\n\nAnalytical Models\nNumerical Models\nRigid Body Dynamics\n\nFull ER demo:\n\nFull Example\n\n\n\n\nAnthony J. Clark, SimER Tutorial",
+    "text": "Online Demos\nSimulation demos:\n\nAnalytical Models\nNumerical Models\nRigid Body Dynamics\n\nFull ER demo:\n\nFull Example",
+    "crumbs": [
+      "Home",
+      "Presentation",
+      "SimER Tutorial"
+    ]
+  },
+  {
+    "objectID": "presentation.html#thank-you",
+    "href": "presentation.html#thank-you",
+    "title": "SimER Tutorial",
+    "section": "Thank you!",
+    "text": "Thank you!\n\n\n\nAnthony J. Clark, SimER Tutorial",
     "crumbs": [
       "Home",
       "Presentation",

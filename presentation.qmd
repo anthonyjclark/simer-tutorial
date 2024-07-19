@@ -231,3 +231,5 @@ Simulation demos:
 Full ER demo:
 
 - [Full Example](demos/4-full-example.qmd)
+
+## Thank you!
