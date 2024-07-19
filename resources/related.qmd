@@ -47,3 +47,7 @@ format: html
 
 - Avida-ED
 - Create predictions with neural networks
+
+## 2017
+
+- Sister Workshop: [Introduction to the Evolution of Physical Systems](https://direct.mit.edu/artl/article-abstract/23/2/119/2860/Introduction-to-the-Evolution-of-Physical-Systems?redirectedFrom=fulltext)

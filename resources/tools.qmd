@@ -3,12 +3,6 @@ title: "Tools"
 format: html
 ---
 
-<!-- https://github.com/anthonyjclark/simple-scene-description-language/blob/main/src/cli/generator.ts -->
-
-<!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
-<!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
-
-
 Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we've listed a few related ideas below as well.
 
 Creating a simulation is called "modeling." In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).
@@ -110,6 +104,11 @@ Here are things to consider when selecting your simulation tool:
 - [Magnum Engine](https://magnum.graphics/)
 - [Three.js](https://threejs.org/)
 
+## Visualization Tools
+
+- [3D Viewer](https://3dviewer.net/)
+- [Review](https://review.github.io/)
+
 ## Configuration Language
 
 - [URDF](http://wiki.ros.org/urdf) (and [Xacro](http://wiki.ros.org/xacro))
@@ -124,6 +123,7 @@ Here are things to consider when selecting your simulation tool:
 - [Phobos](https://github.com/dfki-ric/phobos)
 - [Onshape-to-robot](https://onshape-to-robot.readthedocs.io/en/latest/)
 - [SolidWorks to URDF Exporter](http://wiki.ros.org/sw_urdf_exporter)
+- [Simple-Scene-Description-Language](https://github.com/anthonyjclark/simple-scene-description-language)
 
 ## Physics Engine Development
 
@@ -131,3 +131,7 @@ Here are things to consider when selecting your simulation tool:
 - [Fix Your Timestep!](https://gafferongames.com/post/fix_your_timestep/)
 - [Ten Minute Physics](https://matthias-research.github.io/pages/tenMinutePhysics/)
 - [Box2D-Lite](https://github.com/erincatto/box2d-lite)
+- [Lerp smoothing is broken - YouTube](https://www.youtube.com/watch?v=LSNQuFEDOyQ)
+- [Numerical Analysis Recipes](https://app.scribbler.live/#./examples/Numerical-Analysis-Recipes.jsnb)
+- [Regula Falsi](https://app.scribbler.live/#./examples/Regula-Falsi.jsnb)
+- [Runge-Kutta for Differential Equations](https://app.scribbler.live/#./examples/Runge-Kutta-for-Differential-Equations.jsnb)

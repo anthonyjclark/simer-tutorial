@@ -7,6 +7,35 @@ format: html
 - noise
 - determinism
 - levels-of-abstraction
+  - use appropriate level of abstraction
+  - what do you care about
+  - spherical wheels
+  - do you care about electro-mechanical properties of the motors
+  - fake hydrodynamics
+- feasibility and constraints
+- seed values
+- multi-evaluation with different initial conditions
+- avoid stiff springs
+- scale parameters in 0.1 to 10 range (1 is sweet spot)
+- parallelize
+  - evaluation with threads
+  - processes with `parallel`
+- faster than real-time
+- early stopping simulation/evaluation: stuck, flipped, etc.
+  - want a good gradient
+- early stopping evolution: no progress, etc.\
+- swap out simulators
+- swap out algorithms
+- fitness exploitation
+- algorithm checkpoint
+- controls and baselines
+- incrementally introduce fitness:
+  - start simple
+  - add complexity
+  - distance to target
+  - then penalize hitting wall
+
+
 
 
 [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
