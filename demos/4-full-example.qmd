@@ -225,6 +225,54 @@ You can find the [full script with SLURM options here](https://github.com/anthon
 
 Last, let's take a look at the results.
 
+### Saving Data
+
+Generation data can be saved in a dataframe with:
+
+```python
+# Before the loop
+df_generations = pd.DataFrame(
+    columns=[
+        "Worst Feasibility",
+        "Average Feasibility",
+        "Best Feasibility",
+        "Worst Objective",
+        "Average Objective",
+        "Best Objective",
+    ]
+)
+
+# In the loop
+df_generations.loc[generation + 1] = [
+    worst.feasibility,
+    average.feasibility,
+    best.feasibility,
+    worst.objective,
+    average.objective,
+    best.objective,
+]
+
+# After the loop
+df_generations.to_csv(f"{args.name}-generations.csv", index_label="Generation")
+```
+
+These files can then be loaded with:
+
+```python
+files = data_dir.glob("*-generations.csv")
+
+partial_dfs = []
+
+for f in files:
+    trial = f.stem.split(replicate_name)[1].split("-")[0]
+    df_partial = pd.read_csv(f)
+    df_partial["Trial"] = trial
+
+    partial_dfs.append(df_partial)
+
+df = pd.concat(partial_dfs, ignore_index=True)
+```
+
 ### Visualizations
 
 I like to start with the behaviors. I have my script output the "best" individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with [Review](https://review.github.io/) (a tool I created for this purpose).
