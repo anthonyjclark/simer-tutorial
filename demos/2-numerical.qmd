@@ -60,6 +60,8 @@ player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wm
 player1.create();
 ```
 
+The numerical simulation has the same behavior as our analytical version. The only differences are due to rounding errors for floats.
+
 ## Dynamic Control
 
 Although the numerical simulation requires more computational resources to compute the position, it enables us to handle obstacles and dynamic control. Here is the simulation with a wall in front of the WMR and the following controller:
@@ -152,6 +154,7 @@ Here are some key points to note:
 - We can no longer compute the position of the robot for any time $t$ without knowing the previous position.
 - We've decoupled simulation and visualization (rendering).
 - We've set a fixed time step, which is better for numerical stability.
+- We update the control output at a different rate than we render or update the simulation.
 - In this simple example, we only need to update the wheel positions once per render time. This is not a general case, but a simplification that we can take since the wheels are not independent of the chassis.
 
 Read [Fix Your Timestep!](https://gafferongames.com/post/fix_your_timestep/) for more information on this code structure.
