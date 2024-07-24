@@ -37,7 +37,7 @@ player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wm
 player1.create();
 ```
 
-You might notice that the WMR "jolts" a bit when it hits the wall. This is a nice benefit of using the physics engine---it does a better job of simulating the contact between the robot and the wall. This simulation also adds a suspension to the interface between the wheels and the chassis. This will be easier to see in the next animation.
+You might notice that the WMR "jolts" a bit when it hits the wall. This is a nice benefit of using the physics engine---it does a better job of simulating the contact between the robot and the wall. This simulation also adds a suspension to the interface between the wheels and the chassis. This will be easier to see when we add a step to the simulation.
 
 ## Creating a More Realistic WMR
 
