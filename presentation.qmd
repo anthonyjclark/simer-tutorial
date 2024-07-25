@@ -21,6 +21,13 @@ format:
 
 # Introduction
 
+## At ALIFE 2024
+
+- [EvoGym](https://evolutiongym.github.io/) (Dr. Mizuki Oka)
+- [ELDiR](https://sites.google.com/view/eldir) (Luke Strgar)
+- [Evolution of Things](https://sites.google.com/view/evolutionofthings/home) (Dr. Miras)
+- [Simsulator](https://github.com/mycoolfin/the-simsulator) (Michael Finn)
+
 ## Format
 
 This tutorial will follow a format in which:
