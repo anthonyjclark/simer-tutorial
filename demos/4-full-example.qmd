@@ -80,7 +80,27 @@ wmr = WMR(
 )
 ```
 
-Where each of these values is computed from a genome.
+Where each of these values is computed from a genome. For example,
+
+```python
+GENOME_MAPPING = {
+    "wheel_radius": (0.5, 1.5),
+    "chassis_length": (1, 4),
+    "suspension_frequency": (1, 8),
+    "suspension_damping": (0.3, 0.9),
+    "sensor_limit": (1, 15),
+    "speed_max": (0, 10),
+    "speed_slope": (0, 10),
+    "speed_intercept": (-20, 20),
+}
+
+params = {
+    k: scale(0, 1, lo, hi, g)
+    for (k, (lo, hi)), g in zip(GENOME_MAPPING.items(), genome)
+}
+
+sim_info = simulate(**params)
+```
 
 ## Fitness Evaluation
 
@@ -114,6 +134,42 @@ The different components are meant to:
 
 This equation is pretty brittle (and definitely over engineered), and with multiple objectives you would be better off using a many objective optimization algorithm, such as [Lexicase](https://direct.mit.edu/artl/article/28/4/479/112725/Lexicase-Selection-for-Multi-Task-Evolutionary).
 
+I typically save each component separately so that I can better evaluate the final individuals and the algorithm's performance.
+
+```python
+sim_info["objective"] = {}
+
+objective = 0
+
+# Minimize final distance from target
+distance_to_target = sim_info["location"][-1] - TARGET_LOCATION
+objective += 2 * (1 - abs(distance_to_target) / INITIAL_TARGET_DISTANCE)
+sim_info["objective"]["final_distance"] = distance_to_target
+
+# Penalize final velocity
+final_speed = sim_info["speed"][-1]
+objective += 1 - abs(final_speed) / GENOME_MAPPING["speed_max"][1]
+sim_info["objective"]["final_speed"] = final_speed
+
+# Penalize hitting the wall
+hit_wall = any(sim_info["contact"])
+objective += 0.5 * (1 - hit_wall)
+sim_info["objective"]["hit_wall"] = hit_wall
+
+# Minimize wheel radius (genome is already scaled 0 to 1)
+objective += 0.25 * (1 - genome[0])
+sim_info["objective"]["wheel_radius"] = params["wheel_radius"]
+
+# If at target, minimize time to rest
+near_zero = [abs(s) < SPEED_TOLERANCE for s in sim_info["speed"]]
+if False in near_zero:
+    index = (n - indexOf(reversed(near_zero), False)) if near_zero[-1] else n
+else:
+    index = n
+objective += 0.25 * (1 - (index / n))
+sim_info["objective"]["index_at_rest"] = index
+```
+
 ## Evolution
 
 Here is the basic structure of the evolutionary algorithm:
@@ -140,6 +196,8 @@ Fitness = namedtuple("Fitness", ["feasibility", "objective"])
 Individual = tuple[Genome, Fitness]
 Population = list[Individual]
 ```
+
+For this demo, a genome is just a list of real-valued numbers. Finding a good representation is an important part that I am glossing over here.
 
 And also some utility function:
 
@@ -409,6 +467,19 @@ lineplot(
 
 fig.show()
 ```
+
+This type of figure can be quickly created from a [Pandas dataframe](https://pandas.pydata.org/) using [Seaborn](http://seaborn.pydata.org/):
+
+```python
+sns.lineplot(x="Generation", y="Best Objective", data=df)
+sns.lineplot(x="Generation", y="Average Objective", data=df)
+plt.legend(["Best", "Best-Conf", "Average", "Average-Conf"])
+sns.despine()
+
+sns_plot.figure.savefig("generations.svg")
+```
+
+I used [Plotly](https://plotly.com/) for this website since it creates interactive figures.
 
 ### Final Fitness Values
 
