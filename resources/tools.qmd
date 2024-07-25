@@ -94,6 +94,7 @@ Here are things to consider when selecting your simulation tool:
 - [VoxCad](https://www.creativemachineslab.com/voxcad.html)
 - [evosoro: soft robot simulator](https://github.com/skriegman/evosoro)
 - [DiffAqua](https://github.com/mit-gfx/DiffAqua)
+- [EvoGym](https://evolutiongym.github.io/)
 
 ## Rendering Engines
 
