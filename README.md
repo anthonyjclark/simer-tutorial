@@ -7,8 +7,10 @@ Similar demos:
 - [HTML5 Genetic Algorithm 2D Car Thingy - Chrome recommended](https://rednuht.org/genetic_cars_2/)
 - [Genetic algorithm - peteshadbolt.co.uk](https://peteshadbolt.co.uk/posts/ga/)
 
+## Building
 
-TODO:
+Dependencies:
 
-- blooper videos
-- print to pdf
+- [Quarto (1.45+)](https://quarto.org/)
+- [Nodejs](https://nodejs.org/en)
+- [Review loggy-py](https://github.com/review/logger-py)
