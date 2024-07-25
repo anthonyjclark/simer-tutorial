@@ -102,6 +102,7 @@ params = {
 sim_info = simulate(**params)
 ```
 
+Here is also a good place to track information about the phenotype using, for example, [Phylotrackpy](https://phylotrackpy.readthedocs.io/en/latest/introduction.html).
 ## Fitness Evaluation
 
 We need to design a fitness function to satisfy our problem statement:
