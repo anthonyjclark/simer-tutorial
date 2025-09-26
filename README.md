@@ -14,3 +14,10 @@ Dependencies:
 - [Quarto (1.45+)](https://quarto.org/)
 - [Nodejs](https://nodejs.org/en)
 - [Review loggy-py](https://github.com/review/logger-py)
+
+## TODO
+
+For next time:
+
+- Some good information in the ManiSkill documentation [Simulation and Robotics 101](https://maniskill.readthedocs.io/en/latest/user_guide/concepts/simulation_101.html)
+- Include the recent simulation environments (lots of new ones)
