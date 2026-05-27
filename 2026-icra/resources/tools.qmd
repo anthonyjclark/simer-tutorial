@@ -3,55 +3,148 @@ title: "Tools"
 format: html
 ---
 
-Simulation plays a vital role in optimization and in understanding evolutionary dynamics. SimER focuses on rigid-body dynamics, but we've listed a few related ideas below as well.
+Simulation plays a vital role in robotics research. It is used for prototyping, testing, control design, planning, robot learning, benchmarking, sim-to-real transfer, and understanding how robots interact with complex environments.
 
-Creating a simulation is called "modeling." In robotics, modeling is used for simulation, state estimation, prediction, and model-based algorithms (e.g., model predictive control, model-based reinforcement learning).
+SimR focuses primarily on rigid-body dynamics and robotics simulation, but related tools for soft-body simulation, numerical modeling, rendering, visualization, and robot description formats are also listed below.
 
-Broadly, we can list the following forms of simulation as it relates to evolutionary robotics (ER)
+Creating a simulation is often called **modeling**. In robotics, modeling is used for simulation, state estimation, prediction, control, planning, system identification, and model-based algorithms such as model predictive control and model-based reinforcement learning.
 
-- analytical (closed-form) dynamics,
-- rigid-body dynamics (aka physical simulation or physics engine),
+Broadly, we can list the following forms of simulation as they relate to robotics:
+
+- analytical or closed-form dynamics,
+- numerical integration of dynamical systems,
+- rigid-body dynamics,
+- contact and friction simulation,
 - soft-body dynamics,
-- finite-element analysis, and
-- digital evolution (e.g., Avida).
+- deformable object simulation,
+- fluid, granular, and terrain simulation,
+- finite-element analysis,
+- sensor simulation,
+- rendering and perception simulation,
+- digital twins, and
+- full robotics simulation environments.
 
-Often, an increase in accuracy comes at the cost of an increase in complexity and compute time. Analytical simulations are often only useful for toy problems (i.e., they are not even expressive enough to simulate a double pendulum system). Numerical systems are much broader---in some sense, they encapsulate rigid-body and soft-body dynamics---but they are often slower and less powerful compared to rigid-body and soft-body simulators. For example, a nonholonomic system cannot be described by a closed-form solution. In this case, a numerical or physical simulation is required.
+Often, an increase in physical accuracy comes at the cost of increased complexity, computation time, and modeling effort. For many robotics projects, the most accurate simulator is not necessarily the best simulator. The right simulator is the one that captures the phenomena relevant to the research question.
 
-<!--
+For example, a manipulation project may require careful contact modeling, while a navigation project may care more about perception, maps, and sensor noise. A locomotion project may require accurate actuator limits and ground contact, while a high-level planning project may only need approximate kinematics and collision checking.
 
-https://robotics.stackexchange.com/a/9644
+Analytical simulations are useful when they are available, but many robotics systems do not have simple closed-form solutions. Nonlinear dynamics, contacts, friction, actuator limits, sensing uncertainty, and nonholonomic constraints often require numerical or physics-based simulation.
 
-For a nonholonomic system, you can at best determine a differential relationship between state and inputs. You cannot determine a closed-form geometric relationship. This means that the history of states is needed in order to determine the current state. Vehicles are a good example because you can intuitively see that turning the right wheel 100 rotations and turning the left wheel 100 rotations does not provide enough information to describe the change in position. If the wheels are turned synchronously, the vehicle will follow a straight line. If they are coordinated in another sequence, the robot will turn, and follow some other path. This is nonholonomic: knowing the total change in state variables is insufficient to describe the motion, because you cannot write a geometric relationship between input and output. It is differential at best.
+For a nonholonomic system, for example, one can often determine a differential relationship between state and inputs, but not a simple closed-form geometric relationship. Wheeled vehicles are a common example: knowing the total number of wheel rotations may not be enough to determine the final pose unless the full history of motion is known.
 
--->
+## Selecting a Simulation Tool
 
 Here are things to consider when selecting your simulation tool:
 
-- computation efficiency: how long does it take to run a simulation?
-- cost: do you need to purchase a license? or is it open-source?
-- features: does it support the features you need? (e.g., 3d, sensors, actuators, controllers, etc.)
-- simplicity: how easy is it to use?
-- robustness: how well does it handle edge cases?
-- accuracy: how close is the simulation to reality?
-- determinism: does it produce the same results given the same inputs?
-- support: is there a community or documentation to help you?
-- interactive: can you interact with the simulation in real-time?
-- headless: can you run the simulation without a GUI?
+- **Research question:** What do you need the simulator to tell you?
+- **Robot type:** Does it support your robot morphology, joints, actuators, and sensors?
+- **Task type:** Is the task manipulation, locomotion, navigation, aerial robotics, field robotics, multi-robot systems, or human-robot interaction?
+- **Dynamics:** Do you need accurate rigid-body dynamics, soft-body dynamics, fluids, terrain, or deformable objects?
+- **Contact modeling:** Does it handle friction, impacts, grasping, rolling, sliding, and stacking well enough for your task?
+- **Sensors:** Does it support cameras, depth cameras, LiDAR, IMUs, force-torque sensors, tactile sensors, GPS, or domain-specific sensors?
+- **Rendering:** Do you need photorealistic rendering, semantic labels, depth images, segmentation masks, or only basic visualization?
+- **Robot descriptions:** Does it support URDF, SDFormat, MJCF, USD, or other formats used by your workflow?
+- **ROS integration:** Does it integrate with ROS or ROS 2 if your project requires it?
+- **Control:** Can you run low-level controllers, high-level planners, reinforcement learning policies, or model predictive controllers?
+- **Computation efficiency:** How long does it take to run a simulation?
+- **Scalability:** Can you run many environments, rollouts, or random seeds in parallel?
+- **Headless execution:** Can you run the simulation without a GUI?
+- **Determinism:** Does it produce the same results given the same inputs, software versions, and hardware settings?
+- **Robustness:** How well does it handle edge cases, unstable contacts, extreme parameters, and long simulations?
+- **Accuracy:** How close is the simulation to the real system for the quantities that matter?
+- **Calibration:** Can you tune the simulator using real-world measurements?
+- **Domain randomization:** Can you randomize physical parameters, sensors, lighting, textures, objects, and initial conditions?
+- **Interactivity:** Can you interact with the simulation in real time?
+- **Usability:** How easy is it to install, configure, debug, and extend?
+- **Support:** Is there documentation, an active community, or commercial support?
+- **Cost and licensing:** Is it open-source, free for research, commercial, or license-restricted?
+- **Reproducibility:** Can experiments be configured, saved, replayed, and shared?
+
+## Common Robotics Simulation Use Cases
+
+Simulation tools are often chosen differently depending on the use case.
+
+- **Control design**
+  - Model predictive control
+  - Trajectory optimization
+  - Whole-body control
+  - Legged locomotion control
+  - Manipulator control
+
+- **Planning**
+  - Motion planning
+  - Task and motion planning
+  - Collision checking
+  - Navigation
+  - Multi-agent planning
+
+- **Robot learning**
+  - Reinforcement learning
+  - Imitation learning
+  - Offline policy evaluation
+  - Curriculum learning
+  - Sim-to-real transfer
+
+- **Perception**
+  - Synthetic image generation
+  - Depth simulation
+  - Semantic segmentation
+  - Object detection
+  - SLAM and mapping
+
+- **Design and evaluation**
+  - Robot morphology design
+  - Actuator and sensor placement
+  - Benchmarking
+  - Failure analysis
+  - Safety testing
+
+- **Deployment preparation**
+  - Hardware-in-the-loop testing
+  - Software-in-the-loop testing
+  - Digital twins
+  - Regression testing
+  - Operator training
 
 ## Robot Simulators
 
+These tools provide higher-level robotics simulation environments, often including robot models, sensors, visualization, physics, and integration with robotics middleware.
+
 - [Gazebo](https://gazebosim.org/home)
-- [CoppeliaSim](https://coppeliarobotics.com/) (V-REP replacement)
+- [CoppeliaSim](https://coppeliarobotics.com/)
 - [Webots](https://cyberbotics.com/)
-- [Isaac Sim](https://developer.nvidia.com/isaac-sim)
-- [Vortex Studio](https://www.cm-labs.com/en/vortex-studio/)
+- [NVIDIA Isaac Sim](https://developer.nvidia.com/isaac-sim)
+- [Isaac Lab](https://isaac-sim.github.io/IsaacLab/)
 - [Drake](https://drake.mit.edu/)
 - [RoboDK](https://robodk.com/)
 - [MARS](https://rock-simulation.github.io/mars/)
 - [Simscape Multibody](https://www.mathworks.com/products/simscape-multibody.html)
 - [RaiSim](https://raisim.com/)
+- [Vortex Studio](https://www.cm-labs.com/en/vortex-studio/)
+- [MORSE Simulator](https://www.openrobots.org/wiki/morse/)
+- [ARGoS](https://www.argos-sim.info/)
+
+## Robot Learning Environments and Benchmarks
+
+These environments are commonly used for robot learning, reinforcement learning, embodied AI, manipulation, locomotion, and benchmarking.
+
+- [Gymnasium Robotics](https://robotics.farama.org/)
+- [MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie)
+- [Brax](https://github.com/google/brax)
+- [MJX](https://mujoco.readthedocs.io/en/stable/mjx.html)
+- [RoboSuite](https://robosuite.ai/)
+- [Meta-World](https://meta-world.github.io/)
+- [ManiSkill](https://maniskill.readthedocs.io/)
+- [Habitat](https://aihabitat.org/)
+- [AI2-THOR](https://ai2thor.allenai.org/)
+- [iGibson](https://svl.stanford.edu/igibson/)
+- [OmniGibson](https://behavior.stanford.edu/omnigibson/)
+- [Genesis](https://genesis-world.readthedocs.io/)
+- [EvoGym](https://evolutiongym.github.io/)
 
 ## Game Engines
+
+Game engines can be useful for robotics simulation when rendering, interaction, large environments, or custom virtual worlds are important. They are especially relevant for perception, embodied AI, human interaction, and synthetic data generation.
 
 - [Unreal Engine](https://www.unrealengine.com/en-US)
 - [Unity](https://unity.com/)
@@ -60,43 +153,74 @@ Here are things to consider when selecting your simulation tool:
 
 ## Physics Engines
 
-- Game focused
-    - [PhysX](https://developer.nvidia.com/physx-sdk)
-    - [Bullet](https://pybullet.org/wordpress/)
-    - [ODE](https://bitbucket.org/odedevs/ode/src/master/)
-    - [Jolt Physics](https://github.com/jrouwe/JoltPhysics)
-    - [Havok](https://www.havok.com/)
-    - [Newton Dynamics](http://newtondynamics.com/forum/newton.php)
-    - [ReactPhysics3D](https://www.reactphysics3d.com/)
-- Research/Robotics focused
-    - [MuJoCo](https://mujoco.readthedocs.io/en/latest/overview.html)
-    - [PROJECTCHRONO](https://projectchrono.org/)
-    - [DART](https://dartsim.github.io/)
-    - [TPE (Trivial Physics Engine)](https://community.gazebosim.org/t/announcing-new-physics-engine-tpe-trivial-physics-engine/629)
-    - [RBDL](https://rbdl.github.io/)
-    - [RigidBodyDynamics.jl](https://github.com/JuliaRobotics/RigidBodyDynamics.jl)
-    - [Rapier](https://rapier.rs/)
+Physics engines provide lower-level dynamics and collision simulation. Some are designed primarily for games, while others are designed for robotics, research, or scientific computing.
 
-## Numerical Engines
+### Game-focused or general-purpose
+
+- [PhysX](https://developer.nvidia.com/physx-sdk)
+- [Bullet](https://pybullet.org/wordpress/)
+- [ODE](https://bitbucket.org/odedevs/ode/src/master/)
+- [Jolt Physics](https://github.com/jrouwe/JoltPhysics)
+- [Havok](https://www.havok.com/)
+- [Newton Dynamics](http://newtondynamics.com/forum/newton.php)
+- [ReactPhysics3D](https://www.reactphysics3d.com/)
+- [Rapier](https://rapier.rs/)
+- [Box2D](https://box2d.org/)
+
+### Research- and robotics-focused
+
+- [MuJoCo](https://mujoco.readthedocs.io/en/latest/overview.html)
+- [Project Chrono](https://projectchrono.org/)
+- [DART](https://dartsim.github.io/)
+- [TPE: Trivial Physics Engine](https://community.gazebosim.org/t/announcing-new-physics-engine-tpe-trivial-physics-engine/629)
+- [RBDL](https://rbdl.github.io/)
+- [RigidBodyDynamics.jl](https://github.com/JuliaRobotics/RigidBodyDynamics.jl)
+
+## Numerical and Scientific Computing Tools
+
+Numerical tools are useful for modeling dynamics, solving differential equations, prototyping controllers, analyzing data, and building custom simulations.
 
 - [GNU Octave](https://octave.org/)
 - [SageMath](https://www.sagemath.org/)
 - [Scilab](https://www.scilab.org/download)
 - [SimPy](https://simpy.readthedocs.io/en/latest/)
 - [MATLAB](https://www.mathworks.com/products/matlab.html)
+- [Simulink](https://www.mathworks.com/products/simulink.html)
 - [Wolfram Mathematica](https://www.wolfram.com/mathematica/)
 - [Maple](https://www.maplesoft.com/products/Maple/)
 - [DynamicalSystems.jl](https://juliadynamics.github.io/DynamicalSystems.jl/dev/)
+- [DifferentialEquations.jl](https://diffeq.sciml.ai/)
+- [SciPy](https://scipy.org/)
 
-## Soft-Body Engines
+## Optimization, Control, and Planning Tools
+
+These tools are useful for trajectory optimization, model predictive control, motion planning, and robotics algorithms.
+
+- [CasADi](https://web.casadi.org/)
+- [acados](https://acados.org/)
+- [Crocoddyl](https://github.com/loco-3d/crocoddyl)
+- [Pinocchio](https://github.com/stack-of-tasks/pinocchio)
+- [OMPL](https://ompl.kavrakilab.org/)
+- [MoveIt](https://moveit.ai/)
+- [ROS 2 Control](https://control.ros.org/)
+- [TSID](https://github.com/stack-of-tasks/tsid)
+
+## Soft-Body, Deformable, and Specialized Simulation
+
+These tools are useful for soft robotics, deformable objects, fluids, granular media, and specialized physical systems.
 
 - [Soft Robotics Toolkit](https://softroboticstoolkit.com/home)
 - [VoxCad](https://www.creativemachineslab.com/voxcad.html)
 - [evosoro: soft robot simulator](https://github.com/skriegman/evosoro)
 - [DiffAqua](https://github.com/mit-gfx/DiffAqua)
 - [EvoGym](https://evolutiongym.github.io/)
+- [SOFA Framework](https://www.sofa-framework.org/)
+- [Taichi](https://www.taichi-lang.org/)
+- [NVIDIA Warp](https://github.com/NVIDIA/warp)
 
 ## Rendering Engines
+
+Rendering tools are useful for visualization, synthetic data, perception research, and photorealistic or non-photorealistic simulation.
 
 - [OGRE](https://www.ogre3d.org/)
 - [Irrlicht Engine](https://irrlicht.sourceforge.io/)
@@ -104,29 +228,73 @@ Here are things to consider when selecting your simulation tool:
 - [Filament](https://google.github.io/filament/)
 - [Magnum Engine](https://magnum.graphics/)
 - [Three.js](https://threejs.org/)
+- [Blender](https://www.blender.org/)
+- [Mitsuba Renderer](https://www.mitsuba-renderer.org/)
 
 ## Visualization Tools
 
+Visualization tools are useful for inspecting robot models, debugging trajectories, reviewing simulation results, and communicating findings.
+
+- [MeshCat](https://github.com/meshcat-dev/meshcat)
+- [Foxglove](https://foxglove.dev/)
+- [RViz](https://github.com/ros2/rviz)
+- [PlotJuggler](https://plotjuggler.io/)
 - [3D Viewer](https://3dviewer.net/)
 - [Review](https://review.github.io/)
 
-## Configuration Language
+## Robot Description and Scene Formats
 
-- [URDF](http://wiki.ros.org/urdf) (and [Xacro](http://wiki.ros.org/xacro))
+Robot and scene description formats help define robot morphology, joints, inertial properties, sensors, collision geometry, visual geometry, and environments.
+
+- [URDF](http://wiki.ros.org/urdf) and [Xacro](http://wiki.ros.org/xacro)
 - [SDFormat](http://sdformat.org/)
+- [MJCF](https://mujoco.readthedocs.io/en/stable/modeling.html)
+- [USD](https://openusd.org/)
 - [SKEL](https://dartsim.github.io/skel_file_format.html)
 - [COLLADA](https://www.khronos.org/collada/)
 - [SMURF](https://github.com/rock-simulation/smurf_parser)
 - [SRDF](http://wiki.ros.org/srdf)
 
-## Authoring Tools
+## Authoring and Conversion Tools
+
+These tools help create, edit, convert, or export robot models and simulation assets.
 
 - [Phobos](https://github.com/dfki-ric/phobos)
 - [Onshape-to-robot](https://onshape-to-robot.readthedocs.io/en/latest/)
 - [SolidWorks to URDF Exporter](http://wiki.ros.org/sw_urdf_exporter)
-- [Simple-Scene-Description-Language](https://github.com/anthonyjclark/simple-scene-description-language)
+- [Blender](https://www.blender.org/)
+- [MeshLab](https://www.meshlab.net/)
+- [Simple Scene Description Language](https://github.com/anthonyjclark/simple-scene-description-language)
+
+## Middleware and Robotics Frameworks
+
+These tools are not simulators by themselves, but they are often central to robotics simulation workflows.
+
+- [ROS](https://www.ros.org/)
+- [ROS 2](https://docs.ros.org/)
+- [micro-ROS](https://micro.ros.org/)
+- [YARP](https://www.yarp.it/)
+- [LCM](https://lcm-proj.github.io/)
+- [Zenoh](https://zenoh.io/)
+
+## Experiment Management and Reproducibility
+
+Simulation-based robotics research often requires many runs, random seeds, parameter sweeps, and evaluation conditions. These tools can help with automation and reproducibility.
+
+- [GNU Parallel](https://www.gnu.org/software/parallel/)
+- [Pueue](https://github.com/Nukesor/pueue)
+- [Snakemake](https://snakemake.readthedocs.io/)
+- [Make](https://www.gnu.org/software/make/)
+- [Docker](https://www.docker.com/)
+- [Apptainer / Singularity](https://apptainer.org/)
+- [Weights & Biases](https://wandb.ai/)
+- [MLflow](https://mlflow.org/)
+- [Sacred](https://sacred.readthedocs.io/)
+- [Hydra](https://hydra.cc/)
 
 ## Physics Engine Development
+
+These resources are useful if you want to understand or implement numerical integration, collision handling, timestepping, constraints, and other physics simulation internals.
 
 - [Integration Basics](https://gafferongames.com/post/integration_basics/)
 - [Fix Your Timestep!](https://gafferongames.com/post/fix_your_timestep/)

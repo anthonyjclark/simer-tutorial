@@ -6,59 +6,121 @@ format: html
 Some general advice in no particular order:
 
 - Always prototype.
-  - Prototype your algorithms with small populations sizes and few generations.
-  - Test algorithms with benchmark datasets.
-  - Test simulations with benchmark algorithms.
-  - Test your simulation with extreme parameters.
+
+  - Start with the simplest version of your robot, task, controller, and environment.
+  - Prototype your algorithms with short runs, small datasets, simple policies, or few training iterations.
+  - Test controllers and learning algorithms on benchmark tasks when possible.
+  - Test simulators with benchmark controllers, policies, or trajectories.
+  - Test your simulation with extreme parameters and failure cases.
+  - Build small examples that isolate one behavior before integrating everything into a full robotics pipeline.
 
 - Choose the correct level of abstraction.
+
   - What do you care about?
-  - Do you care about the electro-mechanical properties of the motors?
-  - Can you get away with spherical wheels? They are faster to simulate.
-  - Can you fake hydrodynamics or do you need full fluid dynamics?
-  - Do you care about vision?
+  - Are you studying perception, planning, control, learning, hardware design, interaction, or deployment?
+  - Do you need accurate actuator dynamics, or is a simpler motor model sufficient?
+  - Do you need contact-rich dynamics, or can contacts be approximated?
+  - Can you simplify the robot geometry without changing the question you are asking?
+  - Can you get away with spherical wheels, simple grippers, or low-dimensional sensors? They are often faster to simulate.
+  - Do you need photorealistic rendering, or only geometric/range information?
+  - Do you need full fluid dynamics, deformable objects, or granular media, or can these effects be approximated?
+  - The right simulator is the one that captures the phenomena relevant to your research question.
 
 - Consider your simulation characteristics.
-  - Simulation should be noisy but deterministic.
-  - You should evaluate a single individual with multiple initial conditions.
-  - Your simulation should be faster than real-time.
+
+  - Simulation should be noisy enough to expose brittle solutions but deterministic enough to support debugging and reproducibility.
+  - You should evaluate a controller, policy, planner, or robot design under multiple initial conditions.
+  - Your simulation should usually be faster than real time, especially for learning, optimization, and large-scale evaluation.
   - Your simulation should be parallelizable.
   - Your simulation should be able to run headless.
-  - Avoid stiff springs.
-  - Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).
-  - Be careful that your simulation environment and fitness function are not too easy to "game."
-  - Incorporate constraint and feasibility handling into your fitness and selection functions.
+  - Avoid unnecessary numerical stiffness, such as overly stiff springs, unrealistic gains, or tiny integration steps.
+  - Scale your environment to reasonable numerical ranges when possible; values near 1 are often better behaved than extremely large or small values.
+  - Be careful that your simulation environment and objective function are not too easy to "game."
+  - Watch for policies that exploit simulator artifacts, reward bugs, contact approximations, or termination conditions.
+  - Incorporate constraints, safety limits, feasibility checks, and task success criteria into your evaluation procedure.
 
-- Decouple simulation, visualization, and optimization.
+- Think about sim-to-real from the beginning.
+
+  - Decide what must transfer to the real world and what only needs to work in simulation.
+  - Identify the most important reality gaps: sensing, actuation, contact, latency, calibration, materials, lighting, terrain, object properties, and human interaction.
+  - Use domain randomization, system identification, calibration, or residual adaptation when appropriate.
+  - Validate simulation predictions against real measurements whenever possible.
+  - Keep track of which parameters are measured, estimated, tuned, or guessed.
+  - Prefer robust solutions over solutions that exploit a narrow simulated setting.
+  - Remember that a result in simulation is not automatically a result in robotics.
+
+- Decouple simulation, visualization, learning, and evaluation.
+
   - Make it easy to swap out simulators.
-  - Make it easy to swap out optimization algorithms.
+  - Make it easy to swap out controllers, planners, policies, or optimization algorithms.
   - Make it easy to swap out visualization tools.
+  - Separate training from evaluation.
+  - Separate the robot model from the task definition.
+  - Separate experiment configuration from source code.
   - You should be able to run your algorithm with different random seeds.
+  - You should be able to replay, inspect, and debug individual trials.
 
-- Save all data if you can.
-  - All individuals every generation.
-  - Every replicate.
-  - Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).
+- Save enough data to understand what happened.
+
+  - Save configurations, random seeds, software versions, simulator versions, and command-line arguments.
+  - Save trained policies, controller parameters, robot models, logs, and evaluation results.
+  - Save enough information so that you can restart training or evaluation if it breaks.
+  - Save representative trajectories, videos, or rollouts for qualitative inspection.
+  - Save failures, not just successes.
+  - Use structured output formats that are easy to analyze later.
+  - Do not rely only on screenshots or terminal output.
 
 - Consider your computational resources.
-  - Parallelize replicate experiments (trials different random seeds)
-  - Parallelize across generations (if mixing populations)
-  - Parallelize across populations (multiple population per replicate)
-  - Parallelize across individuals (multiple individuals per population)
-  - Parallelize across evaluations (multiple evaluations per individual)
-  - Include early stopping for your evaluations (e.g., stuck, flipped, etc.).
-  - Include early stopping for your optimization (e.g., no progress, etc.).
+
+  - Parallelize across random seeds.
+  - Parallelize across training runs or experimental conditions.
+  - Parallelize across environments.
+  - Parallelize across robots, policies, individuals, or candidate solutions.
+  - Parallelize across evaluations or rollouts.
+  - Include early stopping for evaluations, for example when the robot is stuck, flipped, unstable, unsafe, or has clearly failed.
+  - Include early stopping for training or optimization when there is no progress.
+  - Profile your simulation before assuming that learning or planning is the bottleneck.
+  - Prefer simple, automated experiment scripts over manual experiment management.
   - See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
   - See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
 
-- Setup good tools for analysis.
+- Set up good tools for analysis.
+
   - Compare your results to a baseline.
-  - Try to construct a good solution by hand before evolving one.
+  - Compare against simple controllers, planners, heuristics, or hand-designed policies.
+  - Try to construct a good solution by hand before training or optimizing one.
+  - Evaluate on held-out environments, initial conditions, objects, terrains, or scenarios.
+  - Report both aggregate statistics and variability across seeds.
+  - Plot learning curves, success rates, failure modes, task metrics, and resource usage.
   - Use consistent themes for your plots and figures.
-  - Use vector graphics over raster graphics for plots.
+  - Use vector graphics over raster graphics for plots when possible.
   - Generate plots and figures for both presentations and articles.
+  - Inspect rollouts and videos; aggregate metrics can hide important failures.
+
+- Be careful with benchmarks and comparisons.
+
+  - Understand what each benchmark actually measures.
+  - Use the standard protocol when comparing to prior work.
+  - Report deviations from the standard protocol clearly.
+  - Avoid overfitting to a benchmark, simulator, task distribution, or leaderboard.
+  - Make sure your baseline implementations are strong enough to be meaningful.
+  - Compare wall-clock time, sample efficiency, compute usage, and robustness when relevant.
+  - If your method requires unrealistic simulator access, privileged information, or excessive tuning, say so.
+
+- Design for reproducibility.
+
+  - Version-control your code, configuration files, robot models, and documentation.
+  - Use fixed random seeds for debugging, but multiple seeds for reporting results.
+  - Record hardware, operating system, dependency, and simulator versions.
+  - Automate your setup as much as possible.
+  - Prefer declarative configuration files over hard-coded experiment settings.
+  - Make it possible for someone else, including future you, to rerun the experiment.
 
 - Write about your work.
+
   - Write a small bit every day.
   - Write down a prediction before you run an experiment.
   - Write your article outline before you run your experiments.
+  - Write down what would convince you that your approach failed.
+  - Keep a running list of assumptions, limitations, and known simulator artifacts.
+  - Document surprising failures; they are often more useful than expected successes.

@@ -23,7 +23,6 @@ website:
         contents:
           - resources/advice.qmd
           - resources/tools.qmd
-          - resources/related.qmd
 
 format:
   html:

@@ -171,7 +171,7 @@ player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wm
 player2.create();
 ```
 
-Here is [the full source code for the demo](https://github.com/anthonyjclark/simer-tutorial/blob/main/_lib/WMR2D/lib/main.ts).
+Here is [the full source code for the demo](https://github.com/anthonyjclark/simer-tutorial/blob/main/2026-icra/_lib/WMR2D/lib/main.ts).
 
 ## Optimizing our WMR
 

@@ -28,7 +28,7 @@ I use [Miniforge](https://github.com/conda-forge/miniforge) to manage my softwar
 module load miniforge3
 
 # Create a new environment
-mamba create --name simer
+mamba create --name simr
 
 # Install necessary packages
 mamba install pybox2d ipython pandas enlighten jupyter seaborn plotly
@@ -38,8 +38,8 @@ conda env export --from-history > cross-platform.yml
 conda list --explicit > spec-file.txt
 
 # Create a directory for code (and a separate for data if needed)
-mkdir -p ~/simer-tutorial
-cd ~/simer-tutorial
+mkdir -p ~/simr-tutorial
+cd ~/simr-tutorial
 ```
 
 Once the directory is created, I typically edit code using [VSCode](https://code.visualstudio.com/) with the [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension.
@@ -245,7 +245,7 @@ for generation in range(args.num_generations):
     population = combine(population, children)
 ```
 
-A few of my implementation specific details are bleeding through. For example, using the [enlighten](https://python-enlighten.readthedocs.io/en/stable/) progress bar manager. You can view [the full code in the repository](https://github.com/anthonyjclark/simer-tutorial/tree/main/_example).
+A few of my implementation specific details are bleeding through. For example, using the [enlighten](https://python-enlighten.readthedocs.io/en/stable/) progress bar manager. You can view [the full code in the repository](https://github.com/anthonyjclark/simr-tutorial/tree/main/_example).
 
 Here's a demo of the evolution script:
 
@@ -278,7 +278,7 @@ done
 wait
 ```
 
-You can find the [full script with SLURM options here](https://github.com/anthonyjclark/simer-tutorial/blob/main/_example/run.slurm.sh).
+You can find the [full script with SLURM options here](https://github.com/anthonyjclark/simr-tutorial/blob/main/_example/run.slurm.sh).
 
 ## Analyze
 
@@ -336,13 +336,13 @@ df = pd.concat(partial_dfs, ignore_index=True)
 
 I like to start with the behaviors. I have my script output the "best" individual from each replicate experiment. The behavior is output as a JSON log file that I can visualize with [Review](https://review.github.io/) (a tool I created for this purpose).
 
-<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simr-tutorial/main/_example/data/trial5-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not allow use of an iframe.</p>
 </iframe>
 
 Here's a second example with a slightly different behavior:
 
-<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simer-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/simr-tutorial/main/_example/data/trial4-visualization.json" title="Review" width="100%" height="400" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not allow use of an iframe.</p>
 </iframe>
 
