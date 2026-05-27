@@ -21,112 +21,192 @@ format:
 
 # Introduction
 
-## At ALIFE 2024
+## SimR
 
-- [EvoGym](https://evolutiongym.github.io/) (Dr. Mizuki Oka)
-- [ELDiR](https://sites.google.com/view/eldir) (Luke Strgar)
-- [Evolution of Things](https://sites.google.com/view/evolutionofthings/home) (Dr. Miras)
-- [Simsulator](https://github.com/mycoolfin/the-simsulator) (Michael Finn)
+**Simulation in Robotics**
+
+What simulator should I use?
+
+That question is common in robotics research, robot learning, planning, control, and deployment.
+
+The harder question is usually:
+
+> What simulator should I use for this robot, this task, and this research question?
+
+## At ICRA 2026
+
+TODO
+
 
 ## Format
 
 This tutorial will follow a format in which:
 
-- We'll get on the same page with respect to terminology
-- Loop
-  - I'll present for a bit
-  - I'll ask you all to read through an exercise
-  - Ask questions on our shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing)
-  - We'll have time for discussion
-- We'll cover a more complete example in full (high code format)
+- We'll get on the same page with respect to terminology.
+- Loop:
+  - I'll present for a bit.
+  - I'll ask you to read through or work through an exercise.
+  - Ask questions on our shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing).
+  - We'll have time for discussion.
+- We'll cover a more complete example in full, with a high-code format.
 
 ## About Me {.nostretch}
 
 ![](https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg){width="60%" fig-align="center"}
 
-I am a professor in the Compute Science Department at [Pomona College](https://www.pomona.edu/) in Southern California, USA. I learned a lot about simulation; you shouldn't have to.
+I am a professor in the Computer Science Department at [Pomona College](https://www.pomona.edu/) in Southern California, USA.
 
-## My Addiction
+I learned a lot about simulation the hard way; you shouldn't have to.
 
-I've spent arguably too much time playing around with different simulation methods
+## My Simulation Problem
+
+I've spent arguably too much time trying different simulation methods and tools:
 
 - Simulink/MATLAB, Julia, SimPy, FEA
-- ODE, Bullet, DART, Box2D,  Chrono, MuJoCo
+- ODE, Bullet, DART, Box2D, Chrono, MuJoCo
+- SAPIEN, Maniskill, Newton Physics
 - Gazebo, Webots
-- Unreal, Unity, Godot,
-- custom, ...
+- Unreal, Unity, Godot
+- custom simulators
+- and many more
 
-And I've seen a few this ALIFE that I'll spend too much time exploring.
+At ICRA, there are always several more that I will be tempted to explore.
 
-## Evolutionary Robotics
-
-The use of evolutionary algorithms to explore the design space of robots and their control software.
+## Robotics Simulation
 
 <iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not support use of an iframe.</p>
 </iframe>
 
+## Robotics Simulation
+
+Simulation is the use of a model to study, predict, test, train, or evaluate the behavior of a robot or robotic system.
+
+In robotics, simulation is used for:
+
+- prototyping
+- control design
+- planning
+- robot learning
+- perception
+- benchmarking
+- regression testing
+- sim-to-real transfer
+- hardware/software integration
+- safety and failure analysis
+
+## Simulation Is Not One Thing
+
+A simulator may model:
+
+- robot kinematics
+- rigid-body dynamics
+- contacts and friction
+- actuators and transmissions
+- sensors and perception
+- lighting and rendering
+- terrain, fluids, or deformable objects
+- communication and latency
+- uncertainty and noise
+- humans, objects, or other robots
+
+The right simulator depends on which of these matter for your question.
+
 ## Research Questions (1/2)
 
-There is a wide variety of research in evolutionary robotics, but I'll focus on:
+Robotics simulation supports application-focused questions:
 
-- Optimization and novelty (application-based)
-  - How can we optimize the design of a robot for a specific task?
-  - How can we explore the space of possible designs and behaviors?
-  - What can we learn from open-ended evolution?
+- How can we train a robot policy safely and efficiently?
+- How can we evaluate a controller before deploying it?
+- How can we test a planner across many environments?
+- How can we compare methods under controlled conditions?
+- How can we identify likely failure modes before hardware testing?
 
-## Research Questins (2/2)
+## Research Questions (2/2)
 
-There is a wide variety of research in evolutionary robotics, but I'll focus on:
+Robotics simulation also supports method-focused questions:
 
-- Algorithm design (theory-based)
-  - How can we design algorithms that are more efficient and effective?
-  - How can we design algorithms that are more robust to noise and uncertainty?
+- How accurate does the simulation need to be?
+- Which modeling assumptions matter?
+- What transfers from simulation to reality?
+- How should we randomize or calibrate the simulator?
+- How do we make simulated experiments reproducible?
+- How do we avoid overfitting to a simulator?
 
-## General Algorithm
+## A Common Robotics Simulation Loop
 
 ```{mermaid}
 %%| fig-align: center
 
 flowchart LR
-    Init[initialize] --> Eval[evaluate]
+    Model[model robot and environment] --> Sim[simulate]
+    Sim --> Eval[evaluate behavior]
+    Eval --> Analyze[analyze failures]
+    Analyze --> Improve[improve model, controller, planner, or policy]
+    Improve --> Sim
+    Eval --> Deploy{deploy?}
+    Deploy --No--> Improve
+    Deploy --Yes--> Real[test on hardware]
+    Real --> Compare[compare sim and real]
+    Compare --> Improve
+```
+
+## A Common Experiment Loop
+
+```{.python code-line-numbers="1-5|7-12|14-18|20-23"}
+config = load_config()
+sim = make_simulator(config)
+robot = load_robot_model(config)
+task = load_task(config)
+policy = load_policy(config)
+
+for seed in seeds:
+    env = make_environment(sim, robot, task, seed)
+
+    for episode in range(num_episodes):
+        trajectory = rollout(env, policy)
+        result = evaluate(trajectory, task)
+
+        save_result(seed, episode, result)
+        save_trajectory(seed, episode, trajectory)
+
+summary = analyze_results()
+make_plots(summary)
+
+if ready_for_hardware(summary):
+    run_real_robot_experiment(policy)
+```
+
+## Optimization and Learning Loop
+
+Some robotics projects use optimization, reinforcement learning, imitation learning, or evolutionary search.
+
+```{mermaid}
+%%| fig-align: center
+
+flowchart LR
+    Init[initialize policy, controller, or design] --> Eval[evaluate in simulation]
     Eval --> Stop{stop?}
-    Stop --Yes--> Retn[return]
-    Stop --No--> Sele[select]
-    Sele --> Modi[modify]
-    Modi --> Evl2[evaluate]
-    Evl2 --> Comb[combine]
-    Comb --> Stop
+    Stop --Yes--> Retn[return best candidate]
+    Stop --No--> Update[update candidate]
+    Update --> Eval
 ```
 
-```{.python code-line-numbers="1-2|4-6|8-11"}
-population = initialize(population_size)
-population = evaluate(population)
+## Python Interface Sketch
 
-for generation in range(num_generations):
-    if stop(population):
-        break
+```{.python code-line-numbers="1-5|7|8|9|10|11|12"}
+Observation = list[float]
+Action = list[float]
+Trajectory = list[tuple[Observation, Action]]
+Metrics = dict[str, float]
+Policy = object
 
-    selected = select(population)
-    children = modify(selected)
-    children = evaluate(children)
-    population = combine(population, children)
-```
-
-## Python Implementation
-
-```{.python code-line-numbers="1-4|6|7|8|9|10|11"}
-Fitness = tuple[float, float]
-Genome = list[float]
-Individual = tuple[Genome, Fitness]
-Population = list[Individual]
-
-def initialize(size: int) -> Population: ...
-def evaluate(pop: Population) -> Population: ...
-def stop(pop: Population) -> bool: ...
-def select(pop: Population) -> Population: ...
-def modify(pop: Population) -> Population: ...
-def combine(pop1: Population, pop2: Population) -> Population: ...
+def make_simulator(config): ...
+def load_robot_model(config): ...
+def reset_environment(seed: int): ...
+def policy(obs: Observation) -> Action: ...
+def rollout(env, policy: Policy) -> Trajectory: ...
+def evaluate(trajectory: Trajectory) -> Metrics: ...
 ```
 
 # Simulation
@@ -135,121 +215,245 @@ This section and the related demos are the focus of this tutorial.
 
 ## Types of Simulation
 
-- Analytical (closed-form) dynamics
+- Analytical or closed-form dynamics
 - Numerical dynamics
-- **Rigid-body dynamics (physics engine)**
+- **Rigid-body dynamics**
+- Contact and friction simulation
+- Sensor simulation
+- Rendering and perception simulation
 - Soft-body dynamics
 - Finite-element analysis
-- Digital evolution (e.g., Avida)
+- Digital twins
 
-## Simulation Advice (1/3)
+## Common Robotics Simulators
+
+Examples include:
+
+- Gazebo
+- MuJoCo
+- Drake
+- Webots
+- CoppeliaSim
+- NVIDIA Isaac Sim / Isaac Lab
+- PyBullet / Bullet
+- RaiSim
+- Project Chrono
+- Simscape Multibody
+- Unity- or Unreal-based environments
+
+The goal today is not to declare one winner.
+
+The goal is to understand tradeoffs.
+
+## Simulation Advice (1/4)
 
 Choose the correct level of abstraction.
 
 - What do you care about?
+- Are you studying perception, planning, control, learning, design, or deployment?
 - Do you care about the electro-mechanical properties of the motors?
-- Can you get away with spherical wheels? They are faster to simulate.
-- Can you fake hydrodynamics or do you need full fluid dynamics?
-- Do you care about vision?
+- Do you need accurate contact and friction?
+- Do you need actuator saturation, latency, backlash, or compliance?
+- Do you care about vision, depth, LiDAR, tactile sensing, or force sensing?
 
-The main challenge: **reality gap**
+## Simulation Advice (2/4)
 
-## Simulation Advice (2/3)
+Simplify when possible.
+
+- Can you simplify the robot geometry?
+- Can you approximate the wheels, gripper, or contact surfaces?
+- Can you use kinematics instead of dynamics?
+- Can you use simple rendering instead of photorealistic rendering?
+- Can you approximate hydrodynamics, deformable objects, or terrain?
+- Can you test the algorithm in a toy environment first?
+
+The best simulator is often the simplest simulator that captures the phenomenon you care about.
+
+## Simulation Advice (3/4)
 
 Consider your simulation characteristics.
 
-- Simulation should be noisy but deterministic.
-- You should evaluate a single individual with multiple initial conditions.
-- Your simulation should be faster than real-time.
+- Simulation should be noisy enough to expose brittle solutions.
+- Simulation should be deterministic enough to debug.
+- You should evaluate a policy, controller, or planner with multiple initial conditions.
+- Your simulation should usually be faster than real time.
 - Your simulation should be parallelizable.
 - Your simulation should be able to run headless.
 
-## Simulation Advice (3/3)
+## Simulation Advice (4/4)
 
-- Avoid stiff springs.
-- Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).
-- Make your simulations noisy!
-- Make your sensors and actuators noisy!
-- Tune your simulation with physical data.
+Numerical details matter.
 
-## Evolution Advice (1/2)
+- Avoid unnecessarily stiff springs.
+- Avoid unrealistic controller gains.
+- Use reasonable masses, lengths, forces, and time steps.
+- Scale your environment to reasonable numerical values.
+- Use fixed time steps when appropriate.
+- Log simulator warnings and instability.
+- Test extreme parameters and edge cases.
 
-Consider your evolution characteristics.
+## The Reality Gap
 
-- Decouple simulation, visualization, and optimization.
+The main challenge is the **reality gap**.
+
+Simulation and reality differ because of:
+
+- simplified dynamics
+- incorrect inertial parameters
+- contact and friction errors
+- unmodeled actuator behavior
+- sensor noise and bias
+- latency
+- calibration errors
+- lighting and rendering differences
+- object and terrain variation
+- wear, damage, and hardware variability
+
+## Sim-to-Real Advice
+
+Think about sim-to-real from the beginning.
+
+- Decide what needs to transfer.
+- Measure physical parameters when possible.
+- Calibrate the simulator with real data.
+- Use domain randomization when appropriate.
+- Randomize initial conditions, object properties, terrain, sensors, and actuation.
+- Prefer robust policies over policies that exploit one narrow simulated setting.
+- Validate intermediate quantities, not just final task success.
+
+## Decouple the Pipeline
+
+Decouple simulation, visualization, learning, and evaluation.
+
 - Make it easy to swap out simulators.
-- Make it easy to swap out optimization algorithms.
+- Make it easy to swap out controllers, planners, policies, or optimizers.
 - Make it easy to swap out visualization tools.
+- Separate training from evaluation.
+- Separate robot models from task definitions.
+- Separate configuration from source code.
 
-## Evolution Advice (2/2)
+## Avoid Simulator Overfitting
 
-- You should be able to run your algorithm with different random seeds.
-- Be careful that your simulation environment and fitness function are not too easy to "game."
-- Incorporate constraint and viability/feasibility handling into your fitness and selection functions.
-- Include early stopping for your evaluations (e.g., stuck, flipped, etc.).
-- Include early stopping for your optimization (e.g., no progress, etc.).
+Be careful that your system is not too easy to game.
 
-## Evolutionary Robotics Advice (1/3)
+Policies and controllers may exploit:
 
-Consider ER specific characteristics.
+- reward bugs
+- termination conditions
+- contact artifacts
+- sensor artifacts
+- unrealistic friction
+- unstable numerical integration
+- privileged simulator information
+- task distributions that are too narrow
 
-- Always prototype.
-- Prototype your algorithms with small populations sizes and few generations.
-- Test algorithms with benchmark datasets.
-- Test simulations with benchmark algorithms.
+If it looks too good, inspect the rollout.
 
-## Experiment Management Advice (2/3)
+## Robotics Experiment Advice (1/3)
 
-- Test your simulation with extreme parameters.
-- Save all data if you can.
-- All individuals every generation.
-- Every replicate.
+Always prototype.
 
-## Experiment Management Advice (3/3)
+- Start with the simplest robot, task, and environment.
+- Test controllers with simple benchmark systems.
+- Test planners with simple maps.
+- Test policies in small environments.
+- Test simulations with known behaviors.
+- Test extreme parameters.
+- Add complexity one piece at a time.
 
-- Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).
-- Use a tool like [wandb](https://wandb.ai/) for tracking.
-- Evaluate/test your results with out-of-band/distribution environments.
-- Use a settling period.
-- Use random initial conditions.
+## Robotics Experiment Advice (2/3)
+
+Save enough information to understand what happened.
+
+- Save configurations.
+- Save random seeds.
+- Save simulator versions.
+- Save robot models.
+- Save trained policies or controller parameters.
+- Save evaluation results.
+- Save trajectories, logs, and videos when possible.
+- Save failures, not just successes.
+
+## Robotics Experiment Advice (3/3)
+
+Plan for reproducibility.
+
+- Use checkpointing.
+- Use structured output directories.
+- Use configuration files.
+- Track dependencies and software versions.
+- Record hardware information when relevant.
+- Use tools like [Weights & Biases](https://wandb.ai/), MLflow, Sacred, or simple CSV/JSON logs.
+- Make it possible for future you to rerun the experiment.
+
+## Evaluation Advice
+
+Evaluate beyond the training conditions.
+
+- Use held-out environments.
+- Use held-out objects, terrains, lighting, or initial states.
+- Use multiple random seeds.
+- Report variability.
+- Compare against baselines.
+- Compare against simple hand-designed controllers or planners.
+- Report wall-clock time, sample efficiency, and compute when relevant.
 
 ## Parallelism (1/3)
 
 Consider your computational resources.
 
-- Parallelize replicate experiments (trials different random seeds)
-- Parallelize across generations (if mixing populations)
-- Parallelize across populations (multiple population per replicate)
-- Parallelize across individuals (multiple individuals per population)
+Parallelize across:
+
+- random seeds
+- training runs
+- evaluation episodes
+- environments
+- policies, controllers, or planners
+- robot designs
+- hyperparameter settings
 
 ## Parallelism (2/3)
 
-- Parallelize across evaluations (multiple evaluations per individual)
-- See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
-- See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
+Useful tools include:
+
+- [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
+- [GNU Parallel](https://www.gnu.org/software/parallel/)
+- [Pueue](https://github.com/nukesor/pueue)
+- Python multiprocessing
+- job arrays on clusters
+- containers for reproducibility
 
 ## Parallelism (3/3)
 
-- Plan to use $N - 2$ cores, where $N$ is the number of cores available
-- Use a tool like [GNU Parallel](https://www.gnu.org/software/parallel/) at the replicate level
-- Use a library like [Python multiprocessing](https://docs.python.org/3/library/multiprocessing.html) at lower levels
-- Do you care more about the variance across replicates? Parallelize at the replicate level
-- Do you care more about the performance of a single replicate? Parallelize at the individual level
+Rules of thumb:
+
+- Plan to leave a few cores free for the operating system.
+- Parallelize at the random-seed level when you care about variability.
+- Parallelize at the rollout or environment level when evaluations are expensive.
+- Profile before optimizing.
+- Avoid manual experiment management when possible.
+- Make failed jobs easy to detect and rerun.
 
 ## Analysis Advice (1/2)
 
-Setup good tools for analysis.
+Set up good tools for analysis.
 
 - Compare your results to a baseline.
-- Try to construct a good solution by hand before evolving one.
+- Try to construct a good solution by hand before training or optimizing one.
 - Use consistent themes for your plots and figures.
+- Plot learning curves, success rates, failure rates, and task metrics.
+- Inspect trajectories and videos.
 
 ## Analysis Advice (2/2)
 
-- Plot the number of evaluations on the x-axis.
-- Use vector graphics over raster graphics for plots.
-- Generate plots and figures for both presentations and articles.
-- Plot/visualize behavioral diversity (eg, repitores).
+For papers and presentations:
+
+- Use vector graphics over raster graphics for plots when possible.
+- Generate figures for both presentations and articles.
+- Show variability across seeds.
+- Show representative successes and failures.
+- Report the number of environment steps, evaluations, or rollouts.
+- Report compute resources when they affect interpretation.
 
 ## Communication Advice
 
@@ -258,6 +462,9 @@ Write about your work.
 - Write a small bit every day.
 - Write down a prediction before you run an experiment.
 - Write your article outline before you run your experiments.
+- Write down what would convince you that your approach failed.
+- Keep a list of assumptions and known simulator artifacts.
+- Document surprising failures.
 
 # Exemplar
 
@@ -265,7 +472,44 @@ Write about your work.
 
 Let's start with the following problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+> We want to train and evaluate an autonomous wheeled mobile robot to navigate quickly over obstacles and stop in front of a wall.
+
+This is intentionally simple, but it touches many core simulation questions:
+
+- dynamics
+- sensing
+- control
+- evaluation
+- robustness
+- sim-to-real assumptions
+
+## What Can We Vary?
+
+For the robot:
+
+- wheel radius
+- wheel base
+- mass and inertia
+- motor limits
+- controller gains
+- sensor type and noise
+
+For the environment:
+
+- obstacle geometry
+- friction
+- wall location
+- starting pose
+- terrain properties
+- lighting or perception conditions
+
+For the algorithm:
+
+- hand-designed controller
+- planner
+- reinforcement learning policy
+- evolutionary optimization
+- model predictive control
 
 ## Online Demos
 
@@ -275,8 +519,19 @@ Simulation demos:
 - [Numerical Models](demos/2-numerical.qmd)
 - [Rigid Body Dynamics](demos/3-rigid-body-dynamics.qmd)
 
-Full ER demo:
+Full robotics simulation demo:
 
 - [Full Example](demos/4-full-example.qmd)
+
+## Takeaways
+
+- Simulation is a tool, not a result by itself.
+- Choose the simulator based on the research question.
+- Start simple.
+- Validate assumptions.
+- Watch for simulator artifacts.
+- Design experiments for reproducibility.
+- Think about sim-to-real early.
+- Inspect failures.
 
 ## Thank you!
