@@ -16,7 +16,7 @@ WEB_HOST="WellsAF/Fac-Staff/ajcd2020"
 
 # Mount server
 mkdir -p _mount
-mount -t smbfs "//ajcd2020:$PASSWORD@$WEB_HOST/My%20Documents/My%20Webs/tutorials/simer" _mount
+mount -t smbfs "//ajcd2020:$PASSWORD@$WEB_HOST/My%20Documents/My%20Webs/tutorials/simr-icra2026" _mount
 
 # RSYNC files
 cpsync _site/ _mount/

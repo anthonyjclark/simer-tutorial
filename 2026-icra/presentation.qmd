@@ -1,10 +1,10 @@
 ---
-title: "SimER Tutorial"
+title: "SimR Tutorial"
 author: Anthony J. Clark
 date: "June 1, 2026"
 format:
   revealjs:
-    footer: "Anthony J. Clark, SimER Tutorial"
+    footer: "Anthony J. Clark, SimR Tutorial"
     progress: true
     controls: true
     controls-layout: bottom-right

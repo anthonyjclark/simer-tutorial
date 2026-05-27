@@ -5,7 +5,7 @@ SITE_DIR := _site
 
 all: $(SITE_DIR)
 
-$(SITE_DIR): $(QMD_FILES) ./_lib/Player/dist/player.js ./_lib/WMR2D/dist/wmr2d.js
+_site/index.html: $(QMD_FILES) ./_lib/Player/dist/player.js ./_lib/WMR2D/dist/wmr2d.js
 	quarto render
 
 build:

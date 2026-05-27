@@ -1,4 +1,12 @@
-/.quarto/
+.quarto/
+**/*.quarto_ipynb
+.venv/
+
+_site/
+_example
+
+__pycache__/
+*.pyc
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
@@ -145,3 +153,5 @@ dist
 
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+
+**/*.quarto_ipynb
