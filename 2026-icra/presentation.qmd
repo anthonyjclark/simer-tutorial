@@ -1,0 +1,282 @@
+---
+title: "SimER Tutorial"
+author: Anthony J. Clark
+date: "June 1, 2026"
+format:
+  revealjs:
+    footer: "Anthony J. Clark, SimER Tutorial"
+    progress: true
+    controls: true
+    controls-layout: bottom-right
+    toc: true
+    toc-depth: 1
+    syntax-definitions:
+      - pseudocode.xml
+    highlight-style: pygments
+    chalkboard: true
+    incremental: true
+---
+
+# {background-video="videos/walker.mp4" background-video-loop="true" autoplay="1"}
+
+# Introduction
+
+## At ALIFE 2024
+
+- [EvoGym](https://evolutiongym.github.io/) (Dr. Mizuki Oka)
+- [ELDiR](https://sites.google.com/view/eldir) (Luke Strgar)
+- [Evolution of Things](https://sites.google.com/view/evolutionofthings/home) (Dr. Miras)
+- [Simsulator](https://github.com/mycoolfin/the-simsulator) (Michael Finn)
+
+## Format
+
+This tutorial will follow a format in which:
+
+- We'll get on the same page with respect to terminology
+- Loop
+  - I'll present for a bit
+  - I'll ask you all to read through an exercise
+  - Ask questions on our shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing)
+  - We'll have time for discussion
+- We'll cover a more complete example in full (high code format)
+
+## About Me {.nostretch}
+
+![](https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg){width="60%" fig-align="center"}
+
+I am a professor in the Compute Science Department at [Pomona College](https://www.pomona.edu/) in Southern California, USA. I learned a lot about simulation; you shouldn't have to.
+
+## My Addiction
+
+I've spent arguably too much time playing around with different simulation methods
+
+- Simulink/MATLAB, Julia, SimPy, FEA
+- ODE, Bullet, DART, Box2D,  Chrono, MuJoCo
+- Gazebo, Webots
+- Unreal, Unity, Godot,
+- custom, ...
+
+And I've seen a few this ALIFE that I'll spend too much time exploring.
+
+## Evolutionary Robotics
+
+The use of evolutionary algorithms to explore the design space of robots and their control software.
+
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+  <p>Visualization not shown because your browser does not support use of an iframe.</p>
+</iframe>
+
+## Research Questions (1/2)
+
+There is a wide variety of research in evolutionary robotics, but I'll focus on:
+
+- Optimization and novelty (application-based)
+  - How can we optimize the design of a robot for a specific task?
+  - How can we explore the space of possible designs and behaviors?
+  - What can we learn from open-ended evolution?
+
+## Research Questins (2/2)
+
+There is a wide variety of research in evolutionary robotics, but I'll focus on:
+
+- Algorithm design (theory-based)
+  - How can we design algorithms that are more efficient and effective?
+  - How can we design algorithms that are more robust to noise and uncertainty?
+
+## General Algorithm
+
+```{mermaid}
+%%| fig-align: center
+
+flowchart LR
+    Init[initialize] --> Eval[evaluate]
+    Eval --> Stop{stop?}
+    Stop --Yes--> Retn[return]
+    Stop --No--> Sele[select]
+    Sele --> Modi[modify]
+    Modi --> Evl2[evaluate]
+    Evl2 --> Comb[combine]
+    Comb --> Stop
+```
+
+```{.python code-line-numbers="1-2|4-6|8-11"}
+population = initialize(population_size)
+population = evaluate(population)
+
+for generation in range(num_generations):
+    if stop(population):
+        break
+
+    selected = select(population)
+    children = modify(selected)
+    children = evaluate(children)
+    population = combine(population, children)
+```
+
+## Python Implementation
+
+```{.python code-line-numbers="1-4|6|7|8|9|10|11"}
+Fitness = tuple[float, float]
+Genome = list[float]
+Individual = tuple[Genome, Fitness]
+Population = list[Individual]
+
+def initialize(size: int) -> Population: ...
+def evaluate(pop: Population) -> Population: ...
+def stop(pop: Population) -> bool: ...
+def select(pop: Population) -> Population: ...
+def modify(pop: Population) -> Population: ...
+def combine(pop1: Population, pop2: Population) -> Population: ...
+```
+
+# Simulation
+
+This section and the related demos are the focus of this tutorial.
+
+## Types of Simulation
+
+- Analytical (closed-form) dynamics
+- Numerical dynamics
+- **Rigid-body dynamics (physics engine)**
+- Soft-body dynamics
+- Finite-element analysis
+- Digital evolution (e.g., Avida)
+
+## Simulation Advice (1/3)
+
+Choose the correct level of abstraction.
+
+- What do you care about?
+- Do you care about the electro-mechanical properties of the motors?
+- Can you get away with spherical wheels? They are faster to simulate.
+- Can you fake hydrodynamics or do you need full fluid dynamics?
+- Do you care about vision?
+
+The main challenge: **reality gap**
+
+## Simulation Advice (2/3)
+
+Consider your simulation characteristics.
+
+- Simulation should be noisy but deterministic.
+- You should evaluate a single individual with multiple initial conditions.
+- Your simulation should be faster than real-time.
+- Your simulation should be parallelizable.
+- Your simulation should be able to run headless.
+
+## Simulation Advice (3/3)
+
+- Avoid stiff springs.
+- Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).
+- Make your simulations noisy!
+- Make your sensors and actuators noisy!
+- Tune your simulation with physical data.
+
+## Evolution Advice (1/2)
+
+Consider your evolution characteristics.
+
+- Decouple simulation, visualization, and optimization.
+- Make it easy to swap out simulators.
+- Make it easy to swap out optimization algorithms.
+- Make it easy to swap out visualization tools.
+
+## Evolution Advice (2/2)
+
+- You should be able to run your algorithm with different random seeds.
+- Be careful that your simulation environment and fitness function are not too easy to "game."
+- Incorporate constraint and viability/feasibility handling into your fitness and selection functions.
+- Include early stopping for your evaluations (e.g., stuck, flipped, etc.).
+- Include early stopping for your optimization (e.g., no progress, etc.).
+
+## Evolutionary Robotics Advice (1/3)
+
+Consider ER specific characteristics.
+
+- Always prototype.
+- Prototype your algorithms with small populations sizes and few generations.
+- Test algorithms with benchmark datasets.
+- Test simulations with benchmark algorithms.
+
+## Experiment Management Advice (2/3)
+
+- Test your simulation with extreme parameters.
+- Save all data if you can.
+- All individuals every generation.
+- Every replicate.
+
+## Experiment Management Advice (3/3)
+
+- Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).
+- Use a tool like [wandb](https://wandb.ai/) for tracking.
+- Evaluate/test your results with out-of-band/distribution environments.
+- Use a settling period.
+- Use random initial conditions.
+
+## Parallelism (1/3)
+
+Consider your computational resources.
+
+- Parallelize replicate experiments (trials different random seeds)
+- Parallelize across generations (if mixing populations)
+- Parallelize across populations (multiple population per replicate)
+- Parallelize across individuals (multiple individuals per population)
+
+## Parallelism (2/3)
+
+- Parallelize across evaluations (multiple evaluations per individual)
+- See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
+- See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
+
+## Parallelism (3/3)
+
+- Plan to use $N - 2$ cores, where $N$ is the number of cores available
+- Use a tool like [GNU Parallel](https://www.gnu.org/software/parallel/) at the replicate level
+- Use a library like [Python multiprocessing](https://docs.python.org/3/library/multiprocessing.html) at lower levels
+- Do you care more about the variance across replicates? Parallelize at the replicate level
+- Do you care more about the performance of a single replicate? Parallelize at the individual level
+
+## Analysis Advice (1/2)
+
+Setup good tools for analysis.
+
+- Compare your results to a baseline.
+- Try to construct a good solution by hand before evolving one.
+- Use consistent themes for your plots and figures.
+
+## Analysis Advice (2/2)
+
+- Plot the number of evaluations on the x-axis.
+- Use vector graphics over raster graphics for plots.
+- Generate plots and figures for both presentations and articles.
+- Plot/visualize behavioral diversity (eg, repitores).
+
+## Communication Advice
+
+Write about your work.
+
+- Write a small bit every day.
+- Write down a prediction before you run an experiment.
+- Write your article outline before you run your experiments.
+
+# Exemplar
+
+## Problem Statement
+
+Let's start with the following problem statement:
+
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+
+## Online Demos
+
+Simulation demos:
+
+- [Analytical Models](demos/1-analytical.qmd)
+- [Numerical Models](demos/2-numerical.qmd)
+- [Rigid Body Dynamics](demos/3-rigid-body-dynamics.qmd)
+
+Full ER demo:
+
+- [Full Example](demos/4-full-example.qmd)
+
+## Thank you!

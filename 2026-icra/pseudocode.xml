@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<language name="pseudocode" section="Source" extensions="*.pseudocode" version="1" kateversion="5.0">
+  <highlighting>
+    <list name="ControlFlow">
+      <item>IF</item>
+      <item>ELSE</item>
+      <item>WHILE</item>
+      <item>FOR</item>
+      <item>LOOP</item>
+      <item>BREAK</item>
+      <item>RETURN</item>
+      <item>TRY</item>
+      <item>MATCH</item>
+      <item>THEN</item>
+    </list>
+    <list name="Operator">
+      <item>AND</item>
+      <item>NOT</item>
+      <item>IN</item>
+    </list>
+    <list name="Keyword">
+      <item>STRUCT</item>
+    </list>
+    <!-- <list name="functions"> -->
+    <!-- <list name="types"> -->
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        <keyword attribute="ControlFlow" context="#stay" String="ControlFlow"/>
+        <keyword attribute="Operator"    context="#stay" String="Operator"   />
+        <keyword attribute="Keyword"     context="#stay" String="Keyword"    />
+      </context>
+    </contexts>
+    <itemDatas>
+      <itemData name="Normal Text"       defStyleNum="dsNormal"                            />
+      <itemData name="ControlFlow"       defStyleNum="dsControlFlow" spellChecking="false" />
+      <itemData name="Operator"          defStyleNum="dsOperator"    spellChecking="false" />
+      <itemData name="Keyword"           defStyleNum="dsKeyword"     spellChecking="false" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <keywords casesensitive="1"/>
+  </general>
+</language>

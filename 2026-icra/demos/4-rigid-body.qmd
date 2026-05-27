@@ -1,0 +1,31 @@
+---
+title: "Demo 4: Rigid Body Models"
+execute:
+    echo: false
+format:
+    html:
+        css: ../_lib/WMR2D/css/main.css
+        highlight-style: pygments
+---
+
+<!-- https://github.com/enable3d/enable3d?tab=readme-ov-file -->
+<!-- https://3dviewer.net/#model=https://petercorke.com/RVC3/matlab/fig2_4.gltf -->
+
+
+```{=html}
+<div>
+    <canvas id="wmr-canvas1"></canvas>
+</div>
+```
+
+```{ojs}
+import { Player } from '../_lib/Player/dist/player.js';
+import { WMRSimulator, WMR2DMode } from  '../_lib/WMR2D/dist/wmr2d.js';
+
+uiTimeEnd = 16.0;
+uiTimeStep = 0.1;
+
+wmr1 = new WMRSimulator( 'wmr-canvas1', WMR2DMode.PhysicsEngine, { addWall: true, addStep: true} );
+player1 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr1.step(time), () => wmr1.reset() );
+player1.create();
+```

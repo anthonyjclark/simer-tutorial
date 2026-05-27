@@ -1,0 +1,64 @@
+---
+title: "Advice"
+format: html
+---
+
+Some general advice in no particular order:
+
+- Always prototype.
+  - Prototype your algorithms with small populations sizes and few generations.
+  - Test algorithms with benchmark datasets.
+  - Test simulations with benchmark algorithms.
+  - Test your simulation with extreme parameters.
+
+- Choose the correct level of abstraction.
+  - What do you care about?
+  - Do you care about the electro-mechanical properties of the motors?
+  - Can you get away with spherical wheels? They are faster to simulate.
+  - Can you fake hydrodynamics or do you need full fluid dynamics?
+  - Do you care about vision?
+
+- Consider your simulation characteristics.
+  - Simulation should be noisy but deterministic.
+  - You should evaluate a single individual with multiple initial conditions.
+  - Your simulation should be faster than real-time.
+  - Your simulation should be parallelizable.
+  - Your simulation should be able to run headless.
+  - Avoid stiff springs.
+  - Scale your environment to the 0.1 to 10 range in terms of numerical values (1 is sweet spot).
+  - Be careful that your simulation environment and fitness function are not too easy to "game."
+  - Incorporate constraint and feasibility handling into your fitness and selection functions.
+
+- Decouple simulation, visualization, and optimization.
+  - Make it easy to swap out simulators.
+  - Make it easy to swap out optimization algorithms.
+  - Make it easy to swap out visualization tools.
+  - You should be able to run your algorithm with different random seeds.
+
+- Save all data if you can.
+  - All individuals every generation.
+  - Every replicate.
+  - Save enough information so that you can restart your algorithm in the middle if it breaks (checkpointing).
+
+- Consider your computational resources.
+  - Parallelize replicate experiments (trials different random seeds)
+  - Parallelize across generations (if mixing populations)
+  - Parallelize across populations (multiple population per replicate)
+  - Parallelize across individuals (multiple individuals per population)
+  - Parallelize across evaluations (multiple evaluations per individual)
+  - Include early stopping for your evaluations (e.g., stuck, flipped, etc.).
+  - Include early stopping for your optimization (e.g., no progress, etc.).
+  - See [GNU Parallel Tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
+  - See [Pueue is a command-line task management tool](https://github.com/nukesor/pueue)
+
+- Setup good tools for analysis.
+  - Compare your results to a baseline.
+  - Try to construct a good solution by hand before evolving one.
+  - Use consistent themes for your plots and figures.
+  - Use vector graphics over raster graphics for plots.
+  - Generate plots and figures for both presentations and articles.
+
+- Write about your work.
+  - Write a small bit every day.
+  - Write down a prediction before you run an experiment.
+  - Write your article outline before you run your experiments.

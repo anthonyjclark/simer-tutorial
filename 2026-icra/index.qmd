@@ -1,0 +1,45 @@
+---
+title: "SimR: Simulation in Robotics"
+subtitle: "ICRA 2026 Tutorial"
+---
+
+**What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
+
+This is a particularly challenging question for newcomers to our field. The rise of data-driven methods in robotics has led to surge in simulator development, supported by research labs, industry, and open-source communities. These systems vary widely in their capabilities, strengths, and pain-points. Even with recent advances in simulation and training materials, finding the right level of abstraction for a given problem remains a mixture of art and science. Moreover, finding the right simulator must necessarily consider the post-simulation goals; how will any simulation results transfer to the real world?
+
+In this tutorial, we will survey modern simulation techniques and tools for robotics research. We will then train a simple reinforcement learning agent in simulation and "deploy" it to another (simulation) environment. SimR is a tutorial on the fundamentals of simulation for robotics research.
+
+This is the third occurrence of SimR.
+
+1. The first was held as a [workshop at GECCO 2017](https://dl.acm.org/doi/proceedings/10.1145/3067695#heading19).
+2. The second as a [tutorial at ALIFE 2024](https://direct.mit.edu/isal/isal2024/volume/36).
+
+## Organizers
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+![](_images/AnthonyClark.png){fig-alt="Headshot of Anthony J. Clark" .organizer-headshot}
+
+### [Anthony J. Clark](https://anthonyjclark.com)
+
+Anthony J. Clark received his Ph.D. from Michigan State University. He is currently an Assistant Professor in the Computer Science Department at Pomona College in Claremont, California, USA. His research interests include autonomous robotics, control theory, adaptive control, and evolutionary optimization.
+:::
+
+::: {.g-col-12 .g-col-md-4}
+![](_images/JaredMoore.jpeg){fig-alt="Headshot of Jared M. Moore" .organizer-headshot}
+
+### [Jared M. Moore](http://jaredmmoore.com/)
+
+Jared M. Moore received his Ph.D. from Michigan State University. He is currently an Associate Professor and Associate Dean in the College of Computing at Grand Valley State University, Allendale, Michigan, USA. His research interests include adaptive software, autonomous robotics, and evolutionary optimization.
+:::
+
+::: {.g-col-12 .g-col-md-4}
+![](_images/NeilChulani.png){fig-alt="Headshot of Neil Chulani" .organizer-headshot}
+
+### [Neil Chulani](https://www.linkedin.com/in/neilchulani/)
+
+Neil Chulani received his bachelor's degree in Computer Science from Pomona College in Claremont, California, USA. He is currently a CoreOS Engineer at Apple.
+:::
+
+:::
