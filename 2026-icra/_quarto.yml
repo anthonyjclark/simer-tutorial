@@ -15,6 +15,7 @@ website:
           - tutorial/01-SpinningBox.ipynb
           - tutorial/02-CaptureGraph.ipynb
           - tutorial/03-GymInterface.ipynb
+          - tutorial/04-AssetImport.ipynb
       - section: "Basics"
         contents:
           - demos/1-analytical.qmd

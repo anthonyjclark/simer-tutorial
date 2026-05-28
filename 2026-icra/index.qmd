@@ -5,12 +5,12 @@ subtitle: "ICRA 2026 Tutorial"
 
 |              |                                                              |
 | ------------ | ------------------------------------------------------------ |
-| Organizers   | Researchers with cumulatively 30+ years of experience        |
-| Participants | Little to no prior experience with simulation                |
-| Description  | Introduction to simulation in robotics                       |
-| Where        | Stolz 1 @ ICRA                                               |
-| When         | Mon Jun 1, Morning Session                                   |
-| Supplies     | You will only need a laptop (ideally, access to GPU compute) |
+| **Organizers**   | Researchers with cumulatively 30+ years of experience        |
+| **Participants** | Little to no prior experience with simulation                |
+| **Description**  | Introduction to simulation in robotics                       |
+| **Where**        | Stolz 1 @ ICRA                                               |
+| **When**         | Mon Jun 1, Morning Session                                   |
+| **Supplies**     | You will only need a laptop (ideally, access to GPU compute) |
 
 : Tutorial at a glance
 
