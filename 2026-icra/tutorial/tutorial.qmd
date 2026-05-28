@@ -1,0 +1,52 @@
+---
+title: "Setup"
+---
+
+## Recommended Tools
+
+I recommend using [Pixi](https://pixi.prefix.dev/latest/installation/) to handle projects on a broader scale and [uv](https://docs.astral.sh/uv/) for handling Python environments and dependencies. It can be a bit awkward since Pixi also treats Python and its dependencies as a first-class citizen, but I still find `uv` to be more intuitive for Python projects.
+
+```bash
+# Always verify scripts before running them like this! (And prefer to do so in a container)
+curl -fsSL https://pixi.sh/install.sh | sh
+
+# You can also install uv on a per-project basis, but I find it more convenient to have it globally available
+pixi global install uv
+```
+
+## Project Setup
+
+I always recommend cloning the main libraries and tools you will be using for a project. Unlike the installed versions, the source code often includes examples, documentation, and other resources that are helpful for learning and debugging.
+
+```bash
+# Create a directory for this tutorial
+cd SOME/DIRECTORY/WHERE/YOU/KEEP/PROJECTS
+mkdir simr
+cd simr
+
+# We won't be using Isaac Lab directly, but it includes a lot of useful resources and examples
+# But only on the develop branch
+git clone --depth 1 --branch develop https://github.com/isaac-sim/IsaacLab.git
+
+git clone --depth 1 https://github.com/newton-physics/newton.git
+
+# Clone the tutorial repository and sync dependencies
+git clone --depth 1 https://github.com/anthonyjclark/lwmr.git
+cd lwmr
+uv sync
+```
+
+## Recommended Python Packages
+
+I use these packages in nearly all of my projects.
+
+- [tyro](https://brentyi.github.io/tyro/)
+- [tqdm](https://tqdm.github.io/)
+- [wandb](https://wandb.ai/site)
+- [tensorboard](https://www.tensorflow.org/tensorboard)
+
+## Starting a New Project
+
+```bash
+...
+```
