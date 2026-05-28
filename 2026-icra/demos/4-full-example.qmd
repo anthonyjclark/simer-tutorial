@@ -1,5 +1,5 @@
 ---
-title: "Demo 4: Full Example"
+title: "Full Example"
 execute:
     echo: false
 format:

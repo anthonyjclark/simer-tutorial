@@ -1,5 +1,5 @@
 ---
-title: "Demo 1: Analytical Models"
+title: "Analytical Models"
 execute:
     echo: false
 format:
