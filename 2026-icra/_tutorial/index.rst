@@ -17,3 +17,4 @@ documentation for details.
 
    notebooks/01-SpinningBox.ipynb
    notebooks/02-CaptureGraph.ipynb
+   notebooks/03-GymInterface.ipynb

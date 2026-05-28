@@ -24,3 +24,4 @@ Tutorials:
 
 1. [Spinning Box](tutorial/notebooks/01-SpinningBox.html)
 2. [Capture Graph](tutorial/notebooks/02-CaptureGraph.html)
+3. [Gym Interface](tutorial/notebooks/03-GymInterface.html)

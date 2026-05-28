@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import newton
+import rich
 import warp as wp
 
 # Path is setup for generating the tutorial website
@@ -14,8 +15,11 @@ def create_viewer(filename: str, model: newton.Model) -> newton.viewer.ViewerVis
         rec_path = str(RECORDING_BASE_PATH / f"{filename}_{i:02d}.viser")
         i += 1
 
-    print(f"Recording to {rec_path}...")
-    viewer = newton.viewer.ViewerViser(verbose=False, record_to_viser=rec_path)
+    # print(f"Recording to {rec_path}...")
+
+    console = rich.get_console()
+    with console.capture() as _:
+        viewer = newton.viewer.ViewerViser(record_to_viser=rec_path, verbose=False)
     viewer.set_model(model)
 
     axes = [
