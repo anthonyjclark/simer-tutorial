@@ -3,10 +3,16 @@ title: "SimR: Simulation in Robotics"
 subtitle: "ICRA 2026 Tutorial"
 ---
 
-Quick notes:
+|              |                                                              |
+| ------------ | ------------------------------------------------------------ |
+| Organizers   | Researchers with cumulatively 30+ years of experience        |
+| Participants | Little to no prior experience with simulation                |
+| Description  | Introduction to simulation in robotics                       |
+| Where        | Stolz 1 @ ICRA                                               |
+| When         | Mon Jun 1, Morning Session                                   |
+| Supplies     | You will only need a laptop (ideally, access to GPU compute) |
 
-- This tutorial is targeted at students, researchers, and practitioners who are **new to robotics simulation.**
-- Monday, June 1 Morning Session in Stolz 1
+: Tutorial at a glance
 
 **What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
 
@@ -22,6 +28,8 @@ This is the third occurrence of SimR.
 ## Schedule
 
 The tutorial is organized around a practical simulation workflow for robotics research. We will move from basic setup and terminology to hands-on simulation, visualization, model building, optimization, system identification, and high-performance experiment execution.
+
+If you'd like to follow along with the tutorial, you can find the materials in the [LWMR repository](https://github.com/anthonyjclark/lwmr). You can also read through the basics (in the navigation bar) prior to the tutorial start.
 
 | Part | Topic                                          | Description                                                                                                                                                                                                      |
 | ---: | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
