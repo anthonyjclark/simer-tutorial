@@ -58,7 +58,7 @@ Jared M. Moore received his Ph.D. from Michigan State University. He is currentl
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-![](_images/NeilChulani.png){fig-alt="Headshot of Neil Chulani" .organizer-headshot}
+![](_images/NeilChulani.jpg){fig-alt="Headshot of Neil Chulani" .organizer-headshot}
 
 ### [Neil Chulani](https://www.linkedin.com/in/neilchulani/)
 
