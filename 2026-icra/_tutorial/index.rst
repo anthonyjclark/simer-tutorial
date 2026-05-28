@@ -16,3 +16,4 @@ documentation for details.
    :caption: Contents:
 
    notebooks/01-SpinningBox.ipynb
+   notebooks/02-CaptureGraph.ipynb

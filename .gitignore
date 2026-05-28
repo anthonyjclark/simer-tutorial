@@ -2,6 +2,7 @@
 **/*.quarto_ipynb
 .venv/
 *.viser
+.ipynb_checkpoints/
 
 _site/
 _example

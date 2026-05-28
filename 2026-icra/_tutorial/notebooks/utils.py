@@ -1,0 +1,33 @@
+from pathlib import Path
+
+import newton
+import warp as wp
+
+# Path is setup for generating the tutorial website
+RECORDING_BASE_PATH = Path("docs/_static/")
+
+
+def create_viewer(filename: str, model: newton.Model) -> newton.viewer.ViewerViser:
+    rec_path = str(RECORDING_BASE_PATH / f"{filename}.viser")
+    i = 1
+    while Path(rec_path).exists():
+        rec_path = str(RECORDING_BASE_PATH / f"{filename}_{i:02d}.viser")
+        i += 1
+
+    print(f"Recording to {rec_path}...")
+    viewer = newton.viewer.ViewerViser(verbose=False, record_to_viser=rec_path)
+    viewer.set_model(model)
+
+    axes = [
+        ("x-axes", (1.0, 0.0, 0.001)),
+        ("y-axes", (0.0, 1.0, 0.001)),
+        ("z-axes", (0.0, 0.0, 1.0)),
+    ]
+
+    # Add axes to the viewer for reference
+    for label, axis in axes:
+        starts = wp.array([wp.vec3(0, 0, 0.001)])
+        ends = wp.array([wp.vec3(*axis)])
+        viewer.log_arrows(label, starts, ends, axis, width=0.04)
+
+    return viewer

@@ -6,7 +6,21 @@ title: "Tutorial"
 2. `uv`
 3. `clone` newton and my repo
 
+have handy
+- git clone --depth 1 https://github.com/newton-physics/newton.git
+- git clone --depth 1 --branch develop https://github.com/isaac-sim/IsaacLab.git
+
+preferred baseline packages
+- `tyro` (use `@dataclass` for config)
+- `tqdm`
+- `wandb`
+- `tensorboard`
+
+
 
 Tutorials:
 
+*These do not link back to this page. You will need to navigate back to this page to access the next tutorial.*
+
 1. [Spinning Box](tutorial/notebooks/01-SpinningBox.html)
+2. [Capture Graph](tutorial/notebooks/02-CaptureGraph.html)
