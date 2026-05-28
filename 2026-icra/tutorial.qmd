@@ -1,0 +1,12 @@
+---
+title: "Tutorial"
+---
+
+1. `pixi`
+2. `uv`
+3. `clone` newton and my repo
+
+
+Tutorials:
+
+1. [Spinning Box](tutorial/notebooks/01-SpinningBox.html)

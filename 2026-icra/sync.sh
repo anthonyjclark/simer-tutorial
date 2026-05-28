@@ -3,12 +3,7 @@
 # Bash strict mode
 set -euo pipefail
 
-# TODO: turn into makefile with render target and build
-# quarto render
-
-# Check network (use VPN if SSID != Pomona)
-# /System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I  | awk -F' SSID: '  '/ SSID: / {print $2}'
-# networksetup -getairportnetwork en0 | cut -c 24-
+make
 
 # Grab password from keychain
 PASSWORD="$(security find-internet-password -s wells.campus.pomona.edu -w)"

@@ -3,6 +3,11 @@ title: "SimR: Simulation in Robotics"
 subtitle: "ICRA 2026 Tutorial"
 ---
 
+Quick notes:
+
+- This tutorial is targeted at students, researchers, and practitioners who are **new to robotics simulation.**
+- Monday, June 1 Morning Session in Stolz 1
+
 **What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
 
 This is a particularly challenging question for newcomers to our field. The rise of data-driven methods in robotics has led to surge in simulator development, supported by research labs, industry, and open-source communities. These systems vary widely in their capabilities, strengths, and pain-points. Even with recent advances in simulation and training materials, finding the right level of abstraction for a given problem remains a mixture of art and science. Moreover, finding the right simulator must necessarily consider the post-simulation goals; how will any simulation results transfer to the real world?
@@ -13,6 +18,24 @@ This is the third occurrence of SimR.
 
 1. The first was held as a [workshop at GECCO 2017](https://dl.acm.org/doi/proceedings/10.1145/3067695#heading19).
 2. The second as a [tutorial at ALIFE 2024](https://direct.mit.edu/isal/isal2024/volume/36).
+
+## Schedule
+
+The tutorial is organized around a practical simulation workflow for robotics research. We will move from basic setup and terminology to hands-on simulation, visualization, model building, optimization, system identification, and high-performance experiment execution.
+
+| Part | Topic                                          | Description                                                                                                                                                                                                      |
+| ---: | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    1 | Welcome and introductions                      | Introduce the organizers, tutorial goals, and expected background. We will briefly discuss prior experience with robotics simulators such as Player/Stage, Webots, Gazebo, MuJoCo, Isaac Sim, and related tools. |
+|    2 | Tooling and environment setup                  | Introduce the software stack used in the tutorial, including Pixi, uv, Python environments, project layout, and reproducible setup practices.                                                                    |
+|    3 | Simple simulation demos                        | Work through small examples such as a spinning cube, pendulum, simple rigid bodies, and basic dynamics. These examples introduce the simulation loop and common debugging techniques.                            |
+|    4 | More complex robot demos                       | Explore larger examples such as wheeled robots, quadrupeds, humanoids, or articulated systems. We will discuss model complexity, contact, actuation, and simulation performance.                                 |
+|    5 | Visualization with Viser                       | Demonstrate how to use the Viser viewer for interactive visualization. We will emphasize why visualization is essential for debugging, analysis, and workflow design.                                            |
+|    6 | Builder API for custom models                  | Show how to use the builder API to create custom robot and scene models. Topics include bodies, joints, geometry, inertial properties, sensors, and environment objects.                                         |
+|    7 | Simulation API and result visualization        | Use the simulation API to run experiments, collect trajectories, log results, and visualize outputs. We will discuss how to separate simulation, visualization, and analysis.                                    |
+|    8 | Optimization and control                       | Demonstrate how to use the API for control and optimization tasks, such as parameter sweeps, trajectory optimization, controller tuning, or policy search.                                                       |
+|    9 | System identification with motion-capture data | Introduce system identification workflows using motion-capture data. We will discuss parameter estimation, validation, and reducing the sim-to-real gap.                                                         |
+|   10 | Scaling experiments with SLURM                 | Show how to scale simulation experiments using SLURM or similar cluster tools. Topics include batch scripts, job arrays, random seeds, logging, and reproducible large-scale evaluation.                         |
+|   11 | Wrap-up and open discussion                    | Summarize key takeaways, discuss simulator selection, and answer remaining questions.                                                                                                                            |
 
 ## Organizers
 

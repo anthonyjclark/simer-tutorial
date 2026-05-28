@@ -5,8 +5,7 @@ website:
   title: "SimR"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
+      - href: tutorial.qmd
   sidebar:
     style: docked
     contents:
