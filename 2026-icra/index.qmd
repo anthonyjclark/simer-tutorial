@@ -15,6 +15,9 @@ subtitle: "ICRA 2026 Tutorial"
 
 [^1]: It would be great to have access to a machine with CUDA support.
 
+
+https://forms.gle/bfBJvpRPUux77fLYA
+
 **What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
 
 This is a particularly challenging question for newcomers to our field. The rise of data-driven methods in robotics has led to surge in simulator development, supported by research labs, industry, and open-source communities. These systems vary widely in their capabilities, strengths, and pain-points. Even with recent advances in simulation and training materials, finding the right level of abstraction for a given problem remains a mixture of art and science. Moreover, finding the right simulator must necessarily consider the post-simulation goals; how will any simulation results transfer to the real world?

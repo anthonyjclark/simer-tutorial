@@ -4,6 +4,7 @@
 *.viser
 .ipynb_checkpoints/
 site_libs/
+lwmr/
 
 *.zip
 

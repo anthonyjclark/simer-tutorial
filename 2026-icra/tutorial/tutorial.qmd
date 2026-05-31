@@ -115,22 +115,15 @@ uv add --editable ../lwmr/packages/lwmr
 ## Running the Tutorials
 
 ```bash
+cd tutorial
+python basic_gym.py --help
+python basic_gym.py --quiet --steps 200
+python basic_gym.py --quiet --steps 200 --num-legs 3
+python basic_gym.py --quiet --steps 200 --num-legs 3 --num-worlds 2
+python basic_gym.py --quiet --steps 200 --num-legs 3 --num-worlds 16 --add-step
+python basic_gym.py --quiet --steps 200 --num-legs 3 --num-worlds 16 --add-step --fixed_base
+python basic_gym.py --quiet --steps 200 --num-legs 3 --num-worlds 16 --add-step --wh-radius 0.02
 
+# In a separate terminal
+python -m http.server
 ```
-
-start with basic_gym and show off the config
-
-        robot_config: LwmrRobotConfig = LwmrRobotConfig(),
-        add_step: bool = False,
-        max_steps: int = 256,
-        sim_freq: int = 240,
-        control_freq: int = 5,
-        frame_freq: int | None = None,
-        num_worlds: int = 1,
-        device: str = "cuda",
-        quiet: bool = False,
-        render_mode: str = "none",
-        max_viewer_worlds: int = 16,
-        fixed_base: bool = False,
-        viewer_port: int = 8080,
-        viewer_output_path: str = "./recordings/lwmr_plane.viser",
