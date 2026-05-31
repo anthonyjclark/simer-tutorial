@@ -34,16 +34,28 @@ git clone --depth 1 https://github.com/newton-physics/newton.git
 git clone --depth 1 https://github.com/anthonyjclark/lwmr.git
 cd lwmr
 uv sync
+source .venv/bin/activate
+
+# Test the package with
+python -m lwmr # see options with --help
+
+# Configuring ipykernel
+# python -m ipykernel install --user --name 'lwmr' --display-name "Python (lwmr)"
+
+python -m jupyter lab --port 8047 --no-browser
 ```
+
+When necessary, I will install the cloned libraries as editable packages in the project. This allows you to import them as if they were installed, but any changes you make to the source code will be reflected immediately without needing to reinstall.
 
 ## Recommended Python Packages
 
 I use these packages in nearly all of my projects.
 
-- [tyro](https://brentyi.github.io/tyro/)
-- [tqdm](https://tqdm.github.io/)
-- [wandb](https://wandb.ai/site)
+- [loguru](https://loguru.readthedocs.io/en/stable/)
 - [tensorboard](https://www.tensorflow.org/tensorboard)
+- [tqdm](https://tqdm.github.io/)
+- [tyro](https://brentyi.github.io/tyro/)
+- [wandb](https://wandb.ai/site)
 
 ## Starting a New Project
 
@@ -70,4 +82,37 @@ uv run -m newton.examples
 # Create packages and add them to the project
 uv init --package packages/lwmr
 uv add --editable packages/lwmr
+
+# This patch is needed until the gymnasium support is merged into stable-baselines3-contrib
+uv add git+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib@feat/gymnasium-support
 ```
+
+## Adding LWMR to Your Project
+
+```bash
+uv add "lwmr @ git+https://github.com/anthonyjclark/lwmr#subdirectory=packages/lwmr"
+uv add --editable ../lwmr/packages/lwmr
+```
+
+## Running the Tutorials
+
+```bash
+
+```
+
+start with basic_gym and show off the config
+
+        robot_config: LwmrRobotConfig = LwmrRobotConfig(),
+        add_step: bool = False,
+        max_steps: int = 256,
+        sim_freq: int = 240,
+        control_freq: int = 5,
+        frame_freq: int | None = None,
+        num_worlds: int = 1,
+        device: str = "cuda",
+        quiet: bool = False,
+        render_mode: str = "none",
+        max_viewer_worlds: int = 16,
+        fixed_base: bool = False,
+        viewer_port: int = 8080,
+        viewer_output_path: str = "./recordings/lwmr_plane.viser",
