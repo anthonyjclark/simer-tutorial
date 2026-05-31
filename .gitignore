@@ -3,6 +3,7 @@
 .venv/
 *.viser
 .ipynb_checkpoints/
+site_libs/
 
 *.zip
 

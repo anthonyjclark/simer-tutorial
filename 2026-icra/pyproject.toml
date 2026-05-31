@@ -3,25 +3,8 @@ name = "2026-icra"
 version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
-    "gitpython>=3.1.50",
-    "gymnasium>=1.3.0",
-    "jupyter>=1.1.1",
-    "lwmr",
-    "matplotlib>=3.10.9",
-    "mujoco-warp>=3.8.0.3,<3.9.dev0",
-    "nbsphinx>=0.9.8",
-    "networkx>=3.6.1",
-    "newton>=1.2.0",
-    "pandas>=3.0.3",
-    "plotly>=6.7.0",
-    "pycollada>=0.9.3",
-    "pyyaml>=6.0.3",
-    "sb3-contrib",
-    "tqdm>=4.67.3",
-    "tyro>=1.0.13",
-    "viser==1.0.26",
+    "lwmr-experiments",
 ]
 
 [tool.uv.sources]
-sb3-contrib = { git = "https://github.com/Stable-Baselines-Team/stable-baselines3-contrib", rev = "feat/gymnasium-support" }
-lwmr = { path = "../lwmr/packages/lwmr", editable = true }
+lwmr-experiments = { path = "../lwmr", editable = true }

@@ -4,19 +4,37 @@ title: "Setup"
 
 ## Recommended Tools
 
-I recommend using [Pixi](https://pixi.prefix.dev/latest/installation/) to handle projects on a broader scale and [uv](https://docs.astral.sh/uv/) for handling Python environments and dependencies. It can be a bit awkward since Pixi also treats Python and its dependencies as a first-class citizen, but I still find `uv` to be more intuitive for Python projects.
+I recommend using [Pixi](https://pixi.prefix.dev/latest/installation/) to handle projects on a broader scale and [uv](https://docs.astral.sh/uv/) for handling Python environments and dependencies. It can be a bit awkward since Pixi also treats Python and its dependencies as a first-class citizen, but I still find `uv` better suited for Python projects.
 
 ```bash
-# Always verify scripts before running them like this! (And prefer to do so in a container)
+# Always verify scripts before running them like this! (And prefer to run them in a container)
 curl -fsSL https://pixi.sh/install.sh | sh
 
 # You can also install uv on a per-project basis, but I find it more convenient to have it globally available
 pixi global install uv
 ```
 
+## Google Colab
+
+```jupyter
+!git clone --depth 1 https://github.com/anthonyjclark/lwmr.git
+!cd lwmr && uv pip compile pyproject.toml -o requirements.txt
+!uv pip install -r lwmr/requirements.txt
+
+import sys
+sys.path.insert(0, "/content/lwmr/tutorial")
+
+from google.colab import output
+```
+
+serializer = viewer._server.get_scene_serializer()
+serializer.show()
+
 ## Project Setup
 
 I always recommend cloning the main libraries and tools you will be using for a project. Unlike the installed versions, the source code often includes examples, documentation, and other resources that are helpful for learning and debugging.
+
+<!-- https://colab.research.google.com/#create=true -->
 
 ```bash
 # Create a directory for this tutorial
