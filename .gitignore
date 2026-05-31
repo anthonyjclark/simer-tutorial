@@ -4,6 +4,8 @@
 *.viser
 .ipynb_checkpoints/
 
+*.zip
+
 _site/
 _example
 

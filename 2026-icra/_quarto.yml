@@ -16,6 +16,8 @@ website:
           - tutorial/02-CaptureGraph.ipynb
           - tutorial/03-GymInterface.ipynb
           - tutorial/04-AssetImport.ipynb
+          - tutorial/05-TestingSimulation.ipynb
+          - tutorial/06-ReinforcementLearning.ipynb
       - section: "Basics"
         contents:
           - demos/1-analytical.qmd

@@ -1,15 +1,14 @@
-from pathlib import Path
-
+# Hack for generating tutorial website
+# Only import sphinx if running on local machine (check hostname)
+import platform
 from dataclasses import dataclass
 from math import pi
+from pathlib import Path
 
 import newton
 import rich
 import warp as wp
 
-# Hack for generating tutorial website
-# Only import sphinx if running on local machine (check hostname)
-import platform
 if platform.node().startswith("AJC"):
     import sphinx  # noqa: F401 for generating the tutorial website
 
@@ -72,9 +71,9 @@ class FrankaEmikaPandaConfig:
 
 def enable_target_control(builder):
     """Enable position targets and MuJoCo gravity compensation for Franka."""
-    builder.joint_target_pos[:_config.DOF_COUNT] = _config.HOME_Q
-    builder.joint_target_ke[:_config.DOF_COUNT] = _config.TARGET_KE
-    builder.joint_target_kd[:_config.DOF_COUNT] = _config.TARGET_KD
+    builder.joint_target_pos[: _config.DOF_COUNT] = _config.HOME_Q
+    builder.joint_target_ke[: _config.DOF_COUNT] = _config.TARGET_KE
+    builder.joint_target_kd[: _config.DOF_COUNT] = _config.TARGET_KD
 
     joint_actgravcomp = builder.custom_attributes["mujoco:jnt_actgravcomp"].values
     for dof_index in range(_config.DOF_COUNT):
@@ -85,10 +84,12 @@ def enable_target_control(builder):
         if label.startswith("fr3/") and label not in {"fr3/base", "fr3/fr3_link0"}:
             body_gravcomp[body_index] = _config.BODY_GRAVCOMP
 
+
 def set_initial_state(builder):
     """Set the initial joint positions and armature."""
-    builder.joint_q[:_config.DOF_COUNT] = _config.HOME_Q
-    builder.joint_effort_limit[:_config.DOF_COUNT] = _config.EFFORT_LIMITS
-    builder.joint_armature[:_config.DOF_COUNT] = _config.MUJOCO_ARMATURE
+    builder.joint_q[: _config.DOF_COUNT] = _config.HOME_Q
+    builder.joint_effort_limit[: _config.DOF_COUNT] = _config.EFFORT_LIMITS
+    builder.joint_armature[: _config.DOF_COUNT] = _config.MUJOCO_ARMATURE
+
 
 _config = FrankaEmikaPandaConfig()

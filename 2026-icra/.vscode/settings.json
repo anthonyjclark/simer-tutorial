@@ -2,12 +2,17 @@
   "cSpell.words": [
     "Allendale",
     "Chulani",
+    "CUDA",
     "fami",
     "GECCO",
     "headshot",
+    "loguru",
     "lwmr",
     "simr",
     "Stolz",
+    "tensorboard",
+    "tqdm",
+    "trange",
     "venv",
     "viser",
     "zarv"
