@@ -21,6 +21,8 @@ subtitle: "ICRA 2026 Tutorial"
 
 **What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
 
+We'll use this shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing) for questions and discussion during the tutorial. Feel free to add questions, comments, or resources related to simulation in robotics research.
+
 This is a particularly challenging question for newcomers to our field. The rise of data-driven methods in robotics has led to surge in simulator development, supported by research labs, industry, and open-source communities. These systems vary widely in their capabilities, strengths, and pain-points. Even with recent advances in simulation and training materials, finding the right level of abstraction for a given problem remains a mixture of art and science. Moreover, finding the right simulator must necessarily consider the post-simulation goals; how will any simulation results transfer to the real world?
 
 In this tutorial, we will survey modern simulation techniques and tools for robotics research. We will then train a simple reinforcement learning agent in simulation. SimR is a tutorial on the fundamentals of simulation for robotics research.

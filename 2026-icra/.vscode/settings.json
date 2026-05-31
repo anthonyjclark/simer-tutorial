@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "Allendale",
+    "autoplay",
     "Chulani",
     "Colab",
     "CUDA",
@@ -10,7 +11,9 @@
     "loguru",
     "lwmr",
     "plotly",
+    "pygments",
     "pyproject",
+    "revealjs",
     "simr",
     "Stolz",
     "tensorboard",

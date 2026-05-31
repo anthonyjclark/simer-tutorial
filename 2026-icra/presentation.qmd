@@ -17,7 +17,7 @@ format:
     incremental: true
 ---
 
-# {background-video="videos/walker.mp4" background-video-loop="true" autoplay="1"}
+# {background-video="_videos/Walker.mp4" background-video-loop="true" autoplay="1"}
 
 # Introduction
 
@@ -25,34 +25,25 @@ format:
 
 **Simulation in Robotics**
 
-What simulator should I use?
+- What simulator should I use?
 
-That question is common in robotics research, robot learning, planning, control, and deployment.
+- That question is common in robotics research, robot learning, planning, control, and deployment.
 
-The harder question is usually:
+- The harder question is usually:
 
-> What simulator should I use for this robot, this task, and this research question?
+  > What simulator should I use for this robot, this task, and this research question?
 
 ## At ICRA 2026
 
-TODO
-
-
-## Format
-
-This tutorial will follow a format in which:
-
-- We'll get on the same page with respect to terminology.
-- Loop:
-  - I'll present for a bit.
-  - I'll ask you to read through or work through an exercise.
-  - Ask questions on our shared [Google Sheet](https://docs.google.com/spreadsheets/d/1PEC_fV56_3jDygerfHUIIPMVXu3e2vbP-ycm07Hfwlk/edit?usp=sharing).
-  - We'll have time for discussion.
-- We'll cover a more complete example in full, with a high-code format.
+- [Generative Digital Twins for Real2Sim and Sim2Real Transfer in Robotics](https://awesomedigitaltwin.github.io/2026_ICRA.html) (Jun 1, Full Day)
+- [Digital Twins for UAV Autonomy: From Model-Based Design to Verified Deployment](https://www.mathworks.com/company/events/tradeshows/icra-2026-5136850.html) (Jun 1, Afternoon)
+- [Advances and Challenges in AI-Driven Automation and Robotic System Integration with Digital Twins](https://angelafiska.github.io/icra2026-automation-workshop/) (Jun 5, Afternoon)
 
 ## About Me {.nostretch}
 
-![](https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg){width="60%" fig-align="center"}
+<!-- ![](https://www.pomona.edu/sites/default/files/styles/16x9_1600_x_900/public/2024-01/HomepageVideoJan2024_firstframe.jpg){width="60%" fig-align="center"} -->
+
+![](_images/AnthonyClark.png){width="20%" fig-align="center"}
 
 I am a professor in the Computer Science Department at [Pomona College](https://www.pomona.edu/) in Southern California, USA.
 
@@ -62,9 +53,10 @@ I learned a lot about simulation the hard way; you shouldn't have to.
 
 I've spent arguably too much time trying different simulation methods and tools:
 
+- Player stage, Webots, Gazebo, etc.
 - Simulink/MATLAB, Julia, SimPy, FEA
 - ODE, Bullet, DART, Box2D, Chrono, MuJoCo
-- SAPIEN, Maniskill, Newton Physics
+- SAPIEN, ManiSkill, Newton Physics
 - Gazebo, Webots
 - Unreal, Unity, Godot
 - custom simulators
@@ -72,9 +64,24 @@ I've spent arguably too much time trying different simulation methods and tools:
 
 At ICRA, there are always several more that I will be tempted to explore.
 
+## Simulation in Robotics
+
+1. Have some idea of a physical device
+2. Create a simulation
+3. Run system identification and calibration experiments
+4. Optimize and experiment in simulation
+5. Transfer to the real world
+6. Back to previous steps...
+
 ## Robotics Simulation
 
-<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="400" style="display: block; margin: 0 auto;">
+<iframe src="https://review.github.io/?log=https://raw.githubusercontent.com/anthonyjclark/adabot02-ann/master/animations/fsm-40-2-best20.json" title="Review" width="80%" height="650" style="display: block; margin: 0 auto;">
+  <p>Visualization not shown because your browser does not support use of an iframe.</p>
+</iframe>
+
+## Developing Simulation
+
+<iframe src="https://anthonyjclark.github.io/simple-scene-description-language/static/monacoExtendedWithUrdfLoader.html" title="URDF Creator" width="90%" height="650" style="display: block; margin: 0 auto;">
   <p>Visualization not shown because your browser does not support use of an iframe.</p>
 </iframe>
 
@@ -87,6 +94,9 @@ In robotics, simulation is used for:
 - prototyping
 - control design
 - planning
+
+## Robotics Simulation (cont.)
+
 - robot learning
 - perception
 - benchmarking
@@ -103,6 +113,9 @@ A simulator may model:
 - rigid-body dynamics
 - contacts and friction
 - actuators and transmissions
+
+## Simulation Is Not One Thing (cont.)
+
 - sensors and perception
 - lighting and rendering
 - terrain, fluids, or deformable objects
@@ -132,6 +145,12 @@ Robotics simulation also supports method-focused questions:
 - How should we randomize or calibrate the simulator?
 - How do we make simulated experiments reproducible?
 - How do we avoid overfitting to a simulator?
+
+## Live Demos
+
+Now let's see some of these questions in action with live demos.
+
+[To the tutorial](./tutorial/tutorial.html)
 
 ## A Common Robotics Simulation Loop
 

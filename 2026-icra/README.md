@@ -67,6 +67,3 @@ python -m http.server --directory _build/html
 # From project root
 cp -r _tutorial/_build/html _site/tutorial
 ```
-
-
-- slides/intro
