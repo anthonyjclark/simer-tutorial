@@ -12,6 +12,7 @@ website:
       - section: "Tutorial"
         contents:
           - tutorial/tutorial.qmd
+          - tutorial/00-WarpBasics.ipynb
           - tutorial/01-SpinningBox.ipynb
           - tutorial/02-CaptureGraph.ipynb
           - tutorial/03-GymInterface.ipynb

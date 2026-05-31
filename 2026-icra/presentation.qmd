@@ -146,6 +146,24 @@ Robotics simulation also supports method-focused questions:
 - How do we make simulated experiments reproducible?
 - How do we avoid overfitting to a simulator?
 
+## Terminology
+
+| Engine                                                     | World       | Body     | Shape    | Joint |
+| --------                                                   | -------     | ------   | -------- | ----- |
+| [urdf](http://wiki.ros.org/urdf)                           | World       | Link     | Geometry | Joint |
+| [DART](https://dartsim.github.io/index.html) [^more]       | World       | Skeleton | Shape    | Joint |
+| [MuJoCo](https://mujoco.org/)                              | World       | Body     | Geom     | Joint |
+| [Newton Physics](https://newton-physics.github.io/newton/) | World/Model | Link     | Shape    | Joint |
+| [USD](https://openusd.org/release/index.html) [^usd]       | Stage       | Prim     | Geometry | Joint |
+| [Planck.js](https://piqnt.com/planck.js)                   | World       | Body     | Shape    | Joint |
+| [Box2D](https://box2d.org/)                                | World       | Body     | Shape    | Joint |
+| [ODE](https://ode.org/wiki/index.php)                      | World+Space | Body     | Geom     | Joint |
+| [PROJECTCHRONO](https://projectchrono.org/)                | System      | Body     | Shape    | Link  |
+| [Bullet](https://pybullet.org/wordpress/)                  | World       | Body     | Shape    | Joint |
+
+[^more]: Not a simple one-to-one mapping.
+[^usd]: More information [here](https://openusd.org/release/wp_rigid_body_physics.html#body-mass-properties).
+
 ## Live Demos
 
 Now let's see some of these questions in action with live demos.

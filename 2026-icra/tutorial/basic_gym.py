@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 import tyro
-from lwmr import control_sequence_generator
 
 
 @dataclass
@@ -16,9 +15,19 @@ class Args:
     # Simulation configuration parameters
     steps: int = 80
     num_worlds: int = 1
+    add_step: bool = False
+    fixed_base: bool = False
 
     # Robot configuration parameters
     num_legs: int = 0
+    ch_width: float = 0.3
+    ch_length: float = 0.15
+    ch_height: float = 0.02
+    ch_density: float = 1000.0
+    wh_radius: float = 0.03
+    wh_density: float = 1000.0
+    lg_radius: float = 0.01
+    lg_offset: float = 0.03
 
 
 def main(args: Args) -> None:
@@ -26,9 +35,20 @@ def main(args: Args) -> None:
     import gymnasium as gym
     import lwmr  # noqa: F401 <-- register the environment
     from lwmr import LwmrRobotConfig
+    from lwmr.utils import control_sequence_generator
     from tqdm.auto import trange
 
-    robot_config = LwmrRobotConfig(num_legs=args.num_legs)
+    robot_config = LwmrRobotConfig(
+        num_legs=args.num_legs,
+        ch_width=args.ch_width,
+        ch_length=args.ch_length,
+        ch_height=args.ch_height,
+        ch_density=args.ch_density,
+        wh_radius=args.wh_radius,
+        wh_density=args.wh_density,
+        lg_radius=args.lg_radius,
+        lg_offset=args.lg_offset,
+    )
 
     env = gym.make(
         "lwmr/Lwmr-v0",
@@ -37,6 +57,8 @@ def main(args: Args) -> None:
         quiet=args.quiet,
         device=args.device,
         num_worlds=args.num_worlds,
+        add_step=args.add_step,
+        fixed_base=args.fixed_base,
     )
 
     lo, mid, hi = 0.0, 0.4, 1.0
