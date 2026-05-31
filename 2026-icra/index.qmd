@@ -15,8 +15,9 @@ subtitle: "ICRA 2026 Tutorial"
 
 [^1]: It would be great to have access to a machine with CUDA support.
 
+![QR code for pre-survey](_images/SurveyQR.jpg)
 
-https://forms.gle/bfBJvpRPUux77fLYA
+[Link to pre-survey](https://forms.gle/bfBJvpRPUux77fLYA)
 
 **What simulator should I use?** is a common question among robotics researchers and practitioners when starting a new project or exploring a new domain (we now rarely ask *"Should I use a simulator?*").
 
@@ -30,6 +31,18 @@ This is the third occurrence of SimR.
 
 1. The first was held as a [workshop at GECCO 2017](https://dl.acm.org/doi/proceedings/10.1145/3067695#heading19).
 2. The second as a [tutorial at ALIFE 2024](https://direct.mit.edu/isal/isal2024/volume/36).
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+{{< video _videos/RealLWMR.mp4 >}}
+:::
+
+::: {.g-col-12 .g-col-md-6}
+{{< video _videos/SimLWMR.mp4 >}}
+:::
+
+:::
 
 ## Schedule
 

@@ -69,7 +69,4 @@ cp -r _tutorial/_build/html _site/tutorial
 ```
 
 
-- sim video
-- real video
-- survey
 - slides/intro

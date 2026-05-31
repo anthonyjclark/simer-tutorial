@@ -45,7 +45,7 @@ function simulate( time: number ) {
 
 ## Visualization
 
-Visualizing the WMR's motion is not necessary for evolutionary robotics, but it can help us understand behaviors and debug our models. It is useful to completely decouple simulation from visualization. Here is a snippet showing how the visualizations below are created:
+Visualizing the WMR's motion is not necessary for robotics, but it can help us understand behaviors and debug our models. It is useful to completely decouple simulation from visualization. Here is a snippet showing how the visualizations below are created:
 
 ```typescript
 initialPosition = 0;

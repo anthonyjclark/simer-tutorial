@@ -8,7 +8,7 @@ format:
         highlight-style: pygments
 ---
 
-We'll now look at a full evolutionary robotics example. Here are the steps:
+We'll now look at a full example focused on evolutionary robotics. Here are the steps:
 
 1. Setup a compute environment.
 2. Create a simulation that is decoupled from evolution and visualization.
@@ -18,6 +18,8 @@ We'll now look at a full evolutionary robotics example. Here are the steps:
 6. Analyze and visualize the results.
 
 ## Setup
+
+This example uses conda/mamba in place of Pixi and uv. The differences are fairly minor and you should stick with whatever is best practices for your group.
 
 I am using an HPC linux server with [Lmod](https://lmod.readthedocs.io/en/latest/) (used for environment management) and [Slurm](https://slurm.schedmd.com/documentation.html) (for workload management). Though these instructions will work pretty broadly.
 
