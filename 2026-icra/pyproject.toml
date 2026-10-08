@@ -8,4 +8,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-lwmr-experiments = { path = "../lwmr", editable = true }
+lwmr-experiments = { path = "../../lwmr", editable = true }
