@@ -1,5 +1,10 @@
 .quarto/
 **/*.quarto_ipynb
+imgui.ini
+tutorial/*.html
+tutorial/*_files/
+tutorial/docs
+
 .venv/
 *.viser
 .ipynb_checkpoints/
