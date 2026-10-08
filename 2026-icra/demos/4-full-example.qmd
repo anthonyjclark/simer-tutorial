@@ -48,7 +48,7 @@ Once the directory is created, I typically edit code using [VSCode](https://code
 
 ## Simulation
 
-My WMR simulation, written in Python, largely follows the version from demos 1-3. The key is that the simulation can be constructed with the parameters we want to evolve:
+My WMR simulation, written in Python, largely follows the version from demos 1-3. The key is that the simulation can be constructed with the parameters we want to optimize:
 
 ```python
 class WMR:
@@ -110,7 +110,7 @@ Here is also a good place to track information about the phenotype using, for ex
 
 We need to design a fitness function to satisfy our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
+> We want to simulate an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
 I recommend using a two-value fitness function. One component is used for a feasibility (constraint) metric, and the other is an objective metric. For example, for this demo I used the following equation for feasibility:
 

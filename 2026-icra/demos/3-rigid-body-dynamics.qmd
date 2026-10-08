@@ -10,7 +10,7 @@ format:
 
 Let's revisit our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
+> We want to simulate an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
 At this point, we still cannot handle complex obstacles. A rigid body dynamics engine will enable us to do so.
 
@@ -177,7 +177,7 @@ Here is [the full source code for the demo](https://github.com/anthonyjclark/sim
 
 Revisiting our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
+> We want to simulate an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
 We now need some way to optimize our WMR. Let's start by listing the evolvable parameters:
 
