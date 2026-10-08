@@ -12,7 +12,7 @@ Let's revisit our problem statement:
 
 > We want to simulate an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
-With an analytical model, we can simulate the position of the WMR, but we did not attempt to handle obstacles and we learned that dynamic control was not possible.
+With an analytical model, we can simulate the position of the WMR, but we could handle obstacles only with ad hoc checks and we learned that dynamic control was not possible.
 
 ## Numerical Simulation
 
@@ -173,7 +173,7 @@ Although these changes seem similar, (1) and (3) are quite a bit harder to imple
 ::: {.callout-note collapse="true"}
 ## Complex Collisions and Dynamics
 
-Changing the incline will require us to move to a more advanced method for integration. The code above implements a simple Euler integration, which works perfectly well for constant velocity dynamics (constant between time steps).
+Adding an incline means the robot's velocity is no longer constant: gravity and contact forces produce accelerations, so we must model forces and update velocity as well as position. The code above implements a simple (explicit) Euler integration with velocity held constant between time steps. That is exact for constant velocity but accumulates error once velocity changes, so we would likely want a more accurate or more stable integrator.
 
 Adding a step requires us to change the orientations of all objects, implement more complex collision detection, and implement a friction model.
 

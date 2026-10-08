@@ -31,6 +31,7 @@ module load miniforge3
 
 # Create a new environment
 mamba create --name simr
+mamba activate simr
 
 # Install necessary packages
 mamba install pybox2d ipython pandas enlighten jupyter seaborn plotly
@@ -125,10 +126,10 @@ Essentially, @eq-feasibility is a feasibility value that takes into account the 
 For the demo, I used the following objective function:
 
 $$
-o = 2 \left(1 - \frac{d}{d_{\text{max}}}\right) + 1 \left(1 - \frac{\omega}{\omega_{\text{max}}}\right) + \frac{1}{2} \left( 1 - \text{hit} \right) + \frac{1}{4} \left(1 - \frac{r}{r_{\text{max}}}\right) + \frac{1}{4} \left(1 - \frac{t_r}{t_{\text{max}}}\right)
+o = 2 \left(1 - \frac{|d|}{d_{0}}\right) + 1 \left(1 - \frac{|\omega|}{\omega_{\text{max}}}\right) + \frac{1}{2} \left( 1 - \text{hit} \right) + \frac{1}{4} \left(1 - \frac{r - r_{\text{min}}}{r_{\text{max}} - r_{\text{min}}}\right) + \frac{1}{4} \left(1 - \frac{t_r}{t_{\text{max}}}\right)
 $$ {#eq-objective}
 
-The different components are meant to:
+where $d$ is the final distance from the target, $d_0$ is the initial distance, $\omega$ is the final wheel angular velocity, $r$ is the wheel radius, $t_r$ is the time at which the robot comes to rest, and $t_{\text{max}}$ is the simulation duration. The different components are meant to:
 
 1. Minimize distance from the final target location.
 2. Minimize the final angular velocity of the wheels.
@@ -480,7 +481,7 @@ sns.lineplot(x="Generation", y="Average Objective", data=df)
 plt.legend(["Best", "Best-Conf", "Average", "Average-Conf"])
 sns.despine()
 
-sns_plot.figure.savefig("generations.svg")
+plt.savefig("generations.svg")
 ```
 
 I used [Plotly](https://plotly.com/) for this website since it creates interactive figures.
@@ -526,7 +527,7 @@ df_altered = df_pop[columns].copy()
 df_altered["Hit Wall"] = df_pop["Hit Wall"].astype(float)
 
 for name, (lo, hi) in objectives.items():
-    df_altered[name] = df_altered[name] / (hi - lo) - lo
+    df_altered[name] = (df_altered[name] - lo) / (hi - lo)
 
 fig = px.strip(df_altered)
 

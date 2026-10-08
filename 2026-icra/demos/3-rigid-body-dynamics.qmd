@@ -122,6 +122,10 @@ function simulateStep( frameTime: number ) {
             const dist = getDistanceToWall();
             angularVelocity = Math.max( - speedMax, Math.min( speedMax, speedSlope * dist + speedIntercept ) );
 
+            // Negative because a positive motor speed rotates the wheel counterclockwise
+            wheelMotorFront.setMotorSpeed( - angularVelocity );
+            wheelMotorRear.setMotorSpeed( - angularVelocity );
+
             controlLastUpdate += controlPeriod;
 
         }
