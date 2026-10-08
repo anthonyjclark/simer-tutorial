@@ -71,7 +71,7 @@
 
 # def enable_target_control(builder):
 #     """Enable position targets and MuJoCo gravity compensation for Franka."""
-#     builder.joint_target_pos[: _config.DOF_COUNT] = _config.HOME_Q
+#     builder.joint_target_q[: _config.DOF_COUNT] = _config.HOME_Q
 #     builder.joint_target_ke[: _config.DOF_COUNT] = _config.TARGET_KE
 #     builder.joint_target_kd[: _config.DOF_COUNT] = _config.TARGET_KD
 
