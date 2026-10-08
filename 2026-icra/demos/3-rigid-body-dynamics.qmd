@@ -10,13 +10,13 @@ format:
 
 Let's revisit our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
-At this point, we can still not handle complex obstacles. A rigid body dynamics engine will enable us to do so.
+At this point, we still cannot handle complex obstacles. A rigid body dynamics engine will enable us to do so.
 
 ## Rigid Body Dynamics
 
-The example below uses [Planck.js](https://piqnt.com/planck.js) to simulate our WMR. This is a 2D physics engine (meant for games) that can fully simulate our scenario. Planck.js is a Javascript/Typescript library based on a commonly used C/C++ physics engine called [Box2D](https://box2d.org/).
+The example below uses [Planck.js](https://piqnt.com/planck.js) to simulate our WMR. This is a 2D physics engine (meant for games) that can fully simulate our scenario. Planck.js is a JavaScript/TypeScript library based on a commonly used C++ physics engine called [Box2D](https://box2d.org/).
 
 
 ```{=html}
@@ -113,7 +113,7 @@ function simulateStep( frameTime: number ) {
 
     while ( timeAccumulator >= timeStep ) {
 
-        world.step( this.timeStep, velocityIterations, positionIterations );
+        world.step( timeStep, velocityIterations, positionIterations );
         timeAccumulator -= timeStep;
         time += timeStep;
 
@@ -157,7 +157,7 @@ Here is some of the terminology used by common physics engines:
 
 ## Adding a Small Obstacle
 
-Here is now our full example simulation.
+Here is our full example simulation.
 
 ```{=html}
 <div>
@@ -166,7 +166,7 @@ Here is now our full example simulation.
 ```
 
 ```{ojs}
-wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.RBDEngine, { addWall: true, addStep: true} );
+wmr2 = new WMRSimulator( 'wmr-canvas2', WMR2DMode.RBDEngine, { addWall: true, addStep: true } );
 player2 = new Player( uiTimeEnd, uiTimeStep, (time) => wmr2.step(time), () => wmr2.reset() );
 player2.create();
 ```
@@ -177,9 +177,9 @@ Here is [the full source code for the demo](https://github.com/anthonyjclark/sim
 
 Revisiting our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
-We just now need some way to optimize our WMR. Let's start by listing the evolvable parameters:
+We now need some way to optimize our WMR. Let's start by listing the evolvable parameters:
 
 ::: {.callout-note collapse="true"}
 ## Evolvable Parameters

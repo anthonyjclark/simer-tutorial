@@ -10,25 +10,25 @@ format:
 
 Let's revisit our problem statement:
 
-> We want to evolve an autonomous wheeled mobile robot (WMR) to navigator quickly over obstacles and then stop in front of a wall.
+> We want to evolve an autonomous wheeled mobile robot (WMR) to navigate quickly over obstacles and then stop in front of a wall.
 
 With an analytical model, we can simulate the position of the WMR, but we did not attempt to handle obstacles and we learned that dynamic control was not possible.
 
-# Numerical Simulation
+## Numerical Simulation
 
-We'll now mve on to a numerical simulation of the WMR. This will enable us to handle obstacles and dynamic control. But before we do so, let me first explain the concept of a numerical simulation.
+We'll now move on to a numerical simulation of the WMR. This will enable us to handle obstacles and dynamic control. But before we do so, let me first explain the concept of a numerical simulation.
 
-Instead of solving an equation analytically, we can approximate the solution by taking small steps in time. Here are egestions for both  analytical and numerical simulations:
+Instead of solving an equation analytically, we can approximate the solution by taking small steps in time. Here are equations for both analytical and numerical simulations:
 
 $$
-x_t = x_0 + \omega r t \\
+x_t = x_0 + \omega r t
 $$ {#eq-analytical}
 
 $$
 x_t = x_{t-1} + \omega_{t-1} r \Delta t
 $$ {#eq-numerical}
 
-where $x_t$ is the position of the robot at time $t$, $\omega$ is the angular velocity of the robot's wheels, $r$ is the radius of its wheels, and $\Delta t$ is the time step. The differences between @eq-analytical and @eq-numerical are in the dependency of the numerical solution on the previous position.
+where $x_t$ is the position of the robot at time $t$, $\omega$ is the angular velocity of the robot's wheels, $r$ is the radius of its wheels, and $\Delta t$ is the time step. The differences between @eq-analytical and @eq-numerical lie in the dependency of the numerical solution on the previous position.
 
 Essentially, the numerical solution computes the position by integrating the velocity over time. Here is the equivalent code:
 
@@ -67,7 +67,7 @@ The numerical simulation has the same behavior as our analytical version. The on
 Although the numerical simulation requires more computational resources to compute the position, it enables us to handle obstacles and dynamic control. Here is the simulation with a wall in front of the WMR and the following controller:
 
 $$
-\omega = \max( -\Omega, \min( \Omega, m d + b)
+\omega = \max( -\Omega, \min( \Omega, m d + b ) )
 $$ {#eq-control}
 
 ```{=html}
