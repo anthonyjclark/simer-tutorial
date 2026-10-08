@@ -17,6 +17,7 @@ _site/index.html: $(QMD_FILES) ./_lib/Player/dist/player.js ./_lib/WMR2D/dist/wm
 	cp tutorial/docs/_static/*.viser tutorial/viser/
 	cp -rf tutorial/viser _site/tutorial/viser
 	find _site/tutorial/ -type f -name "*.html" -exec sed -i '' 's|src="\.\./_static/viser/index\.html?playbackPath=\.\./|src="viser/index.html?playbackPath=|g' {} +
+	find _site -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i '' -E 's|/Users/[^/"\\ ]+/Documents/repos/gh/[^/]+/[^/]+/|<repo>/|g; s|/Users/[^/"\\ ]+|~|g' {} +
 
 build: clean _site/index.html
 
