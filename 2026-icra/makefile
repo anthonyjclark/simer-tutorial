@@ -3,6 +3,8 @@ SITE_DIR := _site
 UV_RUN := uv run
 LWMR_DIR ?= ../../lwmr
 export NEWTON_SPHINX_BUILD := 1
+# Silence tqdm's "IProgress not found" notice in notebook output (inherited by kernels)
+export PYTHONWARNINGS := ignore:IProgress not found:Warning
 
 .PHONY: all preview serve clean clean-quarto clean-uv clean-all build
 .DELETE_ON_ERROR:
@@ -13,10 +15,12 @@ _site/index.html: $(QMD_FILES) ./_lib/Player/dist/player.js ./_lib/WMR2D/dist/wm
 # 	rsync -zarv --exclude="*/" fami:~/research/lwmr/tutorial/ tutorial/
 	rsync -zarv --exclude="*/" $(LWMR_DIR)/tutorial/ tutorial/
 	rm -rf tutorial/docs/
+	$(UV_RUN) python scripts/clean_outputs.py tutorial/*.ipynb
 	$(UV_RUN) quarto render --execute
 	cp tutorial/docs/_static/*.viser tutorial/viser/
 	cp -rf tutorial/viser _site/tutorial/viser
 	find _site/tutorial/ -type f -name "*.html" -exec sed -i '' 's|src="\.\./_static/viser/index\.html?playbackPath=\.\./|src="viser/index.html?playbackPath=|g' {} +
+	$(UV_RUN) python scripts/clean_outputs.py _site/tutorial/*.html
 	find _site -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i '' -E 's|/Users/[^/"\\ ]+/Documents/repos/gh/[^/]+/[^/]+/|<repo>/|g; s|/Users/[^/"\\ ]+|~|g' {} +
 
 build: clean _site/index.html
